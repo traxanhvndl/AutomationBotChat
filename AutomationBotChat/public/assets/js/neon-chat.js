@@ -92,7 +92,7 @@ var neonChat = neonChat || {
             })
             $('#set_nick').submit(function() {
                 var display_name = $('#nick_name').val();
-                var nickname = display_name.replace(/ /g, '');
+                var nickname = display_name.replace(/ /g, '_');
                 socket.emit('new_user', nickname, display_name, function(data) {
                     if (data) {
                         $('#nick_wrap').hide();
@@ -136,8 +136,9 @@ var neonChat = neonChat || {
             });
 
             socket.on('new_message', function(data) {
+                console.log('new_message');
                 console.log(data);
-            })
+            });
 
 
             // Texarea
@@ -311,7 +312,7 @@ var neonChat = neonChat || {
 
                 if (this.isOpen && this.$current_user) {
                     var id = this.$current_user.uniqueId().attr('id');
-                    socket.emit('send_message', id.replace(/chat-user-/g, ''), msg.replace(/<.*?>/g, ''), $chat.data('current-user').replace(/ /g, ''), neonChat.timeRender(new Date()), "opponent", "unread");
+                    socket.emit('send_message', id.replace(/chat-user-/g, ''), msg.replace(/<.*?>/g, ''), $chat.data('current-user').replace(/ /g, '_'), neonChat.timeRender(new Date()), "opponent", "unread");
                     this.pushMessage(id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), new Date());
                     this.renderMessages(id);
                 }
