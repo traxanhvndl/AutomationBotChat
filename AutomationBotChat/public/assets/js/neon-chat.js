@@ -309,7 +309,7 @@ var neonChat = neonChat || {
 
                 if (this.isOpen && this.$current_user) {
                     var id = this.$current_user.uniqueId().attr('id');
-                    socket.emit('send_message', id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), neonChat.timeRender(new Date()), "opponent", "unread");
+                    socket.emit('send_message', id.replace(/chat-user-/g, ''), msg.replace(/<.*?>/g, ''), $chat.data('current-user').replace(/ /g, ''), neonChat.timeRender(new Date()), "opponent", "unread");
                     this.pushMessage(id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), new Date());
                     this.renderMessages(id);
                 }
