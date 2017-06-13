@@ -1,0 +1,14 @@
+{
+  "name": "automationbotchat",
+  "version": "1.0.0",
+  "description": "Bot chat for Automation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TAaS",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
