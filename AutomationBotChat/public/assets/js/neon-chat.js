@@ -135,7 +135,9 @@ var neonChat = neonChat || {
                 };
             });
 
-
+            socket.on('new_message', function(data) {
+                console.log(data);
+            })
 
 
             // Texarea

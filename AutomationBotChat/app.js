@@ -71,8 +71,9 @@ io.sockets.on('connection', function(socket) {
     });
     socket.on('send_message', function(sendto, message, sendfrom, time, opponent, unread) {
         console.log(sendto, message, sendfrom, time, opponent, unread)
-            // users[sendto].emit('new_message', { msg: data, sendfrom: socket.nickname, sendto: sendto, time: time });
-            // users[socket.nickname].emit('new_message', { msg: data, sendfrom: socket.nickname, sendto: sendto, time: time });
+        console.log(users[sendto]);
+        users[sendto].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
+        // users[socket.nickname].emit('new_message', { msg: data, sendfrom: socket.nickname, sendto: sendto, time: time });
     });
     socket.on('send_message_bot', function(data, sendto) {
         console.log(data);
