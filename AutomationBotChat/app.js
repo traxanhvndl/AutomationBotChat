@@ -69,8 +69,8 @@ io.sockets.on('connection', function(socket) {
     socket.on('open_chatbox', function(data) {
         users[data].emit('openbox', { nick: socket.nickname });
     });
-    socket.on('send_message', function(data) {
-        console.log(data)
+    socket.on('send_message', function(sendto, message, sendfrom, time, opponent, unread) {
+        console.log(sendto, message, sendfrom, time, opponent, unread)
             // users[sendto].emit('new_message', { msg: data, sendfrom: socket.nickname, sendto: sendto, time: time });
             // users[socket.nickname].emit('new_message', { msg: data, sendfrom: socket.nickname, sendto: sendto, time: time });
     });

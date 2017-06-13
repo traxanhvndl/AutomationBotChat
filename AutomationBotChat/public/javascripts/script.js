@@ -1,3 +1,4 @@
+var socket = io.connect();
 $(document).ready(function() {
     // $('.login.page').click(function() {
     //     $('#nick_name').focus();

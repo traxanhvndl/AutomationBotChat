@@ -5,7 +5,6 @@
  *
  *	www.laborator.co
  */
-
 var socket = io.connect();
 var neonChat = neonChat || {
     $current_user: null,
@@ -136,7 +135,6 @@ var neonChat = neonChat || {
                 };
             });
 
-            socket.on('new_message')
 
 
 
@@ -377,14 +375,14 @@ var neonChat = neonChat || {
         },
 
         timeRender: function(time) {
-            if (typeof date == 'object') {
-                var hour = date.getHours(),
+            if (typeof time == 'object') {
+                var hour = time.getHours(),
                     hour = (hour < 10 ? "0" : "") + hour,
 
-                    min = date.getMinutes(),
+                    min = time.getMinutes(),
                     min = (min < 10 ? "0" : "") + min,
 
-                    sec = date.getSeconds();
+                    sec = time.getSeconds();
                 sec = (sec < 10 ? "0" : "") + sec;
 
                 time = hour + ':' + min;
