@@ -5,7 +5,7 @@ var express = require('express'),
     users = {},
     admin = { 'admin01': '', 'admin02': '', 'admin03': '' };
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 var ip = process.env.HOST || '0.0.0.0';
 
 const RequestPromise = require('request-promise');
@@ -63,9 +63,9 @@ io.sockets.on('connection', function(socket) {
     socket.on('send_message', function(data) {
         console.log(data.sendto, data.msg, data.sendfrom, data.time, data.opp, data.unread);
         console.log(data.sendto);
-        // users[data.sendto].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
+        users[data.sendto].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
         // users[data.sendfrom].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
-        users[socket.nickname].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
+        // users[socket.nickname].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
         // users[sendto].emit('new_message', 'ahihi');
     });
 
