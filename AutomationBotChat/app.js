@@ -4,9 +4,6 @@ var express = require('express'),
     io = require('socket.io').listen(server),
     users = {},
     admin = { 'admin01': '', 'admin02': '', 'admin03': '' };
-// port = process.env.PORT || 5000,
-// ip = process.env.HOST || '192.168.35.44';
-// ip = process.env.HOST || '11.11.254.69';
 
 var port = process.env.PORT || 3000;
 var ip = process.env.HOST || '0.0.0.0';
@@ -18,12 +15,11 @@ var AIMessage;
 var AIData;
 
 server.listen(port, ip, function() {
-    console.log("Server is running on [" + ip + ":" + port + "]")
+    console.log("Server is running on [" + ip + ":" + port + "]");
 });
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
-    // res.sendfile(__dirname + '/txchat.html');
-    console.log("Connected !")
+    console.log("Connected !");
 });
 
 io.sockets.on('connection', function(socket) {
@@ -33,23 +29,21 @@ io.sockets.on('connection', function(socket) {
         } else {
             data(true);
             socket.nickname = name;
-            socket.status = 'online';
+            socket.status = "online";
             socket.display_name = display_name;
             if (name in admin) {
-                socket.group = 'server';
+                socket.group = "server";
             } else {
-                socket.group = 'client';
+                socket.group = "client";
             };
+            // users[socket.nickname] = socket;
             users[socket.nickname] = socket;
-            console.log('Add User : ' + name + ', ' + display_name);
-            console.log('User : ' + users);
-            updateNickNames(socket.nickname, socket.display_name, socket.group, socket.status);
-        }
-
+            console.log('Add User ID: ' + socket.nickname + ', name: ' + display_name);
+            updateNickNames();
+        };
     });
 
-    function updateNickNames(name, display_name, group, status) {
-        // console.log('update_nick_name :' + name + ', ' + display_name + ', ' + group + ', ' + status);
+    function updateNickNames() {
         var result = {};
         for (item in users) {
             var nickname = users[item]['nickname'];
@@ -63,18 +57,16 @@ io.sockets.on('connection', function(socket) {
                 'status': status
             };
         };
-        // console.log(result);
         io.sockets.emit('update_nick_name', result);
     };
-    socket.on('open_chatbox', function(data) {
-        users[data].emit('openbox', { nick: socket.nickname });
-    });
 
-    socket.on('send_message', function(sendto, message, sendfrom, time, opponent, unread) {
-        console.log(sendto, message, sendfrom, time, opponent, unread);
-        console.log(users[sendto]);
-        users[sendto].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
-        // users[socket.nickname].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
+    socket.on('send_message', function(data) {
+        console.log(data.sendto, data.msg, data.sendfrom, data.time, data.opp, data.unread);
+        console.log(data.sendto);
+        // users[data.sendto].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
+        // users[data.sendfrom].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
+        socket.broadcast.to(data.sendto).emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
+        // users[sendto].emit('new_message', 'ahihi');
     });
 
     socket.on('send_message_bot', function(data, sendto) {
@@ -115,4 +107,4 @@ function contactToAIAPI(messageAI, cb) {
         console.log(error);
     });
     request.end();
-}
+};

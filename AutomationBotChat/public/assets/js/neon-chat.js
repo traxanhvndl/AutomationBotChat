@@ -136,8 +136,11 @@ var neonChat = neonChat || {
             });
 
             socket.on('new_message', function(data) {
-                console.log('new_message');
+                console.log("new_message");
                 console.log(data);
+                var id = "chat-user-" + data.sendfrom;
+                neonChat.pushMessage(id, data.msg, data.sendfrom, data.time, data.opp, data.unread);
+                neonChat.renderMessages(id);
             });
 
 
@@ -312,8 +315,8 @@ var neonChat = neonChat || {
 
                 if (this.isOpen && this.$current_user) {
                     var id = this.$current_user.uniqueId().attr('id');
-                    socket.emit('send_message', id.replace(/chat-user-/g, ''), msg.replace(/<.*?>/g, ''), $chat.data('current-user').replace(/ /g, '_'), neonChat.timeRender(new Date()), "opponent", "unread");
-                    this.pushMessage(id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), new Date());
+                    socket.emit('send_message', { sendto: id.replace(/chat-user-/g, ''), msg: msg.replace(/<.*?>/g, ''), sendfrom: $chat.data('current-user').replace(/ /g, '_'), time: neonChat.timeRender(new Date()), opp: "even", unread: "unread" });
+                    this.pushMessage(id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), new Date(), 'odd');
                     this.renderMessages(id);
                 }
             },
@@ -423,9 +426,12 @@ var neonChat = neonChat || {
                     $entry.find('p').html(entry.message.replace(/\n/g, '<br>'));
                     $entry.find('.time').html(date_formated);
 
-                    if (entry.fromOpponent) {
-                        $entry.addClass('odd');
-                    }
+                    if (entry.fromOpponent == 'odd') {
+                        // $entry.addClass('odd');
+                        $entry.find('div.conver-inner').addClass('odd');
+                    } else {
+                        $entry.find('div.conver-inner').addClass('even');
+                    };
 
                     if (entry.unread && typeof slient == 'undefined') {
                         $entry.addClass('unread');
