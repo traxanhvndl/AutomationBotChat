@@ -33,7 +33,6 @@ io.sockets.on('connection', function(socket) {
         } else {
             data(true);
             socket.nickname = name;
-            users[socket.nickname] = socket;
             socket.status = 'online';
             socket.display_name = display_name;
             if (name in admin) {
@@ -41,6 +40,7 @@ io.sockets.on('connection', function(socket) {
             } else {
                 socket.group = 'client';
             };
+            users[socket.nickname] = socket;
             console.log('Add User : ' + name + ', ' + display_name);
             console.log('User : ' + users);
             updateNickNames(socket.nickname, socket.display_name, socket.group, socket.status);
@@ -69,11 +69,14 @@ io.sockets.on('connection', function(socket) {
     socket.on('open_chatbox', function(data) {
         users[data].emit('openbox', { nick: socket.nickname });
     });
+
     socket.on('send_message', function(sendto, message, sendfrom, time, opponent, unread) {
         console.log(sendto, message, sendfrom, time, opponent, unread);
+        console.log(users[sendto]);
         users[sendto].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
-        users[socket.nickname].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
+        // users[socket.nickname].emit('new_message', { sendto: sendto, msg: message, sendfrom: sendfrom, time: time, opp: opponent, undread: unread });
     });
+
     socket.on('send_message_bot', function(data, sendto) {
         console.log(data);
         contactToAIAPI(data, function() {
