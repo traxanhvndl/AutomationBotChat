@@ -41,8 +41,8 @@ io.sockets.on('connection', function(socket) {
             } else {
                 socket.group = 'client';
             };
-            // console.log('Add User : ' + name + ', ' + display_name);
-            // console.log('User : ' + users);
+            console.log('Add User : ' + name + ', ' + display_name);
+            console.log('User : ' + users);
             updateNickNames(socket.nickname, socket.display_name, socket.group, socket.status);
         }
 
