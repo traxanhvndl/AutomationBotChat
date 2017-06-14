@@ -23,62 +23,25 @@ app.get('/', function(req, res) {
 });
 
 io.sockets.on('connection', function(socket) {
-    // socket.on('new_user', function(name, display_name, data) {
-    //     if (name in users) {
-    //         data(false);
-    //     } else {
-    //         data(true);
-    //         socket.nickname = name;
-    //         socket.status = "online";
-    //         socket.display_name = display_name;
-    //         if (name in admin) {
-    //             socket.group = "server";
-    //         } else {
-    //             socket.group = "client";
-    //         };
-    //         // users[socket.nickname] = socket;
-    //         users[socket.nickname] = socket;
-    //         console.log('Add User ID: ' + socket.nickname + ', name: ' + display_name);
-    //         updateNickNames();
-    //     };
-    // });
-
     socket.on('new_user', function(name, display_name, data) {
         if (name in users) {
             data(false);
         } else {
             data(true);
             socket.nickname = name;
-            // socket.status = "online";
-            // socket.display_name = display_name;
-            // if (name in admin) {
-            //     socket.group = "server";
-            // } else {
-            //     socket.group = "client";
-            // };
+            socket.status = "online";
+            socket.display_name = display_name;
+            if (name in admin) {
+                socket.group = "server";
+            } else {
+                socket.group = "client";
+            };
             // users[socket.nickname] = socket;
             users[socket.nickname] = socket;
-            console.log('Add User ID: ' + socket.nickname + ', name: ' + socket.nickname);
+            console.log('Add User ID: ' + socket.nickname + ', name: ' + display_name);
             updateNickNames();
         };
     });
-
-    // function updateNickNames() {
-    //     var result = {};
-    //     for (item in users) {
-    //         var nickname = users[item]['nickname'];
-    //         var display_name = users[item]['display_name'];
-    //         var group = users[item]['group'];
-    //         var status = users[item]['status'];
-    //         result[item] = {
-    //             'nickname': nickname,
-    //             'display_name': display_name,
-    //             'group': group,
-    //             'status': status
-    //         };
-    //     };
-    //     io.sockets.emit('update_nick_name', result);
-    // };
 
     function updateNickNames() {
         var result = {};
@@ -89,9 +52,9 @@ io.sockets.on('connection', function(socket) {
             var status = users[item]['status'];
             result[item] = {
                 'nickname': nickname,
-                'display_name': nickname,
-                'group': 'client',
-                'status': 'online'
+                'display_name': display_name,
+                'group': group,
+                'status': status
             };
         };
         io.sockets.emit('update_nick_name', result);
