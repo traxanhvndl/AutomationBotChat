@@ -9,6 +9,7 @@
   "author": "TAaS",
   "license": "ISC",
   "dependencies": {
+    "apiai": "^4.0.2",
     "express": "^4.15.3"
   }
 }
