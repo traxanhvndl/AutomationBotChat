@@ -62,7 +62,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('send_message', function(data) {
         console.log(data.sendto, data.msg, data.sendfrom, data.time, data.opp, data.unread);
-        console.log(data.sendto);
+        // console.log(data.sendto);
         // users[data.sendto].emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread });
         io.sockets.emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread }, room = users[data.sendto].id);
         // console.log(Object.keys(io.sockets.connected));
@@ -87,8 +87,8 @@ io.sockets.on('connection', function(socket) {
         if (!socket.nickname) return;
         socket.status = "disconnect";
         console.log(socket.nickname + ' disconenct');
-        delete users[socket.nickname];
         updateNickNames();
+        delete users[socket.nickname]
     });
 });
 
