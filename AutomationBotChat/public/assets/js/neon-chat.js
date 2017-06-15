@@ -96,12 +96,12 @@ var neonChat = neonChat || {
                 socket.emit('new_user', nickname, display_name, function(data) {
                     if (data) {
                         $('#nick_wrap').hide();
-                        $('div#chat').attr('data-current-user', display_name);
+                        $('div#chat').attr('data-current-user', nickname);
                         $('.chat_box').show();
                         $('span#chat-title').text(display_name);
                         $('h2.chat-header').attr({
-                            'id': 'chat-current-user-' + display_name,
-                            'name': display_name
+                            'id': 'chat-current-user-' + nickname,
+                            'name': nickname
                         });
                     } else {
                         $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
@@ -121,7 +121,7 @@ var neonChat = neonChat || {
                     var nickname = 'chat-user-' + data[item]['nickname'];
                     switch (status) {
                         case "online":
-                            if (neonChat.getUser(nickname) == null) {
+                            if (data[item]['nickname'] != neonChat.getCurrentUser() && neonChat.getUser(nickname) == null) {
                                 neonChat.addUserId(group, nickname, data[item]['display_name'], status, '');
                             };
                             break;
@@ -141,8 +141,8 @@ var neonChat = neonChat || {
                 var id = "chat-user-" + data.sendfrom;
                 var $user_link = $('#' + id);
                 neonChat.updateScrollbars();
-                neonChat.updateConversationOffset($user_link);
-                neonChat.pushMessage(id, data.msg, data.sendfrom, data.time, data.opp, data.unread);
+                // neonChat.updateConversationOffset($user_link);
+                neonChat.pushMessage(id, data.msg, data.sendto, data.time, data.opp, data.unread);
                 neonChat.renderMessages(id);
             });
 
@@ -711,6 +711,10 @@ var neonChat = neonChat || {
 
         getUser: function(id) {
             return this.chat_history[id] ? this.chat_history[id] : null;
+        },
+
+        getCurrentUser: function() {
+            return $chat.data('current-user');
         },
 
         moveUser: function(user_id, new_group_id, prepend) {

@@ -85,8 +85,8 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('disconnect', function(data) {
         if (!socket.nickname) return;
-        socket.status = "disconnect";
-        console.log(socket.nickname + ' disconenct');
+        socket.status = "offline";
+        console.log(socket.nickname + ' offline');
         updateNickNames();
         delete users[socket.nickname]
     });
