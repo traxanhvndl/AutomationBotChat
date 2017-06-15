@@ -139,6 +139,9 @@ var neonChat = neonChat || {
                 console.log("new_message");
                 console.log(data);
                 var id = "chat-user-" + data.sendfrom;
+                var $user_link = $('#' + id);
+                neonChat.updateScrollbars();
+                neonChat.updateConversationOffset($user_link);
                 neonChat.pushMessage(id, data.msg, data.sendfrom, data.time, data.opp, data.unread);
                 neonChat.renderMessages(id);
             });

@@ -87,8 +87,8 @@ io.sockets.on('connection', function(socket) {
         if (!socket.nickname) return;
         socket.status = "disconnect";
         console.log(socket.nickname + ' disconenct');
-        updateNickNames();
         delete users[socket.nickname];
+        updateNickNames();
     });
 });
 
