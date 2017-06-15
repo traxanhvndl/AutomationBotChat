@@ -18,8 +18,14 @@ server.listen(port, ip, function() {
     console.log("Server is running on [" + ip + ":" + port + "]");
 });
 app.use(express.static(__dirname + '/public'));
+
 app.get('/', function(req, res) {
-    console.log("Connected !");
+    console.log("Connected client!");
+});
+
+app.get('/admin', function(req, res) {
+    console.log("Connected admin!");
+    res.sendfile(__dirname + '/public/admin.html');
 });
 
 io.sockets.on('connection', function(socket) {
@@ -62,7 +68,7 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('send_message', function(data) {
         console.log(data.sendto, data.msg, data.sendfrom, data.time, data.opp, data.unread);
-        if (users[data.sendto].id) {
+        if (users[data.sendto]) {
             io.sockets.emit('new_message', { sendto: data.sendto, msg: data.msg, sendfrom: data.sendfrom, time: data.time, opp: data.opp, unread: data.unread }, room = users[data.sendto].id);
         };
     });

@@ -127,8 +127,7 @@ var neonChat = neonChat || {
                             break;
                         case "offline":
                             console.log('disconnect');
-                            neonChat.setStatus(nickname, status);
-                            // neonChat.removeUserId(group, nickname);
+                            neonChat.removeUserId(group, nickname);
                             break;
                         default:
                             console.log('default');
@@ -139,11 +138,11 @@ var neonChat = neonChat || {
             socket.on('new_message', function(data) {
                 console.log("new_message");
                 console.log(data);
-                var id = "chat-user-" + data.sendfrom;
+                var id = "chat-user-" + data.sendto;
                 var $user_link = $('#' + id);
                 neonChat.updateScrollbars();
                 // neonChat.updateConversationOffset($user_link);
-                neonChat.pushMessage(id, data.msg, data.sendto, data.time, data.opp, data.unread);
+                neonChat.pushMessage(id, data.msg, data.sendfrom, data.time, data.opp, data.unread);
                 neonChat.renderMessages(id);
             });
 
@@ -363,7 +362,8 @@ var neonChat = neonChat || {
 
                 var max_chat_history = this.getChatHistoryLength();
 
-
+                console.log(id)
+                console.log(this.chat_history)
                 if (this.chat_history[id].messages.length >= max_chat_history) {
                     this.chat_history[id].messages = this.chat_history[id].messages.reverse().slice(0, max_chat_history - 1).reverse();
                 }
