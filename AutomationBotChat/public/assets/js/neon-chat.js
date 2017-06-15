@@ -125,9 +125,10 @@ var neonChat = neonChat || {
                                 neonChat.addUserId(group, nickname, data[item]['display_name'], status, '');
                             };
                             break;
-                        case "disconnect":
+                        case "offline":
                             console.log('disconnect');
-                            neonChat.removeUserId(group, nickname);
+                            neonChat.setStatus(nickname, status);
+                            // neonChat.removeUserId(group, nickname);
                             break;
                         default:
                             console.log('default');
