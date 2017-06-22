@@ -30,14 +30,14 @@ function insertMessage() {
     if ($.trim(msg) == '') {
         return false;
     }
-    socket.emit('send_message_bot', { data: msg, sendto: "abc" });
+    socket.emit('send_message_bot', msg, "BOT");
     $('<div class="message message-personal"><span>' + msg + '</span><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     $('.message-input').val(null);
     updateScrollbar();
-    setTimeout(function() {
-        newReceiveMessage();
-    }, 100 + (Math.random() * 20) * 30);
+    // setTimeout(function() {
+    //     newReceiveMessage();
+    // }, 100 + (Math.random() * 20) * 30);
 }
 
 $('.message-submit').click(function() {
@@ -82,6 +82,6 @@ function newReceiveMessage(message) {
         setDate();
         updateScrollbar();
         i++;
-    }, 200 + (Math.random() * 10) * 50);
+    }, 1000 + (Math.random() * 10) * 50);
 
 }

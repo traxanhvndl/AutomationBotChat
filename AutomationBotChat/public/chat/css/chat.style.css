@@ -61,10 +61,6 @@ body {
     width: 100%;
 }
 
-#nick_wrap .title {
-    font-size: 200%;
-}
-
 #nick_wrap .form .input {
     background-color: transparent;
     border: none;
@@ -98,12 +94,14 @@ body {
 
 #nick_wrap .title {
     color: #fff;
-    font-weight: 200;
+    font-size: 300%;
+    font-weight: bold;
 }
 
 #nick_wrap .usernameInput {
     color: #adadad;
-    font-weight: 100;
+    font-size: 300%;
+    font-weight: bold;
 }
 
 #nick_wrap #nick_erorr {
