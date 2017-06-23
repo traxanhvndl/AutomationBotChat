@@ -893,7 +893,7 @@ fieldset[disabled] .btn-contact.active {
 
 .contact .form-group input,
 .contact .form-group textarea {
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 .form-horizontal .control-label {

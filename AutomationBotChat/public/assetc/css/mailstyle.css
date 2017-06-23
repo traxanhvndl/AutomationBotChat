@@ -91,8 +91,9 @@
     position: relative;
     /*margin: 50px auto;*/
     width: 100%;
-    /*min-height: 200px;*/
+    min-height: 500px;
     height: 100%;
+    /*height: auto;*/
     z-index: 100;
     padding: 30px;
     text-align: left;
@@ -297,7 +298,8 @@
 
 /** Styling the send button **/
 
-.contact-contain input[type=submit] {
+.contact-contain input[type=submit],
+.contact-contain input[type=reset] {
     /*margin-left: 235px;*/
     float: right;
     cursor: pointer;
@@ -306,7 +308,10 @@
     font-family: 'Alice', serif;
     color: #767676;
     font-size: 18px;
-    padding: 10px 4px;
+    margin-left: 10px;
+    padding: 5px 10px;
+    width: auto;
+    height: auto;
     border: 1px dashed #252526;
     text-shadow: 0px 1px 1px #E8E8E8;
     background: rgb(247, 247, 247);
@@ -331,7 +336,8 @@
     transition: all 0.2s linear;
 }
 
-.contact-contain input[type=submit]:hover {
+.contact-contain input[type=submit]:hover,
+.contact-contain input[type=reset]:hover {
     color: #0271bc;
     border-color: #0271bc;
     background: rgb(244, 244, 244);
@@ -348,7 +354,9 @@
 }
 
 .contact-contain input[type=submit]:active,
-.contact-contain input[type=submit]:focus {
+.contact-contain input[type=submit]:focus,
+.contact-contain input[type=reset]:active,
+.contact-contain input[type=reset]:focus {
     position: relative;
     top: 1px;
     color: #515151;

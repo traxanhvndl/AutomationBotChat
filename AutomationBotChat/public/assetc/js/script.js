@@ -31,7 +31,15 @@ $(document).ready(function($) {
         }
     });
 
+    $('#cloud-modal .clean-chat').click(function(ev) {
+        var display_name = $('#nick_name').val();
+        var nickname = display_name.replace(/ /g, '_');
+        $('#mCSB_1_container').children().remove();
+        newReceiveMessage('Hi ' + display_name + ', I\'m ' + $('.chat-server h1').text() + ', What can I do for you ?');
+    });
+
     socket.on('new_message', function(data) {
+        console.log(data)
         newReceiveMessage(data.msg);
     });
 
@@ -50,6 +58,7 @@ $(document).ready(function($) {
                     'id': 'chat-current-user-' + nickname,
                     'name': nickname
                 });
+                $('.message-input').focus();
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
             }

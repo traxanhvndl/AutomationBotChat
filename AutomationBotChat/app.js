@@ -4,7 +4,8 @@ var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    users = {};
+    users = {},
+    nodemailer = require("nodemailer");
 session_topic = {};
 var user_list = {};
 user_data = {};
@@ -22,17 +23,51 @@ var AIMessage;
 var AIData;
 
 server.listen(port, ip, function() {
-    console.log("Server is running on [" + ip + ":" + port + "]");
+    console.log("Server is running on [" + ip + ":" + port + "]")
 });
+// app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
-
 app.get('/', function(req, res) {
-    console.log("Connected client!");
+    console.log('Login user');
 });
 
 app.get('/admin', function(req, res) {
-    console.log("Connected admin!");
+    console.log('Login admin')
     res.sendFile(__dirname + '/public/admin.html');
+});
+
+app.get('/mailform', function(req, res) {
+    var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'taas.dc2a.tma@outlook.com',
+            pass: 'taas12345678x@X'
+        }
+    });
+
+    // setup e-mail data, even with unicode symbols
+    var mailOptions = {
+        from: '"TA-TaaS Team" <taas.dc2a.tma@outlook.com>', // sender address (who sends)
+        to: 'dnnvu@tma.com.vn', // list of receivers (who receives)
+        subject: 'Test mail', // Subject line
+        text: 'Hello', // plaintext body
+        html: '<b>I\'m just testing with send email form web</b>' // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            return console.log(error);
+        }
+
+        console.log('Message sent: ' + info.response);
+        transporter.close();
+    });
 });
 
 io.sockets.on('connection', function(socket) {

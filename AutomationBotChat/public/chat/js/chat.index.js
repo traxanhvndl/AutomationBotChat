@@ -31,7 +31,7 @@ function insertMessage() {
         return false;
     }
     socket.emit('send_message_bot', msg, "BOT");
-    $('<div class="message message-personal"><span>' + msg + '</span><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
+    $('<div class="message message-personal"><span class="conversation">' + msg + '</span><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     $('.message-input').val(null);
     updateScrollbar();
@@ -73,15 +73,15 @@ function newReceiveMessage(message) {
     if ($('.message-input').val() != '') {
         return false;
     }
-    $('<div class="message loading new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+    $('<div class="message loading new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span class="conversation"></span></div>').appendTo($('.mCSB_container'));
     updateScrollbar();
 
     setTimeout(function() {
         $('.message.loading').remove();
-        $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure>' + message + '</div>').appendTo($('.mCSB_container')).addClass('new');
+        $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span class="conversation">' + message + '</span></div>').appendTo($('.mCSB_container')).addClass('new');
         setDate();
         updateScrollbar();
         i++;
-    }, 1000 + (Math.random() * 10) * 50);
+    }, 500 + (Math.random() * 10) * 100);
 
 }
