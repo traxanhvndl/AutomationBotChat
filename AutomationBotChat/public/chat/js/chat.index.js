@@ -1,13 +1,10 @@
 var $messages = $('.messages-content'),
     d, h, m,
     i = 0;
-// var socket = io.connect();
 
 $(window).load(function() {
     $messages.mCustomScrollbar();
-    setTimeout(function() {
-        // newReceiveMessage();
-    }, 50);
+    setTimeout(function() {}, 50);
 });
 
 function updateScrollbar() {
@@ -35,9 +32,6 @@ function insertMessage() {
     setDate();
     $('.message-input').val(null);
     updateScrollbar();
-    // setTimeout(function() {
-    //     newReceiveMessage();
-    // }, 100 + (Math.random() * 20) * 30);
 }
 
 $('.message-submit').click(function() {
@@ -50,24 +44,6 @@ $(window).on('keydown', function(e) {
         return false;
     }
 })
-
-var Fake = [
-    'Hi there, I\'m Dracùlà-xìgà-chàchà and you?',
-    'Nice to meet you',
-    'How are you?',
-    'Not too bad, thanks',
-    'What do you do?',
-    'That\'s awesome',
-    'Codepen is a nice place to stay',
-    'I think you\'re a nice person',
-    'Why do you think that?',
-    'Can you explain?',
-    'Anyway I\'ve gotta go now',
-    'It was a pleasure chat with you',
-    'Time to make a new codepen',
-    'Bye',
-    ':)'
-]
 
 function newReceiveMessage(message) {
     if ($('.message-input').val() != '') {

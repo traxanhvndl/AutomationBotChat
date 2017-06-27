@@ -22,8 +22,21 @@ var appAI = apiai("e58b167254d549a6bde597727c5a334b");
 var AIMessage;
 var AIData;
 
+var transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+        ciphers: 'SSLv3'
+    },
+    auth: {
+        user: 'taas.dc2a.tma@outlook.com',
+        pass: 'taas12345678x@X'
+    }
+});
+
 server.listen(port, ip, function() {
-    console.log("Server is running on [" + ip + ":" + port + "]")
+    console.log("Server is running on [" + ip + ":" + port + "]");
 });
 // app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
@@ -36,37 +49,25 @@ app.get('/admin', function(req, res) {
     res.sendFile(__dirname + '/public/admin.html');
 });
 
-app.get('/mailform', function(req, res) {
-    var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'taas.dc2a.tma@outlook.com',
-            pass: 'taas12345678x@X'
-        }
-    });
-
-    // setup e-mail data, even with unicode symbols
+app.get('/sendmail', function(req, res) {
     var mailOptions = {
-        from: '"TA-TaaS Team" <taas.dc2a.tma@outlook.com>', // sender address (who sends)
-        to: 'dnnvu@tma.com.vn', // list of receivers (who receives)
-        subject: 'Test mail', // Subject line
-        text: 'Hello', // plaintext body
-        html: '<b>I\'m just testing with send email form web</b>' // html body
-    };
-
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info) {
+        from: '"TA-TaaS Team" <taas.dc2a.tma@outlook.com>',
+        to: 'dnnvu@tma.com.vn',
+        subject: req.query.subject,
+        text: req.query.text,
+        html: "<style>th{text-align: left;}</style><table border=0><tr><th>User Name : </th><td>" + req.query.name + "</td></tr><tr><th>Email : </th><td>" + req.query.from + "</td></tr><tr><th>Content : </th><td>" + req.query.text + "</td></tr></table>"
+    }
+    transporter.sendMail(mailOptions, function(error, response) {
         if (error) {
-            return console.log(error);
+            console.log(error);
+            res.end("error");
+        } else {
+            console.log(response)
+            console.log("Message sent: " + response.response);
+            var status = 200;
+            res.send('sent');
+            res.end();
         }
-
-        console.log('Message sent: ' + info.response);
-        transporter.close();
     });
 });
 

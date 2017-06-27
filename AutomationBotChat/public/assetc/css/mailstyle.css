@@ -30,7 +30,7 @@
 }
 
 .contact-contain fieldset {
-    border: 1px dashed #252526;
+    border: 1px dashed #8c8c8c;
     border-radius: 20px;
     padding: 20px 10px 80px 10px;
 }
@@ -140,7 +140,7 @@
 }
 
 .contact-contain #content .contact-info {
-    border-right: 1px dashed #252526;
+    border-right: 1px dashed #8c8c8c;
 }
 
 
@@ -166,7 +166,7 @@
     display: block;
     width: 100%;
     padding: 4px 8px;
-    border: 1px dashed #252526;
+    border: 1px dashed #8c8c8c;
     color: #3F3F3F;
     font-family: 'Droid Sans', Tahoma, Arial, Verdana sans-serif;
     font-size: 14px;
@@ -186,11 +186,14 @@
 .contact-contain input:not([type="submit"]):focus,
 .contact-contain textarea:focus {
     background: #F7F7F7;
-    border: dashed 1px #0271bc;
+    border: dashed 1px #000000;
     /*box-shadow*/
-    -webkit-box-shadow: 2px 2px 7px #E8E8E8 inset;
-    -moz-box-shadow: 2px 2px 7px #E8E8E8 inset;
-    box-shadow: 2px 2px 7px #E8E8E8 inset;
+    /*-webkit-box-shadow: 1px 1px 2px #000000 inset;
+    -moz-box-shadow: 1px 1px 2px #000000 inset;
+    box-shadow: 1px 1px 2px #000000 inset;*/
+    -webkit-box-shadow: 2px 2px 2px #787878;
+    -moz-box-shadow: 2px 2px 2px #787878;
+    box-shadow: 2px 2px 2px #787878;
 }
 
 .contact-contain input:not([type="submit"]) {
@@ -312,7 +315,7 @@
     padding: 5px 10px;
     width: auto;
     height: auto;
-    border: 1px dashed #252526;
+    border: 1px dashed #8c8c8c;
     text-shadow: 0px 1px 1px #E8E8E8;
     background: rgb(247, 247, 247);
     background: -moz-linear-gradient(top, rgba(247, 247, 247, 1) 1%, rgba(242, 242, 242, 1) 100%);
@@ -338,8 +341,8 @@
 
 .contact-contain input[type=submit]:hover,
 .contact-contain input[type=reset]:hover {
-    color: #0271bc;
-    border-color: #0271bc;
+    color: #000000;
+    border-color: #000000;
     background: rgb(244, 244, 244);
     background: -moz-linear-gradient(top, rgba(244, 244, 244, 1) 0%, rgba(242, 242, 242, 1) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(244, 244, 244, 1)), color-stop(100%, rgba(242, 242, 242, 1)));
