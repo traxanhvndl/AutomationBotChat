@@ -1,6 +1,6 @@
 $(function() {
 
-    $("input,textarea").jqBootstrapValidation({
+    $(".contact-contain input,.contact-contain textarea").jqBootstrapValidation({
         preventSubmit: true,
         submitError: function($form, event, errors) {
             // additional error messages or events
@@ -11,7 +11,7 @@ $(function() {
             var name = $("#contactForm input#username").val();
             var email = $("#contactForm input#usermail").val();
             var subject = "[TA-Support] " + $("#contactForm input#subject").val();
-            var message = $("#contactForm textarea#mailmessage").val();
+            var message = $("#contactForm textarea#mailmessage").val().replace(/\r?\n/g, '<br />');
             var firstName = name; // For Success/Failure Message
             // Check for white space in name for Success/Fail message
             if (firstName.indexOf(' ') >= 0) {

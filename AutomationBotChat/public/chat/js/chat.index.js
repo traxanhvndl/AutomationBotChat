@@ -45,7 +45,13 @@ $(window).on('keydown', function(e) {
     }
 })
 
-function newReceiveMessage(message) {
+function newReceiveMessage(message, items) {
+    if (!message || message == 'NA') {
+        message = '';
+    };
+    if (!items || items == 'NA') {
+        items = '';
+    };
     if ($('.message-input').val() != '') {
         return false;
     }
@@ -54,7 +60,7 @@ function newReceiveMessage(message) {
 
     setTimeout(function() {
         $('.message.loading').remove();
-        $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span class="conversation">' + message + '</span></div>').appendTo($('.mCSB_container')).addClass('new');
+        $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span class="conversation">' + message + '</span><div class="item-container">' + items + '</div></div>').appendTo($('.mCSB_container')).addClass('new');
         setDate();
         updateScrollbar();
         i++;

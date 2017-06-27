@@ -318,7 +318,8 @@ Messages
     border-radius: 10px 10px 10px 0;
     /*background: rgba(0, 0, 0, 0.3);*/
     color: #fff;
-    background: linear-gradient(45deg, #d09024, #257287);
+    background: linear-gradient(200deg, #257287, #161616);
+    /*background: linear-gradient(45deg, #d09024, #257287);*/
     margin: 8px 0;
     font-size: 16px;
     line-height: 1.4;
@@ -341,7 +342,7 @@ Messages
     content: '';
     position: absolute;
     bottom: -6px;
-    border-top: 6px solid #be8d2e;
+    border-top: 6px solid #161717;
     left: 0;
     border-right: 7px solid transparent;
 }
@@ -358,7 +359,7 @@ Messages
     margin: 0;
     padding: 0;
     border: 3px solid rgba(255, 255, 255, 0.24);
-    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.9);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
 }
 
 .messages .message .avatar.avatar-personal {
@@ -406,7 +407,7 @@ Messages
     transform-origin: 0 0;
     -webkit-animation: bounce 500ms linear both;
     animation: bounce 500ms linear both;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
     max-width: 80%;
 }
 
@@ -516,15 +517,16 @@ Message Box
 
 .message button,
 .message .button-info {
-    padding: 5px;
+    padding: 5px 10px;
+    min-width: 100px;
     font-family: 'Open Sans', sans-serif;
     color: #ffffff;
     font-size: 18px;
-    border: 2px dashed #ffffff;
+    border: 2px solid #ffffff;
     background: transparent;
     margin: 0px 5px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
