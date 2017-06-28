@@ -3,6 +3,7 @@ var $ = jQuery.noConflict();
 var socket = io.connect();
 $(document).ready(function($) {
     "use strict";
+    var username;
     $('.skill-shortcode').appear(function() {
         $('.progress').each(function() {
             $('.progress-bar').css('width', function() { return ($(this).attr('data-percentage') + '%') });
@@ -32,7 +33,7 @@ $(document).ready(function($) {
     });
 
     $('#cloud-modal .clean-chat').click(function(ev) {
-        var display_name = $('#nick_name').val();
+        var display_name = username;
         var nickname = display_name.replace(/ /g, '_');
         $('#mCSB_1_container').children().remove();
         newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> !');
@@ -49,6 +50,7 @@ $(document).ready(function($) {
     function submit() {
         console.log('new user')
         var display_name = $('#nick_name').val();
+        username = display_name;
         var nickname = display_name.replace(/ /g, '_');
         socket.emit('new_user', nickname, function(data) {
             if (data) {
@@ -59,6 +61,7 @@ $(document).ready(function($) {
                     'name': nickname
                 });
                 $('.message-input').focus();
+                $('div#clean-chat').show();
                 newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> !');
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
