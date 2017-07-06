@@ -84,6 +84,9 @@ module.exports = {
                 switch (previous_step) {
                     case "OK_life time":
                         createNewTicket();
+                        previous_step = "";
+                        buttonName = "NA";
+                        message = "Your ticket has been created!";
                         break;
                 
                     default:
