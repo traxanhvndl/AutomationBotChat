@@ -18,7 +18,7 @@ var express = require('express'),
 // ip = process.env.HOST || '11.11.254.69';
 
 var port = process.env.PORT || 3000;
-var ip = process.env.HOST || ipaddr.address() || '0.0.0.0';
+var ip = process.env.HOST || '0.0.0.0' || ipaddr.address();
 
 const RequestPromise = require('request-promise');
 var apiai = require('apiai');
