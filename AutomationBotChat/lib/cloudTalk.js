@@ -7,9 +7,11 @@ module.exports = {
         var previous_step;
         switch (step) {
             case 'Cloud': 
+                message = "Please select: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
             case 'Request a new Quota':
+                message = "There are two ways to request a new quota: ";
                 buttonName = "Click here to complete a form andButton Chat with me, I'll create a from for you";
                 break;
             case "Chat with me, I'll create a from for you":
@@ -19,16 +21,56 @@ module.exports = {
                 break;
             case "project name":
                 buttonName = "NA";
+                message = "Please provide your full name";
+                command = "full name";
+                break;
+            case "full name":
+                buttonName = "NA";
+                message = "Please provide your badge ID";
+                command = "badge ID";
+                break;
+            case "badge ID":
+                buttonName = "NA";
                 message = "Please provide your phone number";
                 command = "phone number";
                 break;
             case "phone number":
                 buttonName = "NA";
                 message = "Please provide your email address";
-                command = "OK_email address";
+                command = "email address";
+                break;               
+            case "email address":
+                buttonName = "NA";
+                message = "Please provide the email of your manager";
+                command = "manager's email address";
                 break;
-            case "OK_email address":
-                previous_step = "OK_email address";
+            case "manager's email address":
+                buttonName = "NA";
+                message = "How many instances do you need?";
+                command = "instance";
+                break;
+            case "instance":
+                buttonName = "NA";
+                message = "How many CPU do you need?";
+                command = "CPU";
+                break;
+            case "CPU":
+                buttonName = "NA";
+                message = "How many RAM do you need? please provide in MB";
+                command = "RAM";
+                break;
+            case "RAM":
+                buttonName = "NA";
+                message = "Please provide the HDD for your instance in GB";
+                command = "HDD";
+                break;
+            case "HDD":
+                buttonName = "NA";
+                message = "How long do you need to keep your instance";
+                command = "OK_life time";
+                break;
+            case "OK_life time":
+                previous_step = "OK_life time";
                 buttonName = "NA";
                 message = "Please confirm the data you are using to request a new quota <br>";
                 Object.keys(user_data).forEach(function(key){
@@ -38,7 +80,7 @@ module.exports = {
                 break;
             case "Click here to complete a form":
                 buttonName = "NA";
-                message = "<a href=\"http://www.google.com.vn\"> HERE </a>";
+                message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
                 break;
             default:
                 buttonName = "Unhandle";
