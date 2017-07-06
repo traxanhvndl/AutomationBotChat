@@ -1,4 +1,6 @@
 var cloudTopic = require("./lib/cloudTalk");
+var ipaddr = require("ip");
+// console.dir(ip.address());
 var express = require('express'),
     bodyParser = require('body-parser'),
     mysql = require('mysql'),
@@ -16,7 +18,7 @@ var express = require('express'),
 // ip = process.env.HOST || '11.11.254.69';
 
 var port = process.env.PORT || 3000;
-var ip = process.env.HOST || '0.0.0.0';
+var ip = process.env.HOST || '0.0.0.0' || ipaddr.address();
 
 const RequestPromise = require('request-promise');
 var apiai = require('apiai');
@@ -123,7 +125,7 @@ app.post('/cloud/register', function(req, res) {
                             console.log("                ");
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
-                            res.redirect('http://' + ip + '/neon/test02.php?id=' + data[0].id);
+                            res.redirect('http://11.11.254.69/neon/test02.php?id=' + data[0].id);
                         });
                     });
                 });
