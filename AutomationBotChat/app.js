@@ -125,7 +125,7 @@ app.post('/cloud/register', function(req, res) {
                             console.log("                ");
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
-                            res.redirect('http://' + ipaddr.address() + '/neon/test02.php?id=' + data[0].id);
+                            res.redirect('http://11.11.254.69/neon/test02.php?id=' + data[0].id);
                         });
                     });
                 });
