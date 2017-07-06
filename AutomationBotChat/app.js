@@ -83,11 +83,11 @@ var conn = mysql.createConnection({
     database: 'webdata'
 });
 
-fs.readFile('/public/tracking/index.html', function(err, data) {
+fs.readFile('./public/tracking/index.html', function(err, data) {
     if (err) {
         throw err;
     }
-    app.get('/public/tracking/cloud/register', function(req, res) {
+    app.get('/cloud/register', function(req, res) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write(data);
         res.end();
