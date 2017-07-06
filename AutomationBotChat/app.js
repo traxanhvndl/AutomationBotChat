@@ -83,7 +83,7 @@ var conn = mysql.createConnection({
     database: 'webdata'
 });
 
-fs.readFile('./public/tracking/index.html', function(err, data) {
+fs.readFile(__dirname + '/public/tracking/index.html', function(err, data) {
     if (err) {
         throw err;
     }
