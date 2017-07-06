@@ -1,6 +1,8 @@
 //talking about cloud topic
 module.exports = {
     cloudTopic: function(step, user_data) {
+        const RequestPromise = require('request-promise');
+        var ipaddr = require("ip");
         var buttonName;
         var message;
         var command;
@@ -78,6 +80,15 @@ module.exports = {
                 });
                 message = message + "Please type <b> OK </b> to confirm!";
                 break;
+            case "OK":
+                switch (previous_step) {
+                    case "OK_life time":
+                        createNewTicket();
+                        break;
+                
+                    default:
+                        break;
+                }
             case "Click here to complete a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
@@ -89,3 +100,43 @@ module.exports = {
         return {'buttonName' :  buttonName, 'message' : message, 'command' : command };
     }
 };
+
+function createNewTicket() {
+			var createTicketArgs = {
+				uri: 'http://' + ipaddr.address() + ':3000/cloud/register',
+				method: 'POST',
+				qs: {
+					key: "ABC"
+				},
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+				  "project": user_data['project name'],
+                  "full_name": user_data['full name'],
+                  "bade_id": user_data['badge ID'],
+                  "email" : user_data['email address'],
+                  "phone": user_data['phone number'],
+                  "pm_email": user_data["manager's email address"],
+                  "life_time" : user_data['OK_life time'],
+                  "instance" : user_data['instance'],
+                  "cpu" : user_data['CPU'],
+                  "ram" : user_data['RAM'],
+                  "hdd" : user_data['HDD'],
+                  "note" : "Create by BOT",
+				  "group_image": {}
+				})
+			};
+
+			RequestPromise(createTicketArgs).then(function(res){				
+				try {
+					console.log('Request response:' + res);
+				} catch (err) {
+					console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(createTicketArgs)); 
+					return false;
+				}
+				//console.log('Create Device - Create device successfully with deviceId:' + deviceId + ' . device_ID:' + device_id); 
+				//me._logging.logInfo('Create Device - Create device successfully with deviceId:' + deviceId + ' . device_ID:' + device_id); 
+			});
+}
