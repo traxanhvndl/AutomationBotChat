@@ -11,7 +11,7 @@ var config = {
     },
     production: {
         mode: 'production',
-        ip: '11.11.254.69',
+        ip: '0.0.0.0',
         port: 5000
     }
 }
