@@ -51,7 +51,7 @@ app.get('/', function(req, res) {
     console.log('User connected !')
 });
 
-app.get('/', function(req, res) {
+app.get('/admin', function(req, res) {
     console.log('Connected !')
     res.sendfile(__dirname + '/public/admin.html');
 });
