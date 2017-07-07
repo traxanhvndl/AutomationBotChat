@@ -1,7 +1,7 @@
 //talking about cloud topic
+const RequestPromise = require('request-promise');
 module.exports = {
     cloudTopic: function(step, user_data) {
-        const RequestPromise = require('request-promise');
         var ipaddr = require("ip");
         var buttonName;
         var message;
@@ -72,7 +72,6 @@ module.exports = {
                 command = "OK_life time";
                 break;
             case "OK_life time":
-                previous_step = "OK_life time";
                 buttonName = "NA";
                 message = "Please confirm the data you are using to request a new quota <br>";
                 Object.keys(user_data).forEach(function(key){
@@ -81,17 +80,21 @@ module.exports = {
                 message = message + "Please type <b> OK </b> to confirm!";
                 break;
             case "OK":
-                switch (previous_step) {
-                    case "OK_life time":
-                        createNewTicket();
+                console.log("Previous Step: " + Object.keys(user_data));
+                switch (step) {
+                    case "OK":
+                        createNewTicket(user_data);
                         previous_step = "";
                         buttonName = "NA";
                         message = "Your ticket has been created!";
                         break;
                 
                     default:
+                        buttonName = "NA";
+                        message = "NA";
                         break;
                 }
+                break;
             case "Click here to complete a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
@@ -104,9 +107,9 @@ module.exports = {
     }
 };
 
-function createNewTicket() {
+function createNewTicket(user_data) {
 			var createTicketArgs = {
-				uri: 'http://' + ipaddr.address() + ':3000/cloud/register',
+				uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
 				method: 'POST',
 				qs: {
 					key: "ABC"
