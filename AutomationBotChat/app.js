@@ -90,15 +90,20 @@ var conn = mysql.createConnection({
     database: 'webdata'
 });
 
-fs.readFile(__dirname + '/public/tracking/index.html', function(err, data) {
-    if (err) {
-        throw err;
-    }
-    app.get('/cloud/register', function(req, res) {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write(data);
-        res.end();
-    });
+// fs.readFile(__dirname + '/public/tracking/index.html', function(err, data) {
+//     if (err) {
+//         throw err;
+//     }
+//     app.get('/cloud/register/dm', function(req, res) {
+//         res.writeHead(200, { 'Content-Type': 'text/html' });
+//         res.write(data);
+//         res.end();
+//     });
+// });
+
+app.get('/cloud/register', function(req, res) {
+    console.log('Connected !')
+    res.sendfile(__dirname + '/public/tracking/index.html');
 });
 
 app.post('/cloud/register', function(req, res) {
