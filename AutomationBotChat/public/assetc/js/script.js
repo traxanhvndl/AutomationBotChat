@@ -9,8 +9,9 @@ $(document).ready(function($) {
             $('.progress-bar').css('width', function() { return ($(this).attr('data-percentage') + '%') });
         });
     }, { accY: -100 });
-    $('.chat-init').click(function(ev) {
-        $('#nick_name').focus();
+    $('a[data-toggle="modal"]').change(function(ev) {
+        // $('#nick_name').focus();
+        updateScrollbar();
     });
 
     $('.login.page').click(function() {
@@ -83,8 +84,10 @@ function postopic(topic) {
 };
 
 function clickOnRes(text) {
-    socket.emit('send_message_bot', text, $('#username-content').attr('name'));
+    insertMessage(text)
+        // socket.emit('send_message_bot', text, $('#username-content').attr('name'));
     $(document).ready(function() {
         $(".button5").attr('disabled', 'disabled');
     });
-}
+    updateScrollbar();
+};
