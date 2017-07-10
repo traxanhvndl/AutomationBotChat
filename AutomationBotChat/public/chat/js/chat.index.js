@@ -63,7 +63,7 @@ function newReceiveMessage(message, items) {
     if ($('.message-input').val() != '') {
         return false;
     }
-    $('<div class="message loading new"><figure class="avatar"><img src="images/robot_1.png" /></figure><div class="conversation"></div></div>').appendTo($('.mCSB_container'));
+    $('<div class="message loading new"><figure class="avatar"><img src="images/robot_1.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
     updateScrollbar();
 
     setTimeout(function() {
@@ -72,6 +72,6 @@ function newReceiveMessage(message, items) {
         setDate();
         updateScrollbar();
         i++;
-    }, 500 + (Math.random() * 10) * 100);
+    }, 500 + (Math.random() * 10) * 500);
 
 }
