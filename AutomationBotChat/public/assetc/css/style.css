@@ -1011,3 +1011,7 @@ fieldset[disabled] .btn-contact.active {
 .mtooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+.has-feedback input {
+    padding-right: 0px;
+}

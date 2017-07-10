@@ -9,8 +9,9 @@ $(document).ready(function($) {
             $('.progress-bar').css('width', function() { return ($(this).attr('data-percentage') + '%') });
         });
     }, { accY: -100 });
-    $('.chat-init').click(function(ev) {
-        $('#nick_name').focus();
+    $('a[data-toggle="modal"]').change(function(ev) {
+        // $('#nick_name').focus();
+        updateScrollbar();
     });
 
     $('.login.page').click(function() {
@@ -36,7 +37,7 @@ $(document).ready(function($) {
         var display_name = username;
         var nickname = display_name.replace(/ /g, '_');
         $('#mCSB_1_container').children().remove();
-        newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> !');
+        socket.emit('send_message_bot', 'Cloud', $('#username-content').attr('name'));
     });
 
     socket.on('new_message', function(data) {
@@ -52,6 +53,11 @@ $(document).ready(function($) {
         var display_name = $('#nick_name').val();
         username = display_name;
         var nickname = display_name.replace(/ /g, '_');
+        if (nickname == '') {
+            nickname = 'Anonymous';
+            display_name = nickname;
+            $('#username-content').attr('name', nickname);
+        };
         socket.emit('new_user', nickname, function(data) {
             if (data) {
                 $('#nick_wrap').hide();
@@ -62,7 +68,8 @@ $(document).ready(function($) {
                 });
                 $('.message-input').focus();
                 $('div#clean-chat').show();
-                newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> !');
+                // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
+                postopic('Cloud');
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
             }
@@ -72,9 +79,15 @@ $(document).ready(function($) {
     };
 });
 
+function postopic(topic) {
+    socket.emit('send_message_bot', topic, $('#username-content').attr('name'));
+};
+
 function clickOnRes(text) {
-    socket.emit('send_message_bot', text, $('#box_name').text());
+    insertMessage(text)
+        // socket.emit('send_message_bot', text, $('#username-content').attr('name'));
     $(document).ready(function() {
         $(".button5").attr('disabled', 'disabled');
     });
-}
+    updateScrollbar();
+};
