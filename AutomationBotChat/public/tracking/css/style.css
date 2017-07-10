@@ -1,1 +1,7 @@
-#success_message{ display: none;}
+#success_message {
+    display: none;
+}
+
+.has-feedback .form-control {
+    padding-right: 0px;
+}

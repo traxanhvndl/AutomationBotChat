@@ -1,16 +1,31 @@
-#success_message{ display: none;}
-.table tbody tr > td.success {
-  background-color: #dff0d8 !important;
+#success_message {
+    display: none;
 }
 
-.table tbody tr > td.error {
-  background-color: #f2dede !important;
+.table tbody tr>td.success {
+    background-color: #dff0d8 !important;
 }
 
-.table tbody tr > td.warning {
-  background-color: #fcf8e3 !important;
+.table tbody tr>td.error {
+    background-color: #f2dede !important;
 }
 
-.table tbody tr > td.info {
-  background-color: #d9edf7 !important;
+.table tbody tr>td.warning {
+    background-color: #fcf8e3 !important;
+}
+
+.table tbody tr>td.info {
+    background-color: #d9edf7 !important;
+}
+
+.has-feedback input {
+    padding-right: 5px !important;
+}
+
+.has-feedback textarea {
+    resize: none;
+}
+
+.form-horizontal .control-label {
+    text-align: right;
 }

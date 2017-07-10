@@ -356,7 +356,7 @@
                         </ul>
                     </li>-->
                         <li class="has-sub">
-                            <a href="forms.html" target="main_frame">
+                            <a href="/cloud/register" target="main_frame">
                                 <i class="entypo-doc-text"></i>
                                 <span class="title">Forms</span>
                             </a>
@@ -404,22 +404,22 @@
                             </ul>-->
                         </li>
                         <li class="has-sub">
-                            <a href="tables-datatable.html">
+                            <a href="http://11.11.254.69/tracking/tickets.php" target="main_frame">
                                 <i class="entypo-window"></i>
-                                <span class="title">Tables</span>
+                                <span class="title">Tickets</span>
                             </a>
-                            <ul>
-                                <!--<li>
+                            <!--<ul>
+                                <li>
                                     <a href="tables-main.html">
                                         <span class="title">Basic Tables</span>
                                     </a>
-                                </li>-->
-                                <li>
-                                    <a href="tables-datatable.html" target="main_frame">
-                                        <span class="title">Data Tables</span>
-                                    </a>
                                 </li>
-                            </ul>
+                            <li>
+                                <a href="http://11.11.254.69/tracking/tickets.php" target="_blank">
+                                    <span class="title">Data Tables</span>
+                                </a>
+                            </li>
+                        </ul>-->
                         </li>
                         <!--<li class="has-sub">
                         <a href="extra-icons.html">
@@ -1130,11 +1130,15 @@
 
             </div>
 
-            <hr/>
+            <!--<hr/>-->
             <script>
                 function resizeIframe(obj) {
                     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
                 };
+
+                function autoResize() {
+                    $('#main_frame').height($('#main_frame').contents().height());
+                }
             </script>
             <!--<script type="text/javascript">
                 var frameListener;
@@ -1157,7 +1161,7 @@
                 // document.getElementById('main_frame').contentWindow.targetFunction();
             </script>-->
             <div class="row">
-                <iframe name="main_frame" id="main_frame" src="forms.html" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>
+                <iframe name="main_frame" id="main_frame" src="/cloud/register" frameborder="0" scrolling="no" allowfullscreen onload="autoResize(this)" height="100%" marginheight="0"></iframe>
             </div>
 
             <!-- Footer -->

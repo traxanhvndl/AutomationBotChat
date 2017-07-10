@@ -290,7 +290,7 @@ box-sizing: border-box;
     height: 100%;
     /*position: absolute;*/
     /*border: none;*/
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 
 #main_frame::after {
