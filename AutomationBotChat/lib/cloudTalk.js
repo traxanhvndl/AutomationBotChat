@@ -9,7 +9,7 @@ module.exports = {
         var previous_step;
         switch (step) {
             case 'Cloud': 
-                message = "Please select: ";
+                message = "Hi! Nice to work with you on Cloud area, I can help you to create a new quota or provide the information of your quota and project. <br> Please select the following function or tell me your query ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
             case 'Request a new Quota':
@@ -98,6 +98,11 @@ module.exports = {
             case "Click here to complete a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
+                break;
+            //PART FOR SMART TALK:
+            case "USER NEED TO CREATE QUOTA":
+                message = "To create a new VM on cloud, firstly, you need a new quota. There are two ways to create a new quota: ";
+                buttonName = "Click here to complete a form andButton Chat with me, I'll create a from for you";
                 break;
             default:
                 buttonName = "Unhandle";

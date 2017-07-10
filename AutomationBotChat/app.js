@@ -1,5 +1,6 @@
 var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
+var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
 // console.dir(ip.address());
 var express = require('express'),
@@ -183,7 +184,7 @@ io.sockets.on('connection', function(socket) {
             selectTopic(users[socket.nickname].id, nextMessage, function(sessionID) {
                 getTopic(sessionID, function() {
                     if (session_topic[sessionID] == "Cloud") {
-                        createMessage(cloudTopic.cloudTopic(nextMessage, user_list[sessionID]), sessionID, function(message, items) {
+                        createMessage(cloudTopic.cloudTopic(nextMessage, user_list[sessionID]), sessionID, data, function(message, items) {
                             users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
                             //log
                             console.log("Here log: " + user_data[sessionID]);
@@ -195,7 +196,7 @@ io.sockets.on('connection', function(socket) {
             selectTopic(users[socket.nickname].id, data, function(sessionID) {
                 getTopic(sessionID, function() {
                     if (session_topic[sessionID] == "Cloud") {
-                        createMessage(cloudTopic.cloudTopic(data, user_list[sessionID]), sessionID, function(message, items) {
+                        createMessage(cloudTopic.cloudTopic(data, user_list[sessionID]), sessionID, data, function(message, items) {
                             users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
                             //log
                             console.log("Here log: " + user_data[sessionID]);
@@ -263,22 +264,45 @@ function getTopic(sessionID, cb) {
 }
 
 // create message
-function createMessage(buttonName, sessionID, cb) {
+function createMessage(buttonName, sessionID, data, cb) {
     var command = buttonName.command;
+    var message = buttonName.message;
     user_data[sessionID] = command;
     var promButton = "";
-    if (buttonName.buttonName != "NA") {
+    if (buttonName.buttonName == "Unhandle"){
+        console.log("LOG FROM SMART TALK: " + cloudSmart.cloudTopic(data))
+        handleSmartTalk(cloudSmart.cloudTopic(data), sessionID, function(Smessage, Sitems, Scommand){
+            message = Smessage;
+            promButton = Sitems;
+            command = Scommand;
+        })
+    }
+    else if (buttonName.buttonName != "NA") {
         for (var i = 0; i < handleButton(buttonName).length; i++) {
             console.log("Button Name : " + handleButton(buttonName)[i]);
             promButton = promButton + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML)\">" + handleButton(buttonName)[i] + "</button>";
         }
     } else promButton = "NA";
 
-    cb(buttonName.message, promButton);
+    cb(message, promButton);
 }
 
 // handle button
 function handleButton(buttonName) {
     if (buttonName.buttonName != "NA") return buttonName.buttonName.split(" andButton ");
     else return "NA";
+}
+
+//Handle SMART TALK
+function handleSmartTalk(Smessage, sessionID, cb) {
+    var promButton = "";
+    var buttonName = cloudTopic.cloudTopic(Smessage, user_list[sessionID]);
+    console.log("HERERERERERREREE: " + buttonName.buttonName);
+    if (buttonName.buttonName != "NA") {
+        for (var i = 0; i < handleButton(buttonName).length; i++) {
+            console.log("Button Name : " + handleButton(buttonName)[i]);
+            promButton = promButton + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML)\">" + handleButton(buttonName)[i] + "</button>";
+        }
+    } else promButton = "NA";
+    cb(buttonName.message, promButton, buttonName.command);
 }
