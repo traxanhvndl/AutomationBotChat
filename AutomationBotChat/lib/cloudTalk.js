@@ -7,16 +7,16 @@ module.exports = {
         var message;
         var command;
         var previous_step;
-        switch (step) {
-            case 'Cloud': 
+        switch (step.toLowerCase()) {
+            case 'cloud': 
                 message = "Hi! Nice to work with you on Cloud area, I can help you to create a new quota or provide the information of your quota and project. <br> Please select the following function or tell me your query ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
-            case 'Request a new Quota':
+            case 'request a new quota':
                 message = "There are two ways to request a new quota: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
                 break;
-            case "Chat with me, I'll create a ticket for you":
+            case "chat with me, i'll create a ticket for you":
                 buttonName = "NA";
                 message = "Please provide your project";
                 command = "project name";
@@ -31,7 +31,7 @@ module.exports = {
                 message = "Please provide your badge ID";
                 command = "badge ID";
                 break;
-            case "badge ID":
+            case "badge id":
                 buttonName = "NA";
                 message = "Please provide your phone number";
                 command = "phone number";
@@ -56,33 +56,33 @@ module.exports = {
                 message = "How many CPU do you need?";
                 command = "CPU";
                 break;
-            case "CPU":
+            case "cpu":
                 buttonName = "NA";
                 message = "How many RAM do you need? please provide in MB";
                 command = "RAM";
                 break;
-            case "RAM":
+            case "ram":
                 buttonName = "NA";
                 message = "Please provide the HDD for your instance in GB";
                 command = "HDD";
                 break;
-            case "HDD":
+            case "hdd":
                 buttonName = "NA";
                 message = "How many days do you need to keep your quota";
                 command = "OK_life time";
                 break;
-            case "OK_life time":
+            case "ok_life time":
                 buttonName = "NA";
                 message = "Please confirm the data you are using to request a new quota <br>";
                 Object.keys(user_data).forEach(function(key){
                     message = message + "<b>" + key.replace("OK_","") + " : </b>" + " " + user_data[key] + "<br>";
                 });
-                message = message + "Please type <b> OK </b> to confirm!";
+                message = message + "Please type <b> CONFIRM </b> to confirm!";
                 break;
-            case "OK":
+            case "confirm":
                 console.log("Previous Step: " + Object.keys(user_data));
                 switch (step) {
-                    case "OK":
+                    case "confirm":
                         createNewTicket(user_data);
                         previous_step = "";
                         buttonName = "NA";
@@ -95,12 +95,12 @@ module.exports = {
                         break;
                 }
                 break;
-            case "Click here to fullfill a form":
+            case "click here to fullfill a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
                 break;
             //PART FOR SMART TALK:
-            case "USER NEED TO CREATE QUOTA":
+            case "user need to create quota":
                 message = "To create a new VM on cloud, firstly, you need a new quota. There are two ways to create a new quota: ";
                 buttonName = "Click here to complete a form andButton Chat with me, I'll create a from for you";
                 break;
@@ -113,6 +113,7 @@ module.exports = {
 };
 
 function createNewTicket(user_data) {
+            console.log("project : " + user_data['project name']);
 			var createTicketArgs = {
 				uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
 				method: 'POST',
@@ -126,7 +127,7 @@ function createNewTicket(user_data) {
 				body: JSON.stringify({
 				  "project": user_data['project name'],
                   "full_name": user_data['full name'],
-                  "bade_id": user_data['badge ID'],
+                  "bage_id": user_data['badge ID'],
                   "email" : user_data['email address'],
                   "phone": user_data['phone number'],
                   "pm_email": user_data["manager's email address"],
