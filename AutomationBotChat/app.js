@@ -297,7 +297,7 @@ function handleButton(buttonName) {
 function handleSmartTalk(Smessage, sessionID, cb) {
     var promButton = "";
     var buttonName = cloudTopic.cloudTopic(Smessage, user_list[sessionID]);
-    console.log("HERERERERERREREE: " + buttonName.buttonName);
+    //console.log("HERERERERERREREE: " + buttonName.buttonName);
     if (buttonName.buttonName != "NA") {
         for (var i = 0; i < handleButton(buttonName).length; i++) {
             console.log("Button Name : " + handleButton(buttonName)[i]);
