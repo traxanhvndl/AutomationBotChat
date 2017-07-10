@@ -72,6 +72,6 @@ function newReceiveMessage(message, items) {
         setDate();
         updateScrollbar();
         i++;
-    }, 500 + (Math.random() * 10) * 500);
+    }, 100 + (Math.random() * 10) * 500);
 
 }
