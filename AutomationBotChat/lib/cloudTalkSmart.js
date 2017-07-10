@@ -1,6 +1,6 @@
 //Common key word
 const COMMON = ["want","wanna","need"];
-const CREATE = ["create","add", "new"];
+const CREATE = ["create","add", "new", "request"];
 const NEGATIVE = ["not", "don't", "no", "failed", "fail", "unable"];
 //Detail
 const D_QUOTA = ["quota","instance","ticket", "VM", "vm", "cloud", "virtual machine", "ternant"];

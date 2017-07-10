@@ -14,9 +14,9 @@ module.exports = {
                 break;
             case 'Request a new Quota':
                 message = "There are two ways to request a new quota: ";
-                buttonName = "Click here to complete a form andButton Chat with me, I'll create a from for you";
+                buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
                 break;
-            case "Chat with me, I'll create a from for you":
+            case "Chat with me, I'll create a ticket for you":
                 buttonName = "NA";
                 message = "Please provide your project";
                 command = "project name";
@@ -68,7 +68,7 @@ module.exports = {
                 break;
             case "HDD":
                 buttonName = "NA";
-                message = "How long do you need to keep your instance";
+                message = "How many days do you need to keep your quota";
                 command = "OK_life time";
                 break;
             case "OK_life time":
@@ -95,7 +95,7 @@ module.exports = {
                         break;
                 }
                 break;
-            case "Click here to complete a form":
+            case "Click here to fullfill a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
                 break;
