@@ -557,10 +557,11 @@ Message Box
 
 .message button:disabled,
 .message .button-info:disabled {
-    color: #969696;
-    border-color: #969696;
-    background: #cbc9c9;
-    cursor: not-allowed;
+    color: #fff;
+    border-color: #c5c5c5;
+    background: #c5c5c5;
+    cursor: default;
+    text-shadow: none;
 }
 
 .message-box textarea:focus:-webkit-placeholder {
