@@ -83,12 +83,18 @@ module.exports = {
                 console.log("Previous Step: " + Object.keys(user_data));
                 switch (step) {
                     case "confirm":
-                        createNewTicket(user_data);
+                        createNewTicket(user_data,function(ticket_id) {
+                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                        }); //, queryTicketByUsername(user_data, function(ticket_id) {
+                           // message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                        //})); 
+                       /* queryTicketByUsername(user_data, function(ticket_id) {
+                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                        });*/
+                        //message = "Your ticket has been created!";
                         previous_step = "";
                         buttonName = "NA";
-                        message = "Your ticket has been created!";
                         break;
-                
                     default:
                         buttonName = "NA";
                         message = "NA";
@@ -112,7 +118,8 @@ module.exports = {
     }
 };
 
-function createNewTicket(user_data) {
+function createNewTicket(user_data, cb) {
+            var ticket_id = "";
             console.log("project : " + user_data['project name']);
 			var createTicketArgs = {
 				uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
@@ -148,7 +155,51 @@ function createNewTicket(user_data) {
 					console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(createTicketArgs)); 
 					return false;
 				}
-				//console.log('Create Device - Create device successfully with deviceId:' + deviceId + ' . device_ID:' + device_id); 
-				//me._logging.logInfo('Create Device - Create device successfully with deviceId:' + deviceId + ' . device_ID:' + device_id); 
+			    var getTicketArgs = {
+                    uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+                    method: 'GET',
+                    qs: { },
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                };
+                RequestPromise(getTicketArgs).then(function(res){				
+                    try {
+                        console.log('Request response:' + res[0].id);
+                        ticket_id = res[0].id;
+                    } catch (err) {
+                        console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs)); 
+                        return false;
+                    }
+                });
 			});
+            cb(ticket_id);
+}
+
+//Query ticket by userName
+
+var queryTicketByUsername = function(user_data, cb) {
+            console.log("project : " + user_data['full name']);
+            var ticket_id = "";
+			var getTicketArgs = {
+				uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+				method: 'GET',
+				qs: { },
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+			};
+
+			RequestPromise(getTicketArgs).then(function(res){				
+				try {
+					console.log('Request response:' + res[0].id);
+                    ticket_id = res[0].id;
+				} catch (err) {
+					console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs)); 
+					return false;
+				}
+			});
+            cb(ticket_id);
 }
