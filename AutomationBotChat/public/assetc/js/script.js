@@ -44,7 +44,6 @@ $(document).ready(function($) {
     socket.on('new_message', function(data) {
         console.log(data)
         newReceiveMessage(data.msg, data.items);
-        updateScrollbar();
     });
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
