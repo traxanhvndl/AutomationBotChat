@@ -44,6 +44,7 @@ $(document).ready(function($) {
     socket.on('new_message', function(data) {
         console.log(data)
         newReceiveMessage(data.msg, data.items);
+        updateScrollbar();
     });
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
@@ -85,8 +86,8 @@ function postopic(topic) {
 };
 
 function clickOnRes(text) {
-    insertMessage(text)
-        // socket.emit('send_message_bot', text, $('#username-content').attr('name'));
+    // insertMessage(text)
+    socket.emit('send_message_bot', text, $('#username-content').attr('name'));
     $(document).ready(function() {
         $(".button5").attr('disabled', 'disabled');
     });

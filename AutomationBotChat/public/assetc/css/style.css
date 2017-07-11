@@ -228,11 +228,19 @@ fieldset[disabled] .btn-contact.active {
     margin-bottom: 30px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.carousel-inner {
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .menu-item:hover {
     /*box-shadow: 5px 5px 3px #000;*/
     border-left: solid 20px #fff;
+    border-right: solid 20px #fff;
 }
 
 .menu-item a {
