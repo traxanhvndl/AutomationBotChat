@@ -113,7 +113,7 @@ app.get('/cloud/ticketId/:full_name', function(req, res) {
             console.log("RESPONSE: " + data[0].id);
             res.writeHead(200, {"Content-Type": "application/json"});
             res.write(JSON.stringify(data));
-            res.end;
+            res.end();
         });
     });
 });
