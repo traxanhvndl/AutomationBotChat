@@ -3,7 +3,7 @@ const COMMON = ["want","wanna","need"];
 const CREATE = ["create","add", "new", "request"];
 const NEGATIVE = ["not", "don't", "no", "failed", "fail", "unable"];
 //Detail
-const D_QUOTA = ["quota","instance","ticket", "VM", "vm", "cloud", "virtual machine", "ternant"];
+const D_QUOTA = ["quota","instance","ticket","vm", "cloud", "virtual machine", "ternant"];
 module.exports = {
     cloudTopic: function(message) {
         var resMessage = "";
@@ -29,7 +29,7 @@ module.exports = {
 
 function guestUserIntent(message,cb) {
     var key_ACTION, key_OBJECT, flag_NEGATIVE;
-
+    message = message.toLowerCase();
     COMMON.forEach(function(key) {
         if (message.indexOf(key) != -1) {
             key_ACTION = "CREATE";

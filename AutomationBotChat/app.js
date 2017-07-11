@@ -2,7 +2,6 @@ var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
 var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
-// console.dir(ip.address());
 var express = require('express'),
     bodyParser = require('body-parser'),
     mysql = require('mysql'),
