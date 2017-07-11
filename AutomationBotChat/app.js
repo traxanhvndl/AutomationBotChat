@@ -105,6 +105,18 @@ app.get('/cloud/register', function(req, res) {
     res.sendfile(__dirname + '/public/tracking/index.html');
 });
 
+app.get('/cloud/ticketId/:full_name', function(req, res) {
+    console.log("FULL NAME: " + req.params.full_name );
+    conn.query('SELECT id FROM user_data WHERE full_name = "' + req.params.full_name + '"', function(error, data) {
+        console.log("RESPONSE: " + data);
+        conn.query('SELECT id FROM detail_quota WHERE user_id = "' + data[0].id + '"', function(error, data) {
+            console.log("RESPONSE: " + data[0].id);
+            res(data);
+            res.end;
+        });
+    });
+});
+
 app.post('/cloud/register', function(req, res) {
     conn.query("INSERT INTO project (id, project_name, is_del) VALUES (NULL, '" + req.body.project + "', '0')", function() {
         conn.query('SELECT id FROM project WHERE project_name = "' + req.body.project + '"', function(error, data) {
