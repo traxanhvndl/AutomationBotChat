@@ -101,7 +101,7 @@ module.exports = {
                 break;
             //PART FOR SMART TALK:
             case "user need to create quota":
-                message = "To create a new VM on cloud, firstly, you need a new quota. There are two ways to create a new quota: ";
+                message = "To create a new VM on cloud, firstly, you need a new quota. There are two ways to request a new quota: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
                 break;
             default:
