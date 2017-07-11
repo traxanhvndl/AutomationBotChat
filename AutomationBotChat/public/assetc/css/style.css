@@ -171,13 +171,14 @@ fieldset[disabled] .btn-contact.active {
 /**** Start Logo Section ****/
 
 #logo-section {
-    padding-top: 50px;
+    padding-top: 80px;
 }
 
 .logo h1 {
     font-family: 'Lobster', cursive;
     color: #fff;
-    font-size: 60px;
+    font-size: 80px;
+    margin: 10px;
 }
 
 .logo span {
@@ -188,27 +189,33 @@ fieldset[disabled] .btn-contact.active {
 /**** Start Background Color ****/
 
 .blue {
-    background: #28ABE3;
+    /*background: #28ABE3;*/
+    background: rgba(40, 171, 227, 0.8);
 }
 
 .green {
     background: #72bf48;
+    background: rgba(114, 191, 72, 0.8);
 }
 
 .red {
     background: #0eceab;
+    background: rgba(14, 206, 171, 0.8);
 }
 
 .light-red {
     background: #FB6648;
+    background: rgba(251, 102, 72, 0.8);
 }
 
 .light-orange {
     background: #FA6900;
+    background: rgba(250, 105, 0, 0.8);
 }
 
 .color {
     background: #0ECEAB;
+    background: rgba(14, 206, 171, 0.8);
 }
 
 
@@ -221,10 +228,11 @@ fieldset[disabled] .btn-contact.active {
 }
 
 .menu-item {
+    /*opacity: 0.8;*/
     box-shadow: 2px 2px 2px #000;
     color: #fff;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     margin-bottom: 30px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
@@ -238,9 +246,10 @@ fieldset[disabled] .btn-contact.active {
 }
 
 .menu-item:hover {
+    opacity: 1;
     /*box-shadow: 5px 5px 3px #000;*/
     border-left: solid 20px #fff;
-    border-right: solid 20px #fff;
+    /*border-right: solid 20px #fff;*/
 }
 
 .menu-item a {
@@ -254,10 +263,11 @@ fieldset[disabled] .btn-contact.active {
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
     font-size: 20px;
+    margin: 0px;
 }
 
 .menu-item a i {
-    font-size: 30px;
+    font-size: 50px;
     /*padding-bottom: 20px;*/
 }
 
