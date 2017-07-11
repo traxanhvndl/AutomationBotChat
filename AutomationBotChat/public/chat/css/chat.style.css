@@ -47,8 +47,15 @@ body {
     border: solid 4px #ffffff;
 }
 
+.disabled {
+    background-color: #c5c5c5;
+    pointer-events: none;
+    cursor: default;
+    box-shadow: none;
+}
+
 #nick_wrap {
-    background-color: #303641;
+    background-color: #111111;
     z-index: 999;
 }
 

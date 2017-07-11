@@ -111,19 +111,19 @@
                 </div>
 
                 <div class="col-md-3">
-                    <div class="menu-item light-red">
-                        <a class="chat-init" href="#cloud-modal" data-toggle="modal">
-                            <i class="fa fa-tasks"></i>
-                            <p>Automation</p>
-                        </a>
-                    </div>
                     <div class="menu-item blue">
-                        <a class="chat-init" href="#cloud-modal" data-toggle="modal">
+                        <a class="chat-init" href="#cloud-modal" data-toggle="modal" name="cloud">
                             <i class="fa fa-cloud"></i>
                             <p>Cloud</p>
                         </a>
                     </div>
-                    <div class="menu-item color">
+                    <div class="menu-item color disabled">
+                        <a class="chat-init" href="#cloud-modal" data-toggle="modal" name="automation">
+                            <i class="fa fa-tasks"></i>
+                            <p>Automation</p>
+                        </a>
+                    </div>
+                    <div class="menu-item light-red">
                         <a href="#contact-modal" data-toggle="modal">
                             <i class="fa fa fa-envelope-o"></i>
                             <p>Contact</p>
@@ -147,19 +147,6 @@
         </div>
     </div>
     <!-- End Copyright Section -->
-    <div class="section-modal modal fade contact" id="automation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-
-            <div class="container">
-            </div>
-        </div>
-    </div>
 
     <div class="section-modal modal fade" id="cloud-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
@@ -211,6 +198,7 @@
 
         <script src="chat/js/chat.index.js"></script>
     </div>
+
 
     <!-- Start Contact Section -->
     <div class="section-modal modal fade contact" id="contact-modal" tabindex="-1" role="dialog" aria-hidden="true">
