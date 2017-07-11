@@ -9,7 +9,7 @@ module.exports = {
         var previous_step;
         switch (step.toLowerCase()) {
             case 'cloud': 
-                message = "Hi! Nice to work with you on Cloud area, I can help you to create a new quota or provide the information of your quota and project. <br> Please select the following function or tell me your query ";
+                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
             case 'request a new quota':
@@ -18,57 +18,57 @@ module.exports = {
                 break;
             case "chat with me, i'll create a ticket for you":
                 buttonName = "NA";
-                message = "Please provide your project";
+                message = "Please input your project";
                 command = "project name";
                 break;
             case "project name":
                 buttonName = "NA";
-                message = "Please provide your full name";
+                message = "Please input your full name";
                 command = "full name";
                 break;
             case "full name":
                 buttonName = "NA";
-                message = "Please provide your badge ID";
+                message = "Please input your badge ID";
                 command = "badge ID";
                 break;
             case "badge id":
                 buttonName = "NA";
-                message = "Please provide your phone number";
+                message = "Please input your phone number";
                 command = "phone number";
                 break;
             case "phone number":
                 buttonName = "NA";
-                message = "Please provide your email address";
+                message = "Please input your email address";
                 command = "email address";
                 break;               
             case "email address":
                 buttonName = "NA";
-                message = "Please provide the email of your manager";
+                message = "Please input the email of your manager";
                 command = "manager's email address";
                 break;
             case "manager's email address":
                 buttonName = "NA";
-                message = "How many instances do you need?";
+                message = "How many instances would you like to use?";
                 command = "instance";
                 break;
             case "instance":
                 buttonName = "NA";
-                message = "How many CPU do you need?";
+                message = "How many CPU would you like to use?";
                 command = "CPU";
                 break;
             case "cpu":
                 buttonName = "NA";
-                message = "How many RAM do you need? please provide in MB";
+                message = "How many RAM (MB) would you like to use?";
                 command = "RAM";
                 break;
             case "ram":
                 buttonName = "NA";
-                message = "Please provide the HDD for your instance in GB";
+                message = "Please input the HDD (GB) for your instance";
                 command = "HDD";
                 break;
             case "hdd":
                 buttonName = "NA";
-                message = "How many days do you need to keep your quota";
+                message = "How many days would you like to use to keep your quota";
                 command = "OK_life time";
                 break;
             case "ok_life time":
@@ -101,7 +101,7 @@ module.exports = {
                 break;
             //PART FOR SMART TALK:
             case "user need to create quota":
-                message = "To create a new VM on cloud, firstly, you need a new quota. There are two ways to request a new quota: ";
+                message = "In order to create a new VM, please select one of the following options: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
                 break;
             default:
