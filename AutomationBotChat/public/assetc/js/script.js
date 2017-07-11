@@ -9,13 +9,14 @@ $(document).ready(function($) {
             $('.progress-bar').css('width', function() { return ($(this).attr('data-percentage') + '%') });
         });
     }, { accY: -100 });
-    $('a[data-toggle="modal"]').change(function(ev) {
-        // $('#nick_name').focus();
-        updateScrollbar();
+    $('.chat-init').click(function(ev) {
+        var topic = $(this).attr('name');
+        // $('#' + topic + '-modal').find('#nick_name').focus();
+        // alert($('#' + topic + '-modal').find('#nick_name').attr('id'))
     });
 
-    $('.login.page').click(function() {
-        $('#nick_name').focus();
+    $('.modal-content').click(function() {
+        $(this).find('#nick_name').focus();
     });
     $('#clear').click(function() {
         $('#nick_name').val('');
@@ -44,9 +45,9 @@ $(document).ready(function($) {
         console.log(data)
         newReceiveMessage(data.msg, data.items);
     });
-    $('.form-inner .messages').click(function(ev) {
-        $('.message-input').focus();
-    });
+    // $('.form-inner .messages').click(function(ev) {
+    //     $('.message-input').focus();
+    // });
 
     function submit() {
         console.log('new user')
