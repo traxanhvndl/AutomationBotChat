@@ -111,7 +111,7 @@ app.get('/cloud/ticketId/:full_name', function(req, res) {
         console.log("RESPONSE: " + data);
         conn.query('SELECT id FROM detail_quota WHERE user_id = "' + data[0].id + '"', function(error, data) {
             console.log("RESPONSE: " + data[0].id);
-            res(data);
+            res.render(data);
             res.end;
         });
     });
