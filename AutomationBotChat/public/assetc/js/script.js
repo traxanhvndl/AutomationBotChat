@@ -11,6 +11,7 @@ $(document).ready(function($) {
     }, { accY: -100 });
     $('.chat-init').click(function(ev) {
         var topic = $(this).attr('name');
+        $('#username-content').attr('topic', topic);
         // $('#' + topic + '-modal').find('#nick_name').focus();
         // alert($('#' + topic + '-modal').find('#nick_name').attr('id'))
     });
@@ -38,7 +39,9 @@ $(document).ready(function($) {
         var display_name = username;
         var nickname = display_name.replace(/ /g, '_');
         $('#mCSB_1_container').children().remove();
-        socket.emit('send_message_bot', 'Cloud', $('#username-content').attr('name'));
+        var topic = $('#username-content').attr('topic');
+        console.log('clear_' + topic);
+        socket.emit('send_message_bot', 'clear_' + topic, $('#username-content').attr('username'));
     });
 
     socket.on('new_message', function(data) {
@@ -57,8 +60,8 @@ $(document).ready(function($) {
         if (nickname == '') {
             nickname = 'Anonymous';
             display_name = nickname;
-            $('#username-content').attr('name', nickname);
         };
+        $('#username-content').attr('username', nickname);
         socket.emit('new_user', nickname, function(data) {
             if (data) {
                 $('#nick_wrap').hide();
@@ -70,7 +73,8 @@ $(document).ready(function($) {
                 $('.message-input').focus();
                 $('div#clean-chat').show();
                 // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
-                postopic('Cloud');
+                var topic = capitalize($('#username-content').attr('topic'));
+                postopic(topic);
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
             }
@@ -81,14 +85,24 @@ $(document).ready(function($) {
 });
 
 function postopic(topic) {
-    socket.emit('send_message_bot', topic, $('#username-content').attr('name'));
+    console.log('send bot msg: ' + topic + ' ' + $('#username-content').attr('username'));
+    socket.emit('send_message_bot', topic, $('#username-content').attr('username'));
 };
 
 function clickOnRes(text) {
     // insertMessage(text)
-    socket.emit('send_message_bot', text, $('#username-content').attr('name'));
+    socket.emit('send_message_bot', text, $('#username-content').attr('username'));
     $(document).ready(function() {
         $(".button5").attr('disabled', 'disabled');
     });
     updateScrollbar();
 };
+
+function capitalize(str) {
+    strVal = '';
+    str = str.split(' ');
+    for (var chr = 0; chr < str.length; chr++) {
+        strVal += str[chr].substring(0, 1).toUpperCase() + str[chr].substring(1, str[chr].length) + ' ';
+    }
+    return strVal;
+}
