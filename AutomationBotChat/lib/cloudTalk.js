@@ -8,7 +8,7 @@ module.exports = {
         var command;
         var previous_step;
         switch (step.toLowerCase()) {
-            case 'cloud': 
+            case 'cloud':
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
@@ -40,7 +40,7 @@ module.exports = {
                 buttonName = "NA";
                 message = "Please input your email address";
                 command = "email address";
-                break;               
+                break;
             case "email address":
                 buttonName = "NA";
                 message = "Please input the email of your manager";
@@ -74,8 +74,8 @@ module.exports = {
             case "ok_life time":
                 buttonName = "NA";
                 message = "Please confirm the data you are using to request a new quota <br>";
-                Object.keys(user_data).forEach(function(key){
-                    message = message + "<b>" + key.replace("OK_","") + " : </b>" + " " + user_data[key] + "<br>";
+                Object.keys(user_data).forEach(function(key) {
+                    message = message + "<b>" + key.replace("OK_", "") + " : </b>" + " " + user_data[key] + "<br>";
                 });
                 message = message + "Please type <b> CONFIRM </b> to confirm!";
                 break;
@@ -83,14 +83,14 @@ module.exports = {
                 console.log("Previous Step: " + Object.keys(user_data));
                 switch (step) {
                     case "confirm":
-                        createNewTicket(user_data,function(ticket_id) {
-                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                        createNewTicket(user_data, function(ticket_id) {
+                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>" + ticket_id + " </a> ";
                         }); //, queryTicketByUsername(user_data, function(ticket_id) {
-                           // message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                        // message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
                         //})); 
-                       /* queryTicketByUsername(user_data, function(ticket_id) {
-                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
-                        });*/
+                        /* queryTicketByUsername(user_data, function(ticket_id) {
+                             message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                         });*/
                         //message = "Your ticket has been created!";
                         previous_step = "";
                         buttonName = "NA";
@@ -105,101 +105,105 @@ module.exports = {
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
                 break;
-            //PART FOR SMART TALK:
+                //PART FOR SMART TALK:
             case "user need to create quota":
                 message = "In order to create a new VM, please select one of the following options: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
+                break;
+            case "clear_cloud":
+                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
+                buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
             default:
                 buttonName = "Unhandle";
                 break;
         }
-        return {'buttonName' :  buttonName, 'message' : message, 'command' : command };
+        return { 'buttonName': buttonName, 'message': message, 'command': command };
     }
 };
 
 function createNewTicket(user_data, cb) {
-            var ticket_id = "";
-            console.log("project : " + user_data['project name']);
-			var createTicketArgs = {
-				uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
-				method: 'POST',
-				qs: {
-					key: "ABC"
-				},
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-				  "project": user_data['project name'],
-                  "full_name": user_data['full name'],
-                  "bage_id": user_data['badge ID'],
-                  "email" : user_data['email address'],
-                  "phone": user_data['phone number'],
-                  "pm_email": user_data["manager's email address"],
-                  "life_time" : user_data['OK_life time'],
-                  "instance" : user_data['instance'],
-                  "cpu" : user_data['CPU'],
-                  "ram" : user_data['RAM'],
-                  "hdd" : user_data['HDD'],
-                  "note" : "Create by BOT",
-				  "group_image": {}
-				})
-			};
+    var ticket_id = "";
+    console.log("project : " + user_data['project name']);
+    var createTicketArgs = {
+        uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
+        method: 'POST',
+        qs: {
+            key: "ABC"
+        },
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "project": user_data['project name'],
+            "full_name": user_data['full name'],
+            "bage_id": user_data['badge ID'],
+            "email": user_data['email address'],
+            "phone": user_data['phone number'],
+            "pm_email": user_data["manager's email address"],
+            "life_time": user_data['OK_life time'],
+            "instance": user_data['instance'],
+            "cpu": user_data['CPU'],
+            "ram": user_data['RAM'],
+            "hdd": user_data['HDD'],
+            "note": "Create by BOT",
+            "group_image": {}
+        })
+    };
 
-			RequestPromise(createTicketArgs).then(function(res){				
-				try {
-					console.log('Request response:' + res);
-				} catch (err) {
-					console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(createTicketArgs)); 
-					return false;
-				}
-			    var getTicketArgs = {
-                    uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
-                    method: 'GET',
-                    qs: { },
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                };
-                RequestPromise(getTicketArgs).then(function(res){				
-                    try {
-                        console.log('Request response:' + res[0].id);
-                        ticket_id = res[0].id;
-                    } catch (err) {
-                        console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs)); 
-                        return false;
-                    }
-                });
-			});
-            cb(ticket_id);
+    RequestPromise(createTicketArgs).then(function(res) {
+        try {
+            console.log('Request response:' + res);
+        } catch (err) {
+            console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(createTicketArgs));
+            return false;
+        }
+        var getTicketArgs = {
+            uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+            method: 'GET',
+            qs: {},
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        };
+        RequestPromise(getTicketArgs).then(function(res) {
+            try {
+                console.log('Request response:' + res[0].id);
+                ticket_id = res[0].id;
+            } catch (err) {
+                console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));
+                return false;
+            }
+        });
+    });
+    cb(ticket_id);
 }
 
 //Query ticket by userName
 
 var queryTicketByUsername = function(user_data, cb) {
-            console.log("project : " + user_data['full name']);
-            var ticket_id = "";
-			var getTicketArgs = {
-				uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
-				method: 'GET',
-				qs: { },
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-			};
+    console.log("project : " + user_data['full name']);
+    var ticket_id = "";
+    var getTicketArgs = {
+        uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+        method: 'GET',
+        qs: {},
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    };
 
-			RequestPromise(getTicketArgs).then(function(res){				
-				try {
-					console.log('Request response:' + res[0].id);
-                    ticket_id = res[0].id;
-				} catch (err) {
-					console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs)); 
-					return false;
-				}
-			});
-            cb(ticket_id);
+    RequestPromise(getTicketArgs).then(function(res) {
+        try {
+            console.log('Request response:' + res[0].id);
+            ticket_id = res[0].id;
+        } catch (err) {
+            console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));
+            return false;
+        }
+    });
+    cb(ticket_id);
 }
