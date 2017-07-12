@@ -74,7 +74,7 @@ $(document).ready(function($) {
                 $('div#clean-chat').show();
                 // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
                 var topic = capitalize($('#username-content').attr('topic'));
-                postopic(topic);
+                postopic('Cloud');
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
             }
