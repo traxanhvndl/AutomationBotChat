@@ -46,7 +46,7 @@ $(document).ready(function($) {
     });
 
     socket.on('new_message', function(data) {
-        console.log(data)
+        // console.log(data)
         newReceiveMessage(data.msg, data.items);
     });
     // $('.form-inner .messages').click(function(ev) {
@@ -54,7 +54,7 @@ $(document).ready(function($) {
     // });
 
     function submit(topic) {
-        console.log('new user')
+        // console.log('new user')
         var display_name = $('#nick_name').val();
         username = display_name;
         var nickname = display_name.replace(/ /g, '_');
@@ -75,7 +75,7 @@ $(document).ready(function($) {
                 // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
                 $('#username-content').attr('username', nickname);
                 $('#username-content').attr('useractive', 'active');
-                console.log('ahihi : ' + topic);
+                // console.log('ahihi : ' + topic);
                 postopic(topic);
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
@@ -87,7 +87,7 @@ $(document).ready(function($) {
 });
 
 function postopic(topic) {
-    console.log('send bot msg: ' + topic + ':' + $('#username-content').attr('username'));
+    // console.log('send bot msg: ' + topic + ':' + $('#username-content').attr('username'));
     socket.emit('send_message_bot', topic, $('#username-content').attr('username'));
 };
 
@@ -115,6 +115,6 @@ function clearChat() {
     var nickname = display_name.replace(/ /g, '_');
     $('#mCSB_1_container').children().remove();
     var topic = $('#username-content').attr('topic');
-    console.log('clear_' + topic);
+    // console.log('clear_' + topic);
     socket.emit('send_message_bot', 'clear_' + topic, $('#username-content').attr('username'));
 }
