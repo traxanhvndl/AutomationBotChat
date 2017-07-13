@@ -192,35 +192,7 @@ function createNewTicket(user_data, cb) {
                     }
                 });
                 console.log('ticket ID :' +ticket_id);
-                //cb("123");
 			});
-   /* RequestPromise(createTicketArgs).then(function(res) {
-        try {
-            console.log('Request response:' + res);
-        } catch (err) {
-            console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(createTicketArgs));
-            return false;
-        }
-        var getTicketArgs = {
-            uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
-            method: 'GET',
-            qs: {},
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        };
-        RequestPromise(getTicketArgs).then(function(res) {
-            try {
-                console.log('Request response:' + res[0].id);
-                ticket_id = res[0].id;
-            } catch (err) {
-                console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));
-                return false;
-            }
-        });
-    });
-    cb(ticket_id);*/
 }
 
 //Query ticket by userName
