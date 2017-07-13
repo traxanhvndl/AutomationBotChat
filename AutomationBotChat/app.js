@@ -127,7 +127,7 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
     conn.query('SELECT * FROM detail_quota WHERE id like "' + req.params.ticketID + '"', function(error, data) {
         if (typeof data[0] == "undefined") {
             res.writeHead(200, {"Content-Type": "application/json"});
-            res.write(JSON.stringify({"status" : "failed", "message" : "invalid ticket ID"}));
+            res.write(JSON.stringify([{"status" : "failed", "message" : "invalid ticket ID", "id" : "invalid"}]));
             res.end();
         }
         else {
@@ -168,7 +168,7 @@ app.post('/cloud/register', function(req, res) {
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
                             res.writeHead(200);
-                            res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
+                            //res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
                             res.end();
                         });
                     });

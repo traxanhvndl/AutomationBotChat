@@ -109,8 +109,12 @@ const RequestPromise = require('request-promise');
                 command = "query_ticket";
                 break;
             case "query_ticket":
-                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
-                buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
+                validateTicket(user_data['query_ticket'], function(Imessage) {
+                        previous_step = "";
+                        buttonName = "NA";
+                        message = "Imessage";
+                        cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                })
                 break;
                 //PART FOR SMART TALK:
             case "user need to create quota":
@@ -227,6 +231,26 @@ var queryTicketByUsername = function(user_data, cb) {
 }
 
 function validateTicket(ticketID, cb) {
-
+    var message = "";
+    var getTicketArgs = {
+        uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticket/ticketID/' + ticketID,
+        method: 'GET',
+        qs: {},
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    };
+    RequestPromise(getTicketArgs).then(function(res) {
+        try {
+            console.log('Request response:' + res[0].id);
+            message = res[0].id;
+            cb(message);
+        } catch (err) {
+            console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));
+            cd("There is something wrong, please try again later");
+            return false;
+        }
+    });
     
 }
