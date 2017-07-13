@@ -764,5 +764,5 @@ Bounce
     background-size: cover;
     background-position: 0px 0px;
     background-repeat: repeat-x;
-    animation: animatedBackground 150s linear infinite;
+    animation: animatedBackground 200s linear infinite;
 }
