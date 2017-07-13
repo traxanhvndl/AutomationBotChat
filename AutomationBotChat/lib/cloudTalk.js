@@ -90,7 +90,7 @@ const RequestPromise = require('request-promise');
                     case "confirm":
                         createNewTicket(user_data, function(ticket_id) {
                             console.log("Ticket ID : " + ticket_id);
-                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                            message = "Your ticket ID is "+ ticket_id  + ". Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>"+ "HERE" + " </a> to view your ticket ";
                             previous_step = "";
                             buttonName = "NA";
                             console.log("Send message: " + message);
