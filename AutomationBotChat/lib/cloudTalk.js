@@ -1,7 +1,8 @@
 //talking about cloud topic
 const RequestPromise = require('request-promise');
-module.exports = {
-    cloudTopic: function(step, user_data) {
+//module.exports = {
+   //cloudTopic: function(step, user_data) {
+       function cloudTopic(step, user_data, sessionID, cb1, cb) {
         var ipaddr = require("ip");
         var buttonName;
         var message;
@@ -9,6 +10,10 @@ module.exports = {
         var previous_step;
         switch (step.toLowerCase()) {
             case 'cloud': 
+                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
+                buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
+                break;
+            case "clear_cloud":
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
@@ -83,17 +88,15 @@ module.exports = {
                 console.log("Previous Step: " + Object.keys(user_data));
                 switch (step) {
                     case "confirm":
-                        createNewTicket(user_data,function(ticket_id) {
-                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
-                        }); //, queryTicketByUsername(user_data, function(ticket_id) {
-                           // message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
-                        //})); 
-                       /* queryTicketByUsername(user_data, function(ticket_id) {
-                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id='" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
-                        });*/
-                        //message = "Your ticket has been created!";
-                        previous_step = "";
-                        buttonName = "NA";
+                        createNewTicket(user_data, function(ticket_id) {
+                            console.log("Ticket ID : " + ticket_id);
+                            message = "Your ticket has been created! Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>"+ ticket_id + " </a> ";
+                            previous_step = "";
+                            buttonName = "NA";
+                            console.log("Send message: " + message);
+                            console.log("MESSAGE TYPE: " + typeof message);
+                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                        });
                         break;
                     default:
                         buttonName = "NA";
@@ -111,12 +114,22 @@ module.exports = {
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
                 break;
             default:
-                buttonName = "Unhandle";
+                message = "I didn't catch you, could you type another words?";
+                buttonName = "NA";
                 break;
         }
-        return {'buttonName' :  buttonName, 'message' : message, 'command' : command };
-    }
-};
+                console.log("MESSAGE TYPE: " + typeof message);
+                console.log("Message to return: " + message);
+                while (typeof message !== "undefined") {
+                    if (typeof cb !== "undefined"){
+                        cb({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                    }
+                    return {'buttonName' :  buttonName, 'message' : message, 'command' : command };
+                   break;
+               } 
+    };
+//};
+exports.cloudTopic = cloudTopic;
 
 function createNewTicket(user_data, cb) {
             var ticket_id = "";
@@ -166,15 +179,17 @@ function createNewTicket(user_data, cb) {
                 };
                 RequestPromise(getTicketArgs).then(function(res){				
                     try {
-                        console.log('Request response:' + res[0].id);
-                        ticket_id = res[0].id;
+                        ticket_id = JSON.parse(res)[0].id;
+                        cb(ticket_id);
+                        console.log('ticket ID :' +ticket_id);
                     } catch (err) {
                         console.log('Create Group - Can not parse the content of request. Error: '+ err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs)); 
                         return false;
                     }
                 });
+                console.log('ticket ID :' +ticket_id);
+                //cb("123");
 			});
-            cb(ticket_id);
 }
 
 //Query ticket by userName
