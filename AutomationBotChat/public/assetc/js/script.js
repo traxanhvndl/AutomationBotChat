@@ -10,7 +10,13 @@ $(document).ready(function($) {
         });
     }, { accY: -100 });
     $('.chat-init').click(function(ev) {
+        var cur_topic = $('#username-content').attr('topic');
         var topic = $(this).attr('name');
+        var useractive = $('#username-content').attr('useractive');
+        $('#username-content').attr('topic', topic);
+        if (cur_topic != topic && useractive == 'active') {
+            clearChat();
+        };
         // $('#' + topic + '-modal').find('#nick_name').focus();
         // alert($('#' + topic + '-modal').find('#nick_name').attr('id'))
     });
@@ -22,9 +28,10 @@ $(document).ready(function($) {
         $('#nick_name').val('');
     });
     $('#nick_name').on('focus keydown', function(e) {
+        var topic = capitalize($('#username-content').attr('topic')).trim();
         if (e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
-            submit();
+            submit(topic);
             return false;
         };
         if ($('#nick_name').val() != "") {
@@ -35,29 +42,25 @@ $(document).ready(function($) {
     });
 
     $('#cloud-modal .clean-chat').click(function(ev) {
-        var display_name = username;
-        var nickname = display_name.replace(/ /g, '_');
-        $('#mCSB_1_container').children().remove();
-        socket.emit('send_message_bot', 'Cloud', $('#username-content').attr('name'));
+        clearChat();
     });
 
     socket.on('new_message', function(data) {
-        console.log(data)
+        // console.log(data)
         newReceiveMessage(data.msg, data.items);
     });
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
     // });
 
-    function submit() {
-        console.log('new user')
+    function submit(topic) {
+        // console.log('new user')
         var display_name = $('#nick_name').val();
         username = display_name;
         var nickname = display_name.replace(/ /g, '_');
         if (nickname == '') {
             nickname = 'Anonymous';
             display_name = nickname;
-            $('#username-content').attr('name', nickname);
         };
         socket.emit('new_user', nickname, function(data) {
             if (data) {
@@ -70,7 +73,10 @@ $(document).ready(function($) {
                 $('.message-input').focus();
                 $('div#clean-chat').show();
                 // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
-                postopic('Cloud');
+                $('#username-content').attr('username', nickname);
+                $('#username-content').attr('useractive', 'active');
+                // console.log('ahihi : ' + topic);
+                postopic(topic);
             } else {
                 $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
             }
@@ -81,14 +87,34 @@ $(document).ready(function($) {
 });
 
 function postopic(topic) {
-    socket.emit('send_message_bot', topic, $('#username-content').attr('name'));
+    // console.log('send bot msg: ' + topic + ':' + $('#username-content').attr('username'));
+    socket.emit('send_message_bot', topic, $('#username-content').attr('username'));
 };
 
 function clickOnRes(text) {
     // insertMessage(text)
-    socket.emit('send_message_bot', text, $('#username-content').attr('name'));
+    socket.emit('send_message_bot', text, $('#username-content').attr('username'));
     $(document).ready(function() {
         $(".button5").attr('disabled', 'disabled');
     });
     updateScrollbar();
 };
+
+function capitalize(str) {
+    strVal = '';
+    str = str.split(' ');
+    for (var chr = 0; chr < str.length; chr++) {
+        strVal += str[chr].substring(0, 1).toUpperCase() + str[chr].substring(1, str[chr].length) + ' ';
+    }
+    return strVal;
+}
+
+function clearChat() {
+    var username = $('#username-content').attr('username');
+    var display_name = username;
+    var nickname = display_name.replace(/ /g, '_');
+    $('#mCSB_1_container').children().remove();
+    var topic = $('#username-content').attr('topic');
+    // console.log('clear_' + topic);
+    socket.emit('send_message_bot', 'clear_' + topic, $('#username-content').attr('username'));
+}
