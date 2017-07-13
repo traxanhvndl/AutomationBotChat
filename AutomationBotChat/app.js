@@ -109,7 +109,7 @@ app.get('/cloud/register', function(req, res) {
     res.sendfile(__dirname + '/public/tracking/index.html');
 });
 //GET ticketID by username
-app.get('/cloud/ticketId/:full_name', function(req, res) {
+app.get('/cloud/ticket/fullName/:full_name', function(req, res) {
     console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT id FROM user_data WHERE full_name = "' + req.params.full_name + '"', function(error, data) {
         console.log("RESPONSE: " + data);
@@ -122,7 +122,7 @@ app.get('/cloud/ticketId/:full_name', function(req, res) {
     });
 });
 //GET ticket detail by ID
-app.get('/cloud/ticketId/:ticketID', function(req, res) {
+app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
     //console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT * FROM detail_quota WHERE id = "' + req.params.ticketID + '"', function(error, data) {
         if (error) {

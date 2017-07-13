@@ -177,7 +177,7 @@ function createNewTicket(user_data, cb) {
 					return false;
 				}
 			    var getTicketArgs = {
-                    uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+                    uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticket/fullName/' + user_data['full name'],
                     method: 'GET',
                     qs: { },
                     headers: {
@@ -227,6 +227,6 @@ var queryTicketByUsername = function(user_data, cb) {
 }
 
 function validateTicket(ticketID, cb) {
-    
+
     
 }
