@@ -108,7 +108,7 @@ app.get('/cloud/register', function(req, res) {
     console.log('Connected !')
     res.sendfile(__dirname + '/public/tracking/index.html');
 });
-
+//GET ticketID by username
 app.get('/cloud/ticketId/:full_name', function(req, res) {
     console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT id FROM user_data WHERE full_name = "' + req.params.full_name + '"', function(error, data) {
@@ -119,6 +119,22 @@ app.get('/cloud/ticketId/:full_name', function(req, res) {
             res.write(JSON.stringify(data));
             res.end();
         });
+    });
+});
+//GET ticket detail by ID
+app.get('/cloud/ticketId/:ticketID', function(req, res) {
+    //console.log("FULL NAME: " + req.params.full_name );
+    conn.query('SELECT * FROM detail_quota WHERE id = "' + req.params.ticketID + '"', function(error, data) {
+        if (error) {
+            res.writeHead(200, {"Content-Type": "application/json"});
+            res.write(JSON.stringify({"status" : "failed", "message" : "invalid ticket ID"}));
+            res.end();
+        }
+        else {
+            res.writeHead(200, {"Content-Type": "application/json"});
+            res.write(JSON.stringify(data));
+            res.end();
+        }
     });
 });
 
@@ -152,7 +168,7 @@ app.post('/cloud/register', function(req, res) {
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
                             res.writeHead(200);
-                            //res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
+                            res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
                             res.end();
                         });
                     });

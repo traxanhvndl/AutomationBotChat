@@ -13,10 +13,6 @@ const RequestPromise = require('request-promise');
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
-            case "clear_cloud":
-                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
-                buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
-                break;
             case 'request a new quota':
                 message = "There are two ways to request a new quota: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
@@ -85,7 +81,6 @@ const RequestPromise = require('request-promise');
                 message = message + "Please type <b> CONFIRM </b> to confirm!";
                 break;
             case "confirm":
-                console.log("Previous Step: " + Object.keys(user_data));
                 switch (step) {
                     case "confirm":
                         createNewTicket(user_data, function(ticket_id) {
@@ -107,6 +102,15 @@ const RequestPromise = require('request-promise');
             case "click here to fullfill a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
+                break;
+            case "view my ticket":
+                message = "Please input your ticket ID";
+                buttonName = "NA";
+                command = "query_ticket";
+                break;
+            case "query_ticket":
+                message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
+                buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
                 //PART FOR SMART TALK:
             case "user need to create quota":
@@ -220,4 +224,9 @@ var queryTicketByUsername = function(user_data, cb) {
         }
     });
     cb(ticket_id);
+}
+
+function validateTicket(ticketID, cb) {
+    
+    
 }

@@ -1,7 +1,8 @@
 //Common key word
 const COMMON = ["want","wanna","need"];
-const CREATE = ["create","add", "new", "request"];
+const CREATE = ["create","add", "new", "request", "make", "build"];
 const NEGATIVE = ["not", "don't", "no", "failed", "fail", "unable"];
+const QUERY = ["view", "query", "check", "show"];
 //Detail
 const D_QUOTA = ["quota","instance","ticket","vm", "cloud", "virtual machine", "ternant"];
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
 function guestUserIntent(message,cb) {
     var key_ACTION, key_OBJECT, flag_NEGATIVE;
     message = message.toLowerCase();
+    //GET MAIN ACTION
     COMMON.forEach(function(key) {
         if (message.indexOf(key) != -1) {
             key_ACTION = "CREATE";
@@ -46,6 +48,15 @@ function guestUserIntent(message,cb) {
         }
     }, this);
 
+    QUERY.forEach(function(key) {
+        if (message.indexOf(key) != -1) {
+            key_ACTION = "QUERY";
+            console.log("QUERY");
+            //break;
+        }
+    }, this);
+
+    //GET MAIN OBJECT
     D_QUOTA.forEach(function(key) {
         if (message.indexOf(key) != -1) {
             key_OBJECT = "QUOTA";
