@@ -1,7 +1,5 @@
  $(document).ready(function() {
-     alert('dkm')
      var setRecommandValues = function() {
-         alert('đì phâu')
          $('[name="life_time"]').val(7);
          $('[name="instance"]').val(1);
          $('[name="cpu"]').val(1);
@@ -15,7 +13,6 @@
      }
 
      var removeRecommandValues = function() {
-         alert('cức tôm')
          $('[name="life_time"]').prop("disabled", false);
          $('[name="instance"]').prop("disabled", false);
          $('[name="cpu"]').prop("disabled", false);
