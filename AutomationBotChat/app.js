@@ -208,6 +208,7 @@ io.sockets.on('connection', function(socket) {
     // Process for BOT if getting command from topic
     socket.on('send_message_bot', function(data, sendto) {
         var sessionID = users[socket.nickname].id;
+        var tmp_message = "";
         if ("" + user_list[sessionID] == 'undefined') {
             var tmp = {};
             user_list[sessionID] = tmp;
@@ -225,8 +226,10 @@ io.sockets.on('connection', function(socket) {
                 getTopic(sessionID, function() {
                     if (session_topic[sessionID] == "Cloud") {
                         createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items) {
-                            users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
-                            //log
+                            tmp_message = message;
+                            if (tmp_message !== "I didn't catch you, could you type another words?") {
+                                users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                            }
                             console.log("Here log: " + user_data[sessionID]);
                         })
                     }
@@ -237,7 +240,10 @@ io.sockets.on('connection', function(socket) {
                 getTopic(sessionID, function() {
                     if (session_topic[sessionID] == "Cloud") {
                         createMessage(data, user_list[sessionID], sessionID, data, function(message, items) {
-                            users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                            tmp_message = message;
+                            if (tmp_message !== "I didn't catch you, could you type another words?") {
+                                users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                            }
                             //log
                             console.log("Here log: " + user_data[sessionID]);
                         })
@@ -250,8 +256,8 @@ io.sockets.on('connection', function(socket) {
                 users[socket.nickname].emit('new_message', { msg: session_topic[users[socket.nickname].id], nick: 'BOT', sendto: sendto });
             } else {
                 contactToAIAPI(data, function() {
-                    if (AIData.result.action == "smalltalk.greetings.hello") {
-                        users[socket.nickname].emit('new_message', { msg: AIMessage + " " + socket.nickname + "! What do you want to talk? " + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML);this.disabled=true;\">Automation</button>" + " " + "<button class = \"button5\" type=\"button\" name = \"res_button_1\" onclick=\"clickOnRes(this.innerHTML)\">Cloud</button>", nick: 'BOT', sendto: sendto });
+                    if (tmp_message == "I didn't catch you, could you type another words?") {
+                        users[socket.nickname].emit('new_message', { msg: AIMessage, nick: 'BOT', sendto: sendto });
                     }
                     //else users[socket.nickname].emit('new_message',{msg: AIMessage, nick: 'BOT', sendto: sendto});
                 });
