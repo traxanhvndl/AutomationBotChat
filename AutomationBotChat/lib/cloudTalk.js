@@ -110,9 +110,15 @@ const RequestPromise = require('request-promise');
                 break;
             case "query_ticket":
                 validateTicket(user_data['query_ticket'], function(Imessage) {
+                        console.log("I-MESSGAE: " + Imessage);
                         previous_step = "";
                         buttonName = "NA";
-                        message = "Imessage";
+                        if (Imessage == "invalid") {
+                            message = "Your ticket ID is invalid, please provide another ticket ID.";
+                        }
+                        else {
+                            message = "Please click <a href='http://11.11.254.69/tracking/ticket.php?id=" + Imessage + "' target='_blank'>"+ "HERE" + " </a> to view your ticket detail ";
+                        }
                         cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
                 })
                 break;
@@ -124,6 +130,11 @@ const RequestPromise = require('request-promise');
             case "clear_cloud":
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
+                break;
+            case "user need to query quota":
+                message = "Look like you need to check your ticket, please input your ticket ID";
+                buttonName = "NA";
+                command = "query_ticket";
                 break;
             default:
                 message = "I didn't catch you, could you type another words?";
@@ -232,6 +243,7 @@ var queryTicketByUsername = function(user_data, cb) {
 
 function validateTicket(ticketID, cb) {
     var message = "";
+    console.log("QUERY TICKET ID : " + ticketID);
     var getTicketArgs = {
         uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticket/ticketID/' + ticketID,
         method: 'GET',
@@ -243,8 +255,9 @@ function validateTicket(ticketID, cb) {
     };
     RequestPromise(getTicketArgs).then(function(res) {
         try {
-            console.log('Request response:' + res[0].id);
-            message = res[0].id;
+            console.log('Request response:' + res);
+            message = JSON.parse(res)[0].id;
+            console.log("MESSAGE - TO - RETURN: " + message);
             cb(message);
         } catch (err) {
             console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));

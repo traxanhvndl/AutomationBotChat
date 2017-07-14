@@ -2,7 +2,7 @@
 const COMMON = ["want","wanna","need"];
 const CREATE = ["create","add", "new", "request", "make", "build"];
 const NEGATIVE = ["not", "don't", "no", "failed", "fail", "unable"];
-const QUERY = ["view", "query", "check", "show"];
+const QUERY = ["view", "query", "check", "show", "link", "how is", "how are"];
 //Detail
 const D_QUOTA = ["quota","instance","ticket","vm", "cloud", "virtual machine", "ternant"];
 module.exports = {
