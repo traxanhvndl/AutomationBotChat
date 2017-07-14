@@ -93,7 +93,11 @@ var neonChat = neonChat || {
             $('#set_nick').submit(function() {
                 var display_name = $('#nick_name').val();
                 var nickname = display_name.replace(/ /g, '_');
-                socket.emit('new_user', nickname, display_name, function(data) {
+                if (nickname == '') {
+                    nickname = 'Anonymous';
+                    display_name = nickname;
+                };
+                socket.emit('new_user', nickname, function(data) {
                     if (data) {
                         $('#nick_wrap').hide();
                         $('div#chat').attr('data-current-user', nickname);

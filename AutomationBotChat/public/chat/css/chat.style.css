@@ -56,6 +56,7 @@ body {
 
 #nick_wrap {
     background: url(/assetc/images/background.jpg) no-repeat;
+    background-size: cover;
     background-color: #111111;
     z-index: 999;
 }
@@ -310,6 +311,8 @@ Messages
     overflow: hidden;
     position: relative;
     width: 100%;
+    background: url(/assetc/images/background.jpg) no-repeat;
+    background-size: cover;
 }
 
 .messages .messages-content {
@@ -318,7 +321,6 @@ Messages
     left: 0;
     height: 101%;
     width: 100%;
-    background: url(/assetc/images/background.jpg) repeat;
 }
 
 .messages .message {
@@ -774,7 +776,7 @@ Bounce
 #animate-area {
     /*width: 560px;
     height: 400px;*/
-    background-image: url(/images/cloud.png);
+    background-image: url(/assetc/images/background.jpg);
     background-size: cover;
     background-position: 0px 0px;
     background-repeat: repeat-x;
