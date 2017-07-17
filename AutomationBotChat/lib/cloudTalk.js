@@ -170,7 +170,7 @@ function createNewTicket(user_data, cb) {
     var ticket_id = "";
     console.log("project : " + user_data['project name']);
     var createTicketArgs = {
-        uri: 'http://' + "11.11.254.69" + ':3000/cloud/register',
+        uri: 'http://' + "11.11.254.69" + ':3000/cloud/BOTregister',
         method: 'POST',
         qs: {
             key: "ABC"
