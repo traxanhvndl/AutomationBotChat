@@ -67,7 +67,7 @@
                      stringLength: {
                          min: 6,
                          max: 30,
-                         message: 'The username must be more than 6 and less than 30 characters long'
+                         message: 'The username should be more than 6 and less than 30 characters long'
                      },
                      regexp: {
                          regexp: /^[a-zA-Z0-9_\.]+$/,
@@ -101,7 +101,7 @@
              phone: {
                  validators: {
                      phone: {
-                         message: 'The input is not a valid US phone number'
+                         message: 'The input is not a valid phone number'
                      }
                  }
              },
@@ -138,12 +138,16 @@
                      lessThan: {
                          value: 90,
                          inclusive: true,
-                         message: 'Life time must be less than 90'
+                         message: 'Life time should be less than 90'
                      },
                      greaterThan: {
                          value: 1,
                          inclusive: false,
-                         message: 'Life time must be greater than or equal to 1'
+                         message: 'Life time should be greater than or equal to 1'
+                     },
+                     regexp: {
+                         regexp: /^[0-9]+$/,
+                         message: 'Life time should be positive numbers'
                      }
                  }
              },
@@ -155,12 +159,16 @@
                      lessThan: {
                          value: 5,
                          inclusive: true,
-                         message: 'CPU must be less than 5'
+                         message: 'CPU should be less than 5'
                      },
                      greaterThan: {
                          value: 1,
                          inclusive: false,
-                         message: 'CPU must be greater than or equal to 1'
+                         message: 'CPU should be greater than or equal to 1'
+                     },
+                     regexp: {
+                         regexp: /^[0-9]+$/,
+                         message: 'Instance should be positive numbers'
                      }
                  }
              },
@@ -172,12 +180,16 @@
                      lessThan: {
                          value: 16,
                          inclusive: true,
-                         message: 'CPU must be less than 16'
+                         message: 'CPU should be less than 16'
                      },
                      greaterThan: {
                          value: 1,
                          inclusive: false,
-                         message: 'CPU must be greater than or equal to 1'
+                         message: 'CPU should be greater than or equal to 1'
+                     },
+                     regexp: {
+                         regexp: /^[0-9]+$/,
+                         message: 'CPU should be positive numbers'
                      }
                  }
              },
@@ -189,7 +201,11 @@
                      greaterThan: {
                          value: 512,
                          inclusive: false,
-                         message: 'RAM must be greater than or equal to 512'
+                         message: 'RAM should be greater than or equal to 512'
+                     },
+                     regexp: {
+                         regexp: /^[0-9]+$/,
+                         message: 'RAM should be positive numbers'
                      }
                  }
              },
@@ -201,7 +217,11 @@
                      greaterThan: {
                          value: 80,
                          inclusive: false,
-                         message: 'HDD must be greater than or equal to 80'
+                         message: 'HDD should be greater than or equal to 80'
+                     },
+                     regexp: {
+                         regexp: /^[0-9]+$/,
+                         message: 'HDD should be positive numbers'
                      }
                  }
              },
