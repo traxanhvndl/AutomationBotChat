@@ -183,7 +183,8 @@
         </div>
         <div class="main-content">
             <div class="row">
-                <iframe name="main_frame" id="main_frame" src="/cloud/register" frameborder="0" scrolling="no" allowfullscreen onload="autoResize(this)" height="100%" marginheight="0"></iframe>
+                <iframe name="main_frame" id="main_frame" src="/cloud/register" frameborder="0" scrolling="no" allowfullscreen onload="autoResize(this)" height="100%" marginheight="0">
+                </iframe>
             </div>
             <script>
                 function resizeIframe(obj) {
@@ -191,7 +192,7 @@
                 };
 
                 function autoResize() {
-                    $('#main_frame').height($('#main_frame').contents().height());
+                    $('#main_frame').height(parseInt($('#main_frame').contents().height() + 30));
                 }
             </script>
             <!-- Footer -->
