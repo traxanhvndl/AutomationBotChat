@@ -326,6 +326,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         message = Smessage;
                         promButton = Sitems;
                         command = Scommand;
+                        user_data[sessionID] = command;
                     })
                 }
                 else if (buttonName.buttonName != "NA") {
