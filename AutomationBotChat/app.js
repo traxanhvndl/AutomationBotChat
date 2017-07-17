@@ -239,67 +239,72 @@ io.sockets.on('connection', function(socket) {
 
     // Process for BOT if getting command from topic
     socket.on('send_message_bot', function(data, sendto) {
-        var sessionID = users[socket.nickname].id;
-        var tmp_message = "";
-        if ("" + user_list[sessionID] == 'undefined') {
-            var tmp = {};
-            user_list[sessionID] = tmp;
+        if (typeof users[socket.nickname] == "undefined"){
+            console.log("WE GOT A DEAD SESSION!");
         }
-        console.log("OBJECT: " + user_list[sessionID]);
-        console.log("USER_DATA : " + user_data[sessionID]);
-        if (typeof user_data[sessionID] !== 'undefined' && user_data[sessionID] !== null) {
-            var nextMessage = user_data[sessionID];
-            user_list[sessionID][user_data[sessionID]] = data;
-            console.log("Here is the data for " + user_data[sessionID] + ':' + user_list[sessionID][user_data[sessionID]]);
-            console.log("Here is object Keys: " + Object.keys(user_list[sessionID]));
-            user_data[sessionID] = null;
-            //New Code
-            selectTopic(users[socket.nickname].id, nextMessage, function(sessionID) {
-                getTopic(sessionID, function() {
-                    if (session_topic[sessionID] == "Cloud") {
-                        createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items) {
-                            tmp_message = message;
-                            if (tmp_message !== "I didn't catch you, could you type another words?") {
-                                users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
-                            }
-                            console.log("Here log: " + user_data[sessionID]);
-                        })
-                    }
-                })
-            });
-        } else {
-            selectTopic(users[socket.nickname].id, data, function(sessionID) {
-                getTopic(sessionID, function() {
-                    if (session_topic[sessionID] == "Cloud") {
-                        createMessage(data, user_list[sessionID], sessionID, data, function(message, items) {
-                            tmp_message = message;
-                            if (tmp_message !== "I didn't catch you, could you type another words?") {
-                                users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
-                            }
-                            //log
-                            console.log("Here log: " + user_data[sessionID]);
-                        })
-                    }
-                })
-            });
-            console.log("REC MESSAGE FROM: " + socket.nickname);
-            if (data.indexOf("what is my topic?") != -1) {
-                console.log("Current topic of " + socket.nickname + " is: " + session_topic[users[socket.nickname].id]);
-                users[socket.nickname].emit('new_message', { msg: session_topic[users[socket.nickname].id], nick: 'BOT', sendto: sendto });
-            } else {
-                contactToAIAPI(data, function() {
-                    if (tmp_message == "I didn't catch you, could you type another words?") {
-                        users[socket.nickname].emit('new_message', { msg: AIMessage, nick: 'BOT', sendto: sendto });
-                    }
-                    //else users[socket.nickname].emit('new_message',{msg: AIMessage, nick: 'BOT', sendto: sendto});
+        else {
+            var sessionID = users[socket.nickname].id;
+            var tmp_message = "";
+            if ("" + user_list[sessionID] == 'undefined') {
+                var tmp = {};
+                user_list[sessionID] = tmp;
+            }
+            console.log("OBJECT: " + user_list[sessionID]);
+            console.log("USER_DATA : " + user_data[sessionID]);
+            if (typeof user_data[sessionID] !== 'undefined' && user_data[sessionID] !== null) {
+                var nextMessage = user_data[sessionID];
+                user_list[sessionID][user_data[sessionID]] = data;
+                console.log("Here is the data for " + user_data[sessionID] + ':' + user_list[sessionID][user_data[sessionID]]);
+                console.log("Here is object Keys: " + Object.keys(user_list[sessionID]));
+                user_data[sessionID] = null;
+                //New Code
+                selectTopic(users[socket.nickname].id, nextMessage, function(sessionID) {
+                    getTopic(sessionID, function() {
+                        if (session_topic[sessionID] == "Cloud") {
+                            createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items) {
+                                tmp_message = message;
+                                if (tmp_message !== "I didn't catch you, could you type another words?") {
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                                }
+                                console.log("Here log: " + user_data[sessionID]);
+                            })
+                        }
+                    })
                 });
+            } else {
+                selectTopic(users[socket.nickname].id, data, function(sessionID) {
+                    getTopic(sessionID, function() {
+                        if (session_topic[sessionID] == "Cloud") {
+                            createMessage(data, user_list[sessionID], sessionID, data, function(message, items) {
+                                tmp_message = message;
+                                if (tmp_message !== "I didn't catch you, could you type another words?") {
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                                }
+                                //log
+                                console.log("Here log: " + user_data[sessionID]);
+                            })
+                        }
+                    })
+                });
+                console.log("REC MESSAGE FROM: " + socket.nickname);
+                if (data.indexOf("what is my topic?") != -1) {
+                    console.log("Current topic of " + socket.nickname + " is: " + session_topic[users[socket.nickname].id]);
+                    users[socket.nickname].emit('new_message', { msg: session_topic[users[socket.nickname].id], nick: 'BOT', sendto: sendto });
+                } else {
+                    contactToAIAPI(data, function() {
+                        if (tmp_message == "I didn't catch you, could you type another words?") {
+                            users[socket.nickname].emit('new_message', { msg: AIMessage, nick: 'BOT', sendto: sendto });
+                        }
+                        //else users[socket.nickname].emit('new_message',{msg: AIMessage, nick: 'BOT', sendto: sendto});
+                    });
+                }
             }
         }
-
     });
 
     socket.on('disconnect', function(data) {
         if (!socket.nickname) return;
+        io.sockets.emit('remove_user_names', socket.nickname);
         delete users[socket.nickname];
         updateNickNames();
     });
@@ -353,7 +358,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                 console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
                 promButton = "";
                 if (buttonName.message == "I didn't catch you, could you type another words?"){
-                    console.log("LOG FROM SMART TALK: " + cloudSmart.cloudTopic(clientMgs))
+                    //console.log("LOG FROM SMART TALK: " + cloudSmart.cloudTopic(clientMgs))
                     handleSmartTalk(cloudSmart.cloudTopic(clientMgs), sessionID, function(Smessage, Sitems, Scommand){
                         message = Smessage;
                         promButton = Sitems;
