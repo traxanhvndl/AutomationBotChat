@@ -59,12 +59,19 @@
          },
          fields: {
              full_name: {
+                 message: 'The username is not valid',
                  validators: {
-                     stringLength: {
-                         min: 2,
-                     },
                      notEmpty: {
-                         message: 'Please supply your name'
+                         message: 'The username is required and can\'t be empty'
+                     },
+                     stringLength: {
+                         min: 6,
+                         max: 30,
+                         message: 'The username must be more than 6 and less than 30 characters long'
+                     },
+                     regexp: {
+                         regexp: /^[a-zA-Z0-9_\.]+$/,
+                         message: 'The username can only consist of alphabetical, number, dot and underscore'
                      }
                  }
              },
@@ -93,22 +100,23 @@
              },
              phone: {
                  validators: {
-                     stringLength: {
-                         min: 4,
-                         message: 'Please supply a vaild phone number'
-                     },
-                     notEmpty: {
-                         message: 'Please supply your phone number'
-                     },
+                     phone: {
+                         message: 'The input is not a valid US phone number'
+                     }
                  }
              },
              project: {
                  validators: {
                      stringLength: {
                          min: 4,
+                         max: 15,
                      },
                      notEmpty: {
                          message: 'Please supply your project'
+                     },
+                     regexp: {
+                         regexp: /^[a-zA-Z0-9_\.]+$/,
+                         message: 'The Project name can only consist of alphabetical, number, dot and underscore'
                      }
                  }
              },
@@ -127,6 +135,16 @@
                      notEmpty: {
                          message: 'Please supply the period of time you want to deploy'
                      },
+                     lessThan: {
+                         value: 90,
+                         inclusive: true,
+                         message: 'Life time must be less than 90'
+                     },
+                     greaterThan: {
+                         value: 1,
+                         inclusive: false,
+                         message: 'Life time must be greater than or equal to 1'
+                     }
                  }
              },
              instance: {
@@ -134,13 +152,33 @@
                      notEmpty: {
                          message: 'Please supply the number of instance you want to deploy'
                      },
+                     lessThan: {
+                         value: 5,
+                         inclusive: true,
+                         message: 'CPU must be less than 5'
+                     },
+                     greaterThan: {
+                         value: 1,
+                         inclusive: false,
+                         message: 'CPU must be greater than or equal to 1'
+                     }
                  }
              },
              cpu: {
                  validators: {
                      notEmpty: {
-                         message: 'Please supply the amount of CPU you want to deploy'
+                         message: 'Please supply the amount of CPU you want to use'
                      },
+                     lessThan: {
+                         value: 16,
+                         inclusive: true,
+                         message: 'CPU must be less than 16'
+                     },
+                     greaterThan: {
+                         value: 1,
+                         inclusive: false,
+                         message: 'CPU must be greater than or equal to 1'
+                     }
                  }
              },
              ram: {
@@ -148,6 +186,11 @@
                      notEmpty: {
                          message: 'Please supply the amount of RAM you want to use'
                      },
+                     greaterThan: {
+                         value: 512,
+                         inclusive: false,
+                         message: 'RAM must be greater than or equal to 512'
+                     }
                  }
              },
              hdd: {
@@ -155,6 +198,11 @@
                      notEmpty: {
                          message: 'Please supply the amount of disk you want to use'
                      },
+                     greaterThan: {
+                         value: 80,
+                         inclusive: false,
+                         message: 'HDD must be greater than or equal to 80'
+                     }
                  }
              },
 
