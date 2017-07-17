@@ -13,9 +13,13 @@ const RequestPromise = require('request-promise');
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
                 break;
+            case 'cancel':
+                message = "Ok! Do you have any query?";
+                buttonName = "NA";
+                break;
             case 'request a new quota':
-                message = "There are two ways to request a new quota: ";
-                buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
+                message = "There are two ways to request a new quota: <br> <a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to fullfill a form </a>";
+                buttonName = "Chat with me, I'll create a ticket for you";
                 break;
             case "chat with me, i'll create a ticket for you":
                 buttonName = "NA";
@@ -109,18 +113,26 @@ const RequestPromise = require('request-promise');
                 command = "query_ticket";
                 break;
             case "query_ticket":
-                validateTicket(user_data['query_ticket'], function(Imessage) {
-                        console.log("I-MESSGAE: " + Imessage);
-                        previous_step = "";
-                        buttonName = "NA";
-                        if (Imessage == "invalid") {
-                            message = "Your ticket ID is invalid, please provide another ticket ID.";
-                        }
-                        else {
-                            message = "Please click <a href='http://11.11.254.69/tracking/ticket.php?id=" + Imessage + "' target='_blank'>"+ "HERE" + " </a> to view your ticket detail ";
-                        }
-                        cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
-                })
+                if (user_data['query_ticket'].toLowerCase() != "cancel") {
+                    validateTicket(user_data['query_ticket'], function(Imessage) {
+                            console.log("I-MESSGAE: " + Imessage);
+                            previous_step = "";
+                            buttonName = "NA";
+                            if (Imessage == "invalid") {
+                                message = "Your ticket ID is invalid, please provide another ticket ID.";
+                                buttonName = "Cancel";
+                                command = "query_ticket";
+                            }
+                            else {
+                                message = "Please click <a href='http://11.11.254.69/tracking/ticket.php?id=" + Imessage + "' target='_blank'>"+ "HERE" + " </a> to view your ticket detail ";
+                            }
+                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                    })
+                }
+                else {
+                    message = "Ok! Do you have any query?";
+                    buttonName = "NA";
+                }
                 break;
                 //PART FOR SMART TALK:
             case "user need to create quota":
