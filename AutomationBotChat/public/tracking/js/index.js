@@ -146,7 +146,7 @@
                          message: 'Life time should be greater than or equal to 1'
                      },
                      regexp: {
-                         regexp: /^[0-9]+$/,
+                         regexp: /^\d+$/,
                          message: 'Life time should be positive numbers'
                      }
                  }
@@ -167,7 +167,7 @@
                          message: 'CPU should be greater than or equal to 1'
                      },
                      regexp: {
-                         regexp: /^[0-9]+$/,
+                         regexp: /^\d+$/,
                          message: 'Instance should be positive numbers'
                      }
                  }
@@ -188,7 +188,7 @@
                          message: 'CPU should be greater than or equal to 1'
                      },
                      regexp: {
-                         regexp: /^[0-9]+$/,
+                         regexp: /^\d+$/,
                          message: 'CPU should be positive numbers'
                      }
                  }
@@ -204,7 +204,7 @@
                          message: 'RAM should be greater than or equal to 512'
                      },
                      regexp: {
-                         regexp: /^[0-9]+$/,
+                         regexp: /^\d+$/,
                          message: 'RAM should be positive numbers'
                      }
                  }
@@ -220,7 +220,7 @@
                          message: 'HDD should be greater than or equal to 80'
                      },
                      regexp: {
-                         regexp: /^[0-9]+$/,
+                         regexp: /^\d+$/,
                          message: 'HDD should be positive numbers'
                      }
                  }
