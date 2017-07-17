@@ -296,3 +296,9 @@ box-sizing: border-box;
 #main_frame::after {
     clear: both;
 }
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    box-shadow: none;
+}
