@@ -1,5 +1,7 @@
 var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
+//var cloudSmart = require("./lib/smartTalk");
+//var learnData = require("./lib/learnData");
 var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
 var express = require('express'),
@@ -140,6 +142,7 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
 });
 
 app.post('/cloud/register', function(req, res) {
+    var date = new Date();
     conn.query("INSERT INTO project (id, project_name, is_del) VALUES (NULL, '" + req.body.project + "', '0')", function() {
         conn.query('SELECT id FROM project WHERE project_name = "' + req.body.project + '"', function(error, data) {
             conn.query("INSERT INTO user_data (id, full_name, badge_id, mail, phone, project_id, pm_mail, is_del) VALUES (NULL, '" + req.body.full_name + "', '" + req.body.bage_id + "', '" + req.body.email + "', '" + req.body.phone + "', '" + data[0].id + "', '" + req.body.pm_email + " ', '0')", function(error, data) {
@@ -156,7 +159,7 @@ app.post('/cloud/register', function(req, res) {
                         quota[3] = req.body.ram;
                         quota[4] = req.body.hdd;
                     }
-                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "')", function(error, data) {
+                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note, date ) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + ", '" + date + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
                         conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
@@ -176,6 +179,7 @@ app.post('/cloud/register', function(req, res) {
 });
 
 app.post('/cloud/BOTregister', function(req, res) {
+    var date = new Date();
     conn.query("INSERT INTO project (id, project_name, is_del) VALUES (NULL, '" + req.body.project + "', '0')", function() {
         conn.query('SELECT id FROM project WHERE project_name = "' + req.body.project + '"', function(error, data) {
             conn.query("INSERT INTO user_data (id, full_name, badge_id, mail, phone, project_id, pm_mail, is_del) VALUES (NULL, '" + req.body.full_name + "', '" + req.body.bage_id + "', '" + req.body.email + "', '" + req.body.phone + "', '" + data[0].id + "', '" + req.body.pm_email + " ', '0')", function(error, data) {
@@ -192,7 +196,7 @@ app.post('/cloud/BOTregister', function(req, res) {
                         quota[3] = req.body.ram;
                         quota[4] = req.body.hdd;
                     }
-                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "')", function(error, data) {
+                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note, date ) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "','" + date + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
                         conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
@@ -363,9 +367,14 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         promButton = Sitems;
                         command = Scommand;
                         user_data[sessionID] = command;
-                        if (Smessage == "I DON'T KNOW") {
+                        if (Smessage == "I didn't catch you, could you type another words?") {
                             user_unkonw_mgs[sessionID] = data;
                             console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
+                        }
+                        else {
+                            if(typeof user_unkonw_mgs[sessionID] != "undifined") {
+                                learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
+                            }
                         }
                     })
                 }
