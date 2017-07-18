@@ -9775,7 +9775,7 @@ table {
 #chat .chat-conversation {
     position: absolute;
     right: 280px;
-    width: 350px;
+    width: 450px;
     background: #2b303a;
     -webkit-border-radius: 5px 0 0 5px;
     -webkit-background-clip: padding-box;
@@ -9813,7 +9813,7 @@ table {
     margin: 0;
     padding: 0;
     overflow: auto;
-    height: 350px;
+    height: 450px;
 }
 #chat .chat-conversation .conversation-body::-webkit-scrollbar {
     width: 5px;
@@ -9849,14 +9849,17 @@ table {
 }
 #chat .chat-conversation .conversation-body>li .user {
     font-weight: bold;
-    // color: inherit;
+    /*color: inherit;*/
 }
 #chat .chat-conversation .conversation-body>li .time {
-    // float: right;
+    float: left;
     font-style: italic;
     color: rgba(190, 192, 194, 0.8);
     font-size: 11px;
-    // position: absolute;
+    /*position: absolute;*/
+}
+#chat .chat-conversation .conversation-body>li .even .time {
+    float: right;
 }
 #chat .chat-conversation .chat-textarea {
     padding: 10px 10px;
@@ -9868,7 +9871,7 @@ table {
     color: #bec0c2;
     right: 35px;
     top: 17px;
-    font-size: 15px;
+    font-size: 20px;
     position: absolute;
 }
 #chat .chat-conversation .chat-textarea textarea {
@@ -9876,8 +9879,10 @@ table {
     border: 1px solid #343a45;
     color: #fff;
     max-height: 100px !important;
-    padding-right: 35px;
+    /*padding-right: 35px;*/
     height: 32px;
+    padding: 10px 35px 10px 10px;
+    font-size: 15px;
 }
 #chat .chat-conversation .chat-textarea textarea::-moz-placeholder {
     color: rgba(190, 192, 194, 0.85);

@@ -30,6 +30,7 @@ var neonChat = neonChat || {
         $conversation_body = $conversation_window.find('.conversation-body'),
         $textarea = $conversation_window.find('.chat-textarea textarea'),
         $nick_name = $('#nick_name'),
+        current_user = '',
 
         sidebar_default_is_open = !$(".page-container").hasClass('sidebar-collapsed');
 
@@ -102,13 +103,14 @@ var neonChat = neonChat || {
                         $('#nick_wrap').hide();
                         $('div#chat').attr('data-current-user', nickname);
                         $('.chat_box').show();
-                        $('span#chat-title').text(display_name);
+                        $('span#chat-title').text(nickname);
                         $('h2.chat-header').attr({
                             'id': 'chat-current-user-' + nickname,
                             'name': nickname
                         });
+                        current_user = nickname;
                     } else {
-                        $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + display_name + '"</b></i> is used, Please retry !');
+                        $('#nick_erorr').html('Sorry ! Nick name <b><i>"' + nickname + '"</b></i> is used, Please retry !');
                     }
                 });
                 $('#nick_name').val('');
@@ -118,35 +120,29 @@ var neonChat = neonChat || {
 
             /* custom end */
             // socket
-            socket.on('update_nick_name', function(data) {
+            socket.on('remove_user_names', function(data) {
+                neonChat.removeUserId('group-client', data);
+            });
+
+            socket.on('user_names', function(data) {
                 for (var item in data) {
-                    var group = 'group-' + data[item]['group'];
-                    var status = data[item]['status'];
-                    var nickname = 'chat-user-' + data[item]['nickname'];
-                    switch (status) {
-                        case "online":
-                            if (data[item]['nickname'] != neonChat.getCurrentUser() && neonChat.getUser(nickname) == null) {
-                                neonChat.addUserId(group, nickname, data[item]['display_name'], status, '');
-                            };
-                            break;
-                        case "offline":
-                            console.log('disconnect');
-                            neonChat.removeUserId(group, nickname);
-                            break;
-                        default:
-                            console.log('default');
+                    var nickname = 'chat-user-' + data[item];
+                    if (data[item] != current_user && neonChat.getUser(nickname) == null) {
+                        neonChat.addUserId('group-client', nickname, data[item], 'online', '');
                     };
                 };
+                neonChat.addBadges();
             });
 
             socket.on('new_message', function(data) {
                 console.log("new_message");
-                console.log(data);
+                // console.log(data);
                 var id = "chat-user-" + data.sendto;
                 var $user_link = $('#' + id);
                 neonChat.updateScrollbars();
                 // neonChat.updateConversationOffset($user_link);
-                neonChat.pushMessage(id, data.msg, data.sendfrom, data.time, data.opp, data.unread);
+                console.log(id, data.msg, data.sendto, data.time, 'even', 'unread');
+                neonChat.pushMessage(id, data.msg, data.sendto, data.time, 'even', 'unread');
                 neonChat.renderMessages(id);
             });
 
@@ -277,6 +273,13 @@ var neonChat = neonChat || {
         updateScrollbars: function() {
             scrollToBottom('#chat .chat-conversation .conversation-body');
         },
+        addBadges: function() {
+            $chat.find('.chat-group a').each(function(i, el) {
+                console.log('add')
+                var $this = $(el);
+                $this.append('<span class="badge badge-info is-hidden">0</span>');
+            });
+        },
 
         updateConversationOffset: function($el) {
             var top_h = $conversation_window.find('.conversation-body').position().top + 1,
@@ -322,7 +325,11 @@ var neonChat = neonChat || {
 
                 if (this.isOpen && this.$current_user) {
                     var id = this.$current_user.uniqueId().attr('id');
-                    socket.emit('send_message', { sendto: id.replace(/chat-user-/g, ''), msg: msg.replace(/<.*?>/g, ''), sendfrom: $chat.data('current-user').replace(/ /g, '_'), time: neonChat.timeRender(new Date()), opp: "even", unread: "unread" });
+                    // socket.emit('send_message', { sendto: id.replace(/chat-user-/g, ''), msg: msg.replace(/<.*?>/g, ''), sendfrom: $chat.data('current-user').replace(/ /g, '_'), time: neonChat.timeRender(new Date()), opp: "even", unread: "unread" });
+                    console.log('msg: ' + msg.replace(/<.*?>/g, ''))
+                    console.log('nick: ' + $chat.data('current-user').replace(/ /g, '_'))
+                    console.log('sendto: ' + id.replace(/chat-user-/g, ''))
+                    socket.emit('send_message', { msg: msg.replace(/<.*?>/g, ''), nick: id.replace(/chat-user-/g, ''), sendto: $chat.data('current-user').replace(/ /g, '_') });
                     this.pushMessage(id, msg.replace(/<.*?>/g, ''), $chat.data('current-user'), new Date(), 'odd');
                     this.renderMessages(id);
                 }
@@ -336,7 +343,7 @@ var neonChat = neonChat || {
                 $this.uniqueId();
 
                 var id = $this.attr('id');
-
+                console.log('test id: ' + id)
                 if (typeof neonChat.chat_history[id] == 'undefined') {
                     var status = $this.data('status');
 
@@ -363,11 +370,10 @@ var neonChat = neonChat || {
         pushMessage: function(id, msg, from, time, fromOpponent, unread) {
             if (id && msg) {
                 this.refreshUserIds();
+                console.log('id: ' + id)
+                console.log(this.chat_history[id])
 
                 var max_chat_history = this.getChatHistoryLength();
-
-                console.log(id)
-                console.log(this.chat_history)
                 if (this.chat_history[id].messages.length >= max_chat_history) {
                     this.chat_history[id].messages = this.chat_history[id].messages.reverse().slice(0, max_chat_history - 1).reverse();
                 }
@@ -658,14 +664,16 @@ var neonChat = neonChat || {
 
         removeUser: function(group_id, user_id) {
             console.log(group_id, user_id)
+            console.log(neonChat.chat_history)
             var $group = group_id;
-
+            var user = neonChat.chat_history[user_id];
             if (typeof group_id == 'string') {
                 $group = $chat.find("#" + group_id.replace('#', '') + '.chat-group');
             };
 
             if ($group && $group.length) {
                 $group.find('a#' + user_id).remove();
+                // neonChat.chat_history.splice($.inArray(user_id, neonChat.chat_history), 1);
                 this.refreshUserIds();
                 this.orderGroups();
             };
@@ -676,9 +684,20 @@ var neonChat = neonChat || {
         removeUserId: function(group_id, user_id) {
             return this.removeUser(group_id, user_id);
         },
+        removeAllUser: function(group_id) {
+            var $group = group_id;
+            if (typeof group_id == 'string') {
+                $group = $chat.find("#" + group_id.replace('#', '') + '.chat-group');
+            }
+            if ($group && $group.length) {
+                $group.find('> strong').nextAll().remove();
+                this.refreshUserIds();
+                this.orderGroups();
+            }
+            return null;
+        },
 
         addUser: function(group_id, display_name, status, prepend, user_id) {
-            console.log(group_id, display_name, status, prepend, user_id)
             var $group = group_id;
 
             if (typeof group_id == 'string') {
