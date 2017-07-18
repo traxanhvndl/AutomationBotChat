@@ -1,6 +1,6 @@
 var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
-var cloudSmart = require("./lib/cloudTalkSmart");
+var cloudSmart = require("./lib/smartTalk");
 var ipaddr = require("ip");
 var express = require('express'),
     bodyParser = require('body-parser'),
@@ -14,6 +14,7 @@ var express = require('express'),
     session_topic = {},
     user_list = {},
     user_data = {};
+    user_unkonw_mgs = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
 // ip = process.env.HOST || '11.11.254.69';
@@ -230,10 +231,9 @@ io.sockets.on('connection', function(socket) {
     socket.on('open_chatbox', function(data) {
         users[data].emit('openbox', { nick: socket.nickname });
     });
-    socket.on('send_message', function(data, sendto) {
-        users[sendto].emit('new_message', { msg: data, nick: socket.nickname, sendto: sendto });
-        users[socket.nickname].emit('new_message', { msg: data, nick: socket.nickname, sendto: sendto });
-
+    socket.on('send_message', function(data) {
+        users[data.sendto].emit('new_message', { msg: data.msg, nick: socket.nickname, sendto: data.sendto });
+        users[socket.nickname].emit('new_message', { msg: data.msg, nick: data.sendto, sendto: socket.nickname });
         console.log(data);
     });
 
@@ -358,12 +358,15 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                 console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
                 promButton = "";
                 if (buttonName.message == "I didn't catch you, could you type another words?"){
-                    //console.log("LOG FROM SMART TALK: " + cloudSmart.cloudTopic(clientMgs))
                     handleSmartTalk(cloudSmart.cloudTopic(clientMgs), sessionID, function(Smessage, Sitems, Scommand){
                         message = Smessage;
                         promButton = Sitems;
                         command = Scommand;
                         user_data[sessionID] = command;
+                        if (Smessage == "I DON'T KNOW") {
+                            user_unkonw_mgs[sessionID] = data;
+                            console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
+                        }
                     })
                 }
                 else if (buttonName.buttonName != "NA") {
