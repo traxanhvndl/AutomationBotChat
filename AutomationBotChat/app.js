@@ -1,6 +1,6 @@
 var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
-var cloudSmart = require("./lib/cloudTalkSmart");
+var cloudSmart = require("./lib/smartTalk");
 var ipaddr = require("ip");
 var express = require('express'),
     bodyParser = require('body-parser'),
@@ -142,12 +142,12 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
 app.post('/cloud/register', function(req, res) {
     conn.query("INSERT INTO project (id, project_name, is_del) VALUES (NULL, '" + req.body.project + "', '0')", function() {
         conn.query('SELECT id FROM project WHERE project_name = "' + req.body.project + '"', function(error, data) {
-            conn.query("INSERT INTO user_data (id, full_name, badge_id, mail, phone, project_id, pm_mail, is_del) VALUES (NULL, '" + req.body.full_name + "', '" + req.body.bage_id + "', '" + req.body.email + "', '" + req.body.phone + "', '" + data[0].id + "', '" + req.body.pm_email + " ', '0')", function(error, data) {
+            conn.query("INSERT INTO user_data (id, full_name, badge_id, mail, phone, project_id, pm_mail, is_del) VALUES (NULL, '" + req.body.full_name + "', '" + req.body.bage_id + "', '" + req.body.email + "', '" + req.body.phone + "', '" + data[-1].id + "', '" + req.body.pm_email + " ', '0')", function(error, data) {
                 conn.query("SELECT id, project_id FROM user_data WHERE badge_id = '" + req.body.bage_id + "'", function(error, data) {
                     console.log(data);
                     console.log("                ");
-                    var tmp1 = data[0].project_id;
-                    var tmp2 = data[0].id;
+                    var tmp1 = data[-1].project_id;
+                    var tmp2 = data[-1].id;
                     var quota = [7, 1, 1, 512, 80];
                     if (req.body.quota != 'default') {
                         quota[0] = req.body.life_time;
@@ -156,7 +156,7 @@ app.post('/cloud/register', function(req, res) {
                         quota[3] = req.body.ram;
                         quota[4] = req.body.hdd;
                     }
-                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "')", function(error, data) {
+                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[-1].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[-1].id + "', '1', '" + req.body.note + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
                         conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
@@ -165,7 +165,7 @@ app.post('/cloud/register', function(req, res) {
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
                             //res.writeHead(200);
-                            res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
+                            res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[-1].id);
                             res.end();
                         });
                     });
@@ -182,8 +182,8 @@ app.post('/cloud/BOTregister', function(req, res) {
                 conn.query("SELECT id, project_id FROM user_data WHERE badge_id = '" + req.body.bage_id + "'", function(error, data) {
                     console.log(data);
                     console.log("                ");
-                    var tmp1 = data[0].project_id;
-                    var tmp2 = data[0].id;
+                    var tmp1 = data[-1].project_id;
+                    var tmp2 = data[-1].id;
                     var quota = [7, 1, 1, 512, 80];
                     if (req.body.quota != 'default') {
                         quota[0] = req.body.life_time;
@@ -192,7 +192,7 @@ app.post('/cloud/BOTregister', function(req, res) {
                         quota[3] = req.body.ram;
                         quota[4] = req.body.hdd;
                     }
-                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "')", function(error, data) {
+                    conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note) VALUES (NULL, '" + data[-1].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[-1].id + "', '1', '" + req.body.note + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
                         conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {

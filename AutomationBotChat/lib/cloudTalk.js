@@ -214,7 +214,7 @@ function createNewTicket(user_data, cb) {
                 };
                 RequestPromise(getTicketArgs).then(function(res){				
                     try {
-                        ticket_id = JSON.parse(res)[0].id;
+                        ticket_id = JSON.parse(res)[-1].id;
                         cb(ticket_id);
                         console.log('ticket ID :' +ticket_id);
                     } catch (err) {
@@ -244,7 +244,7 @@ var queryTicketByUsername = function(user_data, cb) {
     RequestPromise(getTicketArgs).then(function(res) {
         try {
             console.log('Request response:' + res[0].id);
-            ticket_id = res[0].id;
+            ticket_id = res[-1].id;
         } catch (err) {
             console.log('Create Group - Can not parse the content of request. Error: ' + err + '. Request response:' + res + '. Request command:' + JSON.stringify(getTicketArgs));
             return false;
@@ -268,7 +268,7 @@ function validateTicket(ticketID, cb) {
     RequestPromise(getTicketArgs).then(function(res) {
         try {
             console.log('Request response:' + res);
-            message = JSON.parse(res)[0].id;
+            message = JSON.parse(res)[-1].id;
             console.log("MESSAGE - TO - RETURN: " + message);
             cb(message);
         } catch (err) {
