@@ -15,12 +15,15 @@ function updateScrollbar() {
 
 }
 
-function setDate() {
+function setDate(opt) {
     d = new Date();
     m = d.getMinutes();
     s = d.getSeconds();
-    $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('#chat-content .message:last'));
-    $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m));
+    if (opt == 'tip') {
+        $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m));
+    } else {
+        $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('#chat-content .message:last'));
+    };
     // $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + ':' + convertTime(s) + '</div>').appendTo($('#chat-content .message:last'));
     // $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m) + ':' + convertTime(s));
     // if (m != d.getMinutes()) {
@@ -88,4 +91,16 @@ function newReceiveMessage(message, items) {
         // i++;
     }, 10 + (Math.random() * 10) * 50);
 
+}
+
+function newReceiveTip(tiptitle, items) {
+    if (!tiptitle || tiptitle == 'NA') {
+        return false;
+    };
+    if (!items || items == 'NA') {
+        return false;
+    }
+    $('div.tip-title').html(tiptitle);
+    $('div.tip-content').html(items);
+    setDate('tip');
 }

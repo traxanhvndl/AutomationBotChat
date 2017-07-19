@@ -58,7 +58,7 @@ $(document).ready(function($) {
     });
 
     socket.on('new_message', function(data) {
-        // console.log(data)
+        console.log(data)
         newReceiveMessage(data.msg, data.items);
     });
     // $('.form-inner .messages').click(function(ev) {
