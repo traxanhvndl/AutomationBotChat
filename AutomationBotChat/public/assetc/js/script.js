@@ -60,6 +60,7 @@ $(document).ready(function($) {
     socket.on('new_message', function(data) {
         console.log(data)
         newReceiveMessage(data.msg, data.items);
+        newReceiveTip(data.tip_title, data.tip);
     });
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
