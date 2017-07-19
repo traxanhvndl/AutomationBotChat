@@ -18,7 +18,11 @@ function updateScrollbar() {
 function setDate() {
     d = new Date();
     m = d.getMinutes();
-    $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('.message:last'));
+    s = d.getSeconds();
+    $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('#chat-content .message:last'));
+    $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m));
+    // $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + ':' + convertTime(s) + '</div>').appendTo($('#chat-content .message:last'));
+    // $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m) + ':' + convertTime(s));
     // if (m != d.getMinutes()) {
     //     m = d.getMinutes();
     //     $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('.message:last'));
