@@ -1,4 +1,5 @@
 //Common key word
+const UNVALUE = ["i", "i'm", "a", "an", "the", "is", "are", "my", "me", ",", "?", ".","please","on"];
 const COMMON = ["want","wanna","need"];
 const CREATE = ["create","add", "new", "request", "make", "build"];
 const NEGATIVE = ["not", "don't", "no", "failed", "fail", "unable", "can't"];
@@ -99,6 +100,14 @@ function guestUserIntent(message,cb) {
             //break;
         }
     }, this);
+
+    UNVALUE.forEach(function(key){
+        if (message.indexOf(key) != -1) {
+            addKey2DB(key, "unvalue");
+            console.log("UNVALUE");
+            //break;
+        }
+    },this)
     cb(key_ACTION, key_OBJECT, flag_NEGATIVE);
 }
 

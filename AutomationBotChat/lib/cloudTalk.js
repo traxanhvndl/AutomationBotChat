@@ -7,74 +7,103 @@ const RequestPromise = require('request-promise');
         var buttonName;
         var message;
         var command;
+        var tip;
         var previous_step;
         switch (step.toLowerCase()) {
             case 'cloud':
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case 'cancel':
                 message = "Ok! Do you have any query?";
                 buttonName = "NA";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case 'request a new quota':
                 message = "There are two ways to request a new quota: <br> <a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to fullfill a form </a>";
                 buttonName = "Chat with me, I'll create a ticket for you";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "chat with me, i'll create a ticket for you":
                 buttonName = "NA";
                 message = "Please input your project";
                 command = "project name";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "project name":
                 buttonName = "NA";
-                message = "Please input your full name";
+                message = "Please input your full name.";
                 command = "full name";
+                tip_title = "NA";
+                tip = "TIP NAME ";
                 break;
             case "full name":
                 buttonName = "NA";
                 message = "Please input your badge ID";
                 command = "badge ID";
+                tip_title = "NA";
+                tip = "NA";                                             
                 break;
             case "badge id":
                 buttonName = "NA";
                 message = "Please input your phone number";
                 command = "phone number";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "phone number":
                 buttonName = "NA";
                 message = "Please input your email address";
                 command = "email address";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "email address":
                 buttonName = "NA";
                 message = "Please input the email of your manager";
                 command = "manager's email address";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "manager's email address":
                 buttonName = "NA";
                 message = "How many instances would you like to use?";
                 command = "instance";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "instance":
                 buttonName = "NA";
                 message = "How many CPU would you like to use?";
                 command = "CPU";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "cpu":
                 buttonName = "NA";
                 message = "How many RAM (MB) would you like to use?";
                 command = "RAM";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "ram":
                 buttonName = "NA";
                 message = "Please input the HDD (GB) for your instance";
                 command = "HDD";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "hdd":
                 buttonName = "NA";
                 message = "How many days would you like to use to keep your quota";
                 command = "OK_life time";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "ok_life time":
                 buttonName = "NA";
@@ -83,6 +112,8 @@ const RequestPromise = require('request-promise');
                     message = message + "<b>" + key.replace("OK_", "") + " : </b>" + " " + user_data[key] + "<br>";
                 });
                 message = message + "Please type <b> CONFIRM </b> to confirm!";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "confirm":
                 switch (step) {
@@ -92,25 +123,33 @@ const RequestPromise = require('request-promise');
                             message = "Your ticket ID is "+ ticket_id  + ". Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>"+ "HERE" + " </a> to view your ticket ";
                             previous_step = "";
                             buttonName = "NA";
+                            tip_title = "NA";
+                            tip = "NA";
                             console.log("Send message: " + message);
                             console.log("MESSAGE TYPE: " + typeof message);
-                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command , 'tip' : tip}, sessionID, cb1);
                         });
                         break;
                     default:
                         buttonName = "NA";
                         message = "NA";
+                        tip_title = "NA";
+                        tip = "NA";
                         break;
                 }
                 break;
             case "click here to fullfill a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "view my ticket":
                 message = "Please input your ticket ID";
                 buttonName = "NA";
                 command = "query_ticket";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "query_ticket":
                 if (user_data['query_ticket'].toLowerCase() != "cancel") {
@@ -122,44 +161,56 @@ const RequestPromise = require('request-promise');
                                 message = "Your ticket ID is invalid, please provide another ticket ID.";
                                 buttonName = "Cancel";
                                 command = "query_ticket";
+                                tip_title = "NA";                    
+                                tip = "NA";
                             }
                             else {
                                 message = "Please click <a href='http://11.11.254.69/tracking/ticket.php?id=" + Imessage + "' target='_blank'>"+ "HERE" + " </a> to view your ticket detail ";
                             }
-                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                            cb ({'buttonName' :  buttonName, 'message' : message, 'command' : command, 'tip_title': tip_title, 'tip': tip }, sessionID, cb1);
                     })
                 }
                 else {
                     message = "Ok! Do you have any query?";
                     buttonName = "NA";
+                    tip_title = "NA";
+                    tip = "NA";
                 }
                 break;
                 //PART FOR SMART TALK:
             case "user need to create quota":
                 message = "In order to create a new VM, please select one of the following options: ";
                 buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "clear_cloud":
                 message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
                 buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             case "user need to query quota":
                 message = "Look like you need to check your ticket, please input your ticket ID";
                 buttonName = "NA";
                 command = "query_ticket";
+                tip_title = "NA";
+                tip = "NA";
                 break;
             default:
                 message = "I didn't catch you, could you type another words?";
                 buttonName = "NA";
+                tip_title = "NA";
+                tip = "NA";
                 break;
         }
                 console.log("MESSAGE TYPE: " + typeof message);
                 console.log("Message to return: " + message);
                 while (typeof message !== "undefined") {
                     if (typeof cb !== "undefined"){
-                        cb({'buttonName' :  buttonName, 'message' : message, 'command' : command }, sessionID, cb1);
+                        cb({'buttonName' :  buttonName, 'message' : message, 'command' : command,'tip_title': tip_title, 'tip' : tip }, sessionID, cb1);
                     }
-                    return {'buttonName' :  buttonName, 'message' : message, 'command' : command };
+                    return {'buttonName' :  buttonName, 'message' : message, 'command' : command,'tip_title': tip_title, 'tip' : tip };
                    break;
                } 
     };

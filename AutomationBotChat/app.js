@@ -130,7 +130,7 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
     //console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT * FROM detail_quota WHERE id like "' + req.params.ticketID + '"', function(error, data) {
         if (typeof data[0] == "undefined") {
-            res.writeHead(200, {"Content-Type": "application/json"});
+            res.writeHead(400, {"Content-Type": "application/json"});
             res.write(JSON.stringify([{"status" : "failed", "message" : "invalid ticket ID", "id" : "invalid"}]));
             res.end();
         }
@@ -271,10 +271,12 @@ io.sockets.on('connection', function(socket) {
                 selectTopic(users[socket.nickname].id, nextMessage, function(sessionID) {
                     getTopic(sessionID, function() {
                         if (session_topic[sessionID] == "Cloud") {
-                            createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items) {
+                            createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items,tip_title, tip) {
+                                console.log("TIP TITLE ---------------------: " + tip_title);
+                                console.log("TIPPPP---------------------: " + tip);
                                 tmp_message = message;
                                 if (tmp_message !== "I didn't catch you, could you type another words?") {
-                                    users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, tip_title: tip_title, tip: tip, nick: 'BOT', sendto: sendto });
                                 }
                                 console.log("Here log: " + user_data[sessionID]);
                             })
@@ -285,10 +287,12 @@ io.sockets.on('connection', function(socket) {
                 selectTopic(users[socket.nickname].id, data, function(sessionID) {
                     getTopic(sessionID, function() {
                         if (session_topic[sessionID] == "Cloud") {
-                            createMessage(data, user_list[sessionID], sessionID, data, function(message, items) {
+                            createMessage(data, user_list[sessionID], sessionID, data, function(message, items,tip_title, tip) {
+                                console.log("TIP TITLE ---------------------: " + tip_title);
+                                console.log("TIPPPP---------------------: " + tip);
                                 tmp_message = message;
                                 if (tmp_message !== "I didn't catch you, could you type another words?") {
-                                    users[socket.nickname].emit('new_message', { msg: message, items: items, nick: 'BOT', sendto: sendto });
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, tip_title: tip_title,tip: tip, nick: 'BOT', sendto: sendto });
                                 }
                                 //log
                                 console.log("Here log: " + user_data[sessionID]);
@@ -365,6 +369,8 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                 command = buttonName.command;
                 user_data[sessionID] = command;
                 message = buttonName.message;
+                tip = buttonName.tip;
+                tip_title = buttonName.tip_title;
                 console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
                 promButton = "";
                 if (buttonName.message == "I didn't catch you, could you type another words?"){
@@ -379,7 +385,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         }
                         else {
                             if(typeof user_unkonw_mgs[sessionID] != "undifined") {
-                                //   learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
+                                //learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
                             }
                         }
                     })
@@ -390,7 +396,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         promButton = promButton + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML)\">" + handleButton(buttonName)[i] + "</button>";
                     }
                 } else promButton = "NA";
-                cb1(message, promButton);
+                cb1(message, promButton,tip_title, tip);
             });
 }
 
