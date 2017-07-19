@@ -28,6 +28,7 @@ var port = config.port;
 var ip = config.ip;
 
 const RequestPromise = require('request-promise');
+var stringify = require('json-stringify-safe');
 var apiai = require('apiai');
 var appAI = apiai("e58b167254d549a6bde597727c5a334b");
 var AIMessage;
@@ -225,6 +226,7 @@ io.sockets.on('connection', function(socket) {
             users[socket.nickname] = socket;
             console.log('Add UserName : ' + name);
             updateNickNames();
+            //exportUserData(users);
         }
 
     });
@@ -236,9 +238,13 @@ io.sockets.on('connection', function(socket) {
         users[data].emit('openbox', { nick: socket.nickname });
     });
     socket.on('send_message', function(data) {
-        users[data.sendto].emit('new_message', { msg: data.msg, nick: socket.nickname, sendto: data.sendto });
-        users[socket.nickname].emit('new_message', { msg: data.msg, nick: data.sendto, sendto: socket.nickname });
-        console.log(data);
+        console.log(data.sendto, data.msg, data.nick);
+        if (users[data.sendto]) {
+            var currentdate = new Date();
+            var time = currentdate.getHours() + ":" + currentdate.getMinutes();
+            io.sockets.emit('new_message', { msg: data.msg, sendto: data.sendto, sendfrom: data.nick, time: time }, room = users[data.sendto].id);
+            // users[data.sendto].emit('new_message', { msg: data.msg, sendto: data.sendto, sendfrom: data.nick, time: time });
+        };
     });
 
     // Process for BOT if getting command from topic
@@ -373,7 +379,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         }
                         else {
                             if(typeof user_unkonw_mgs[sessionID] != "undifined") {
-                                learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
+                                //   learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
                             }
                         }
                     })
@@ -410,4 +416,14 @@ function handleSmartTalk(Smessage, sessionID, cb) {
         }
     } else promButton = "NA";
     cb(buttonName.message, promButton, buttonName.command);
+}
+function exportUserData(userData) {
+   // userData.forEach(function(element) {
+        fs.writeFileSync("./userData.json",stringify(userData), 'utf8', function (err) {
+            if (err) {
+                return console.log(err);
+            }
+    //}, this);
+        console.log("The file was saved!");
+    }); 
 }
