@@ -16,11 +16,20 @@ function updateScrollbar() {
 }
 
 function setDate() {
-    d = new Date()
-    if (m != d.getMinutes()) {
-        m = d.getMinutes();
-        $('<div class="timestamp">' + d.getHours() + ':' + m + '</div>').appendTo($('.message:last'));
+    d = new Date();
+    m = d.getMinutes();
+    $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('.message:last'));
+    // if (m != d.getMinutes()) {
+    //     m = d.getMinutes();
+    //     $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('.message:last'));
+    // }
+}
+
+function convertTime(time) {
+    if (time < 10) {
+        time = "0" + time;
     }
+    return time;
 }
 
 function insertMessage(msg) {
@@ -72,7 +81,7 @@ function newReceiveMessage(message, items) {
         $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure><div class="conversation">' + message + '</div>' + item + '</div>').appendTo($('.mCSB_container')).addClass('new');
         setDate();
         updateScrollbar();
-        i++;
+        // i++;
     }, 10 + (Math.random() * 10) * 50);
 
 }

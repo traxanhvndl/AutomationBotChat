@@ -158,9 +158,9 @@ Chat
     max-height: 100%;
     z-index: 2;
     overflow: hidden;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    /*box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);*/
     border: solid 5px transparent;
-    background: rgba(255, 255, 255, 0.9);
+    /*background: rgba(255, 255, 255, 0.9);*/
     border-radius: 20px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -175,6 +175,23 @@ Chat
     overflow-y: auto;
 }
 
+#chat-help {
+    width: 25%;
+    border-left: none;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border: solid 5px #fff;
+    border-left: none;
+}
+
+#chat-content {
+    float: left;
+    width: 75%;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border: solid 5px #fff;
+}
+
 .form-content {
     position: absolute;
     top: 52%;
@@ -186,6 +203,10 @@ Chat
     max-height: 90%;
     padding-right: 0px;
     padding-left: 0px;
+    background: url(/assetc/images/background.jpg) no-repeat;
+    background-size: cover;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
 }
 
 
@@ -267,8 +288,8 @@ Chat Title
 .chat-button {
     width: 35px;
     height: 35px;
-    font-size: 20px;
-    padding: 4px;
+    font-size: 24px;
+    padding: 0px;
     text-align: center;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -288,6 +309,12 @@ Chat Title
 .clean-chat {
     position: absolute;
     top: 75px;
+    right: -60px;
+}
+
+.popup-chat-help {
+    position: absolute;
+    top: 120px;
     right: -60px;
 }
 
@@ -311,7 +338,8 @@ Messages
     overflow: hidden;
     position: relative;
     width: 100%;
-    background: url(/assetc/images/background.jpg) no-repeat;
+    /*background: url(/assetc/images/background.jpg) no-repeat;*/
+    background: transparent;
     background-size: cover;
 }
 
