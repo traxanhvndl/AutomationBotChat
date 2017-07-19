@@ -59,6 +59,7 @@ body {
     background-size: cover;
     background-color: #111111;
     z-index: 999;
+    width: calc(100% + 1px);
 }
 
 #nick_wrap .form {
@@ -220,13 +221,22 @@ Chat Title
     flex: 0 1 45px;
     position: relative;
     z-index: 2;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     color: #fff;
     /*font-style: italic;*/
     text-transform: uppercase;
     text-align: left;
     padding: 10px 55px 20px 55px;
     border-bottom: solid 4px #fff;
+}
+
+.chat-help-title {
+    background: rgba(0, 0, 0, 0.8);
+    text-transform: none;
+    padding: 5px 0 0 0;
+    border-bottom: solid 4px #fff;
+    max-height: 50%;
+    overflow: auto;
 }
 
 .chat-title .chat-status {
@@ -237,13 +247,26 @@ Chat Title
     float: left;
 }
 
-.chat-title .chat-user {
+.chat-title .chat-user,
+.chat-title .chat-help-server {
     float: right;
 }
 
 .chat-user h1,
-.chat-user h2 {
+.chat-user h2,
+.chat-help-server h1,
+.chat-help-server h2 {
     text-align: right;
+}
+
+@-moz-document url-prefix() {
+    .chat-help-server .message.message-personal::before {
+        margin-right: 1px;
+    }
+}
+
+.chat-help-server .message {
+    width: 80%;
 }
 
 .chat-title h1,
@@ -275,7 +298,8 @@ Chat Title
     border: 3px solid rgba(255, 255, 255, 0.9);
 }
 
-.chat-user .avatar.avatar-personal {
+.chat-user .avatar.avatar-personal,
+.chat-help-server .avatar.avatar-personal {
     right: 8px;
     left: inherit;
 }
@@ -537,7 +561,7 @@ Message Box
     -ms-flex: 0 1 40px;
     flex: 0 1 40px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
     padding: 10px;
     position: relative;
     border-top: solid 4px #fff;
@@ -634,6 +658,11 @@ Message Box
 .message-box .message-submit:hover {
     /*background: #1D7745;*/
     color: #1D7745;
+}
+
+.message .conversation,
+.message .item-container {
+    word-break: break-all;
 }
 
 
