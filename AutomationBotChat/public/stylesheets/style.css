@@ -248,7 +248,7 @@ box-sizing: border-box;
 
 #chat .chat-conversation .conversation-body li>div.conver-inner.odd {
     float: right;
-    text-align: right;
+    text-align: left;
 }
 
 #chat .chat-conversation .conversation-body li>div.conver-inner.odd .chat-msg {

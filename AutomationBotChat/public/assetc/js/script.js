@@ -45,6 +45,16 @@ $(document).ready(function($) {
         clearChat();
     });
 
+    $('#cloud-modal .popup-chat-help').click(function(ev) {
+        $(this).find('.fa').each(function() {
+            if ($(this).hasClass('fa-chevron-circle-right')) {
+                $(this).attr('class', 'fa fa-chevron-circle-left');
+            } else {
+                $(this).attr('class', 'fa fa-chevron-circle-right');
+            };
+        });
+    });
+
     socket.on('new_message', function(data) {
         // console.log(data)
         newReceiveMessage(data.msg, data.items);
@@ -71,7 +81,8 @@ $(document).ready(function($) {
                     'name': nickname
                 });
                 $('.message-input').focus();
-                $('div#clean-chat').show();
+                $('#clean-chat').show();
+                $('#popup-chat-help').show();
                 // newReceiveMessage('Hi <b>' + display_name + '</b>, I am <b>' + $('.chat-server h1').text() + '</b> ! </br>We are going to talk about topic <b>' + 'Cloud' + '</b>');
                 $('#username-content').attr('username', nickname);
                 $('#username-content').attr('useractive', 'active');
