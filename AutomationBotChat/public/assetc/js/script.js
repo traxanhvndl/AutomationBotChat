@@ -48,8 +48,10 @@ $(document).ready(function($) {
     $('#cloud-modal .popup-chat-help').click(function(ev) {
         $(this).find('.fa').each(function() {
             if ($(this).hasClass('fa-chevron-circle-right')) {
+                closeChatHelp();
                 $(this).attr('class', 'fa fa-chevron-circle-left');
             } else {
+                openChatHelp();
                 $(this).attr('class', 'fa fa-chevron-circle-right');
             };
         });
@@ -62,6 +64,23 @@ $(document).ready(function($) {
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
     // });
+
+    function closeChatHelp() {
+        $('#chat-help').hide();
+        $('#chat-content').css({
+            'width': '100%',
+            'border-radius': '20px'
+        });
+    }
+
+    function openChatHelp() {
+        $('#chat-help').show();
+        $('#chat-content').css({
+            'width': '75%',
+            'border-bottom-right-radius': '0px',
+            'border-top-right-radius': '0px'
+        });
+    }
 
     function submit(topic) {
         // console.log('new user')

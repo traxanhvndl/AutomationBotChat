@@ -59,6 +59,7 @@ body {
     background-size: cover;
     background-color: #111111;
     z-index: 999;
+    width: calc(100% + 1px);
 }
 
 #nick_wrap .form {
