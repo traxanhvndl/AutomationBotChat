@@ -39,71 +39,71 @@ const RequestPromise = require('request-promise');
                 buttonName = "NA";
                 message = "Please input your full name.";
                 command = "full name";
-                tip_title = "NA";
-                tip = "TIP NAME ";
+                tip_title = "Project Name:";
+                tip = "We need this to keep track of the which project are using cloud resource. After cloud is create, this is username you need to access cloud. ";
                 break;
             case "full name":
                 buttonName = "NA";
                 message = "Please input your badge ID";
                 command = "badge ID";
-                tip_title = "NA";
-                tip = "NA";                                             
+                tip_title = "Full Name:";
+                tip = "We need this because we know to know who raise this ticket to request a new cloud.";                                             
                 break;
             case "badge id":
                 buttonName = "NA";
                 message = "Please input your phone number";
                 command = "phone number";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "Badge ID:";
+                tip = " We need this because we know to know who raise this ticket to request a new cloud.";
                 break;
             case "phone number":
                 buttonName = "NA";
                 message = "Please input your email address";
                 command = "email address";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "Phone: ";
+                tip = "We need this because we may need a method to contact you in case we need more information.";
                 break;
             case "email address":
                 buttonName = "NA";
                 message = "Please input the email of your manager";
                 command = "manager's email address";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "Email: ";
+                tip = "We need this because we may need a method to contact you in case we need more information.";
                 break;
             case "manager's email address":
                 buttonName = "NA";
                 message = "How many instances would you like to use?";
                 command = "instance";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "PM mail: ";
+                tip = "We need this because we will inform your PM about this request.";
                 break;
             case "instance":
                 buttonName = "NA";
                 message = "How many CPU would you like to use?";
                 command = "CPU";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "Instance: ";
+                tip = "An instance is virtual machine on cloud environment. We need this information because we want to know how many virtual machine you want to deploy on cloud environment.";
                 break;
             case "cpu":
                 buttonName = "NA";
                 message = "How many RAM (MB) would you like to use?";
                 command = "RAM";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "CPU: ";
+                tip = "Central Processing Unit (CPU) is the basic resource of a machine. We need this information because we want to know how many core of CPU in total you want to deploy on cloud environment.";
                 break;
             case "ram":
                 buttonName = "NA";
                 message = "Please input the HDD (GB) for your instance";
                 command = "HDD";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "RAM: ";
+                tip = "Random-access Memory (RAM) is the basic resource of a machine. We need this information because we want to know how many memory in total you want to deploy on cloud environment.";
                 break;
             case "hdd":
                 buttonName = "NA";
                 message = "How many days would you like to use to keep your quota";
                 command = "OK_life time";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "HDD: ";
+                tip = "HDD is the data storage. This is the basic resource of a machine. We need this information because we want to know how many data storage in total you want to deploy on cloud environment.";
                 break;
             case "ok_life time":
                 buttonName = "NA";
@@ -112,8 +112,8 @@ const RequestPromise = require('request-promise');
                     message = message + "<b>" + key.replace("OK_", "") + " : </b>" + " " + user_data[key] + "<br>";
                 });
                 message = message + "Please type <b> CONFIRM </b> to confirm!";
-                tip_title = "NA";
-                tip = "NA";
+                tip_title = "Life-time: ";
+                tip = "This is the period of time for your quota to expired. We need this information because we want to keep track of cloud resource.";
                 break;
             case "confirm":
                 switch (step) {
