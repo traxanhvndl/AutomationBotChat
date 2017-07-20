@@ -1,6 +1,8 @@
 var $messages = $('.messages-content'),
-    d, h, m,
-    i = 0;
+    d, m, s,
+    h = new Date().getHours(),
+    i = 0,
+    weekindex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 $(window).load(function() {
     $messages.mCustomScrollbar();
@@ -15,21 +17,32 @@ function updateScrollbar() {
 
 }
 
+function checkWeekDay(index) {
+    if (index == weekindex.length) {
+        return weekindex[0];
+    }
+    return weekindex[index];
+}
+
 function setDate(opt) {
     d = new Date();
-    m = d.getMinutes();
-    s = d.getSeconds();
-    if (opt == 'tip') {
-        $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m));
+    if (h != d.getHours()) {
+        wd = d.getDay();
+        D = d.getDate();
+        M = d.getMonth() + 1;
+        h = d.getHours();
+        m = d.getMinutes();
+        var time = checkWeekDay(wd) + ' ' + convertTime(D) + '/' + convertTime(M) + ' ' + convertTime(h) + ':' + convertTime(m);
+        $('<div class="split-timestamp"><span>' + time + '</span></div>').insertAfter($('#chat-content .message:last'));
     } else {
-        $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('#chat-content .message:last'));
-    };
-    // $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + ':' + convertTime(s) + '</div>').appendTo($('#chat-content .message:last'));
-    // $('#chat-help .message .timestamp').html(d.getHours() + ':' + convertTime(m) + ':' + convertTime(s));
-    // if (m != d.getMinutes()) {
-    //     m = d.getMinutes();
-    //     $('<div class="timestamp">' + d.getHours() + ':' + convertTime(m) + '</div>').appendTo($('.message:last'));
-    // }
+        h = d.getHours();
+        m = d.getMinutes();
+        if (opt == 'tip') {
+            $('#chat-help .message .timestamp').html(convertTime(h) + ':' + convertTime(m));
+        } else {
+            $('<div class="timestamp">' + convertTime(h) + ':' + convertTime(m) + '</div>').appendTo($('#chat-content .message:last'));
+        };
+    }
 }
 
 function convertTime(time) {

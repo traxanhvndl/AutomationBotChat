@@ -240,6 +240,10 @@ Chat Title
     overflow: auto;
 }
 
+.tip-title {
+    color: #e93d40;
+}
+
 .chat-title .chat-status {
     width: 50%;
 }
@@ -388,24 +392,71 @@ Messages
     /*background: linear-gradient(200deg, #f69321, #f69321);*/
     /*background: linear-gradient(200deg, #257287, #161616);*/
     /*background: linear-gradient(45deg, #d09024, #257287);*/
-    margin: 8px 0;
-    font-size: 14px;
+    margin: 20px 0 0 0;
+    font-size: 16px;
     line-height: 1.4;
     margin-left: 40px;
     position: relative;
     /*text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);*/
-    font-weight: bold;
+    /*font-weight: bold;*/
     min-width: 60px;
 }
 
 .messages .message .timestamp {
     position: absolute;
     bottom: -15px;
+    right: 15px;
     font-size: 10px;
     color: rgba(255, 255, 255, 0.8);
     font-weight: bold;
     font-style: italic;
     /*text-shadow: 0 1px 1px rgba(0, 0, 0, 0);*/
+}
+
+.messages .message-personal .timestamp {
+    right: 0;
+    left: 15px;
+}
+
+.messages .split-timestamp {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    clear: both;
+    float: left;
+    width: 100%;
+    margin: 20px 0 20px 0;
+}
+
+.messages .split-timestamp>span {
+    position: relative;
+    display: inline-block;
+    font-size: 12px;
+    /*font-style: italic;*/
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+}
+
+.messages .split-timestamp>span:before,
+.messages .split-timestamp>span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 350%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.messages .split-timestamp>span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.messages .split-timestamp>span:after {
+    left: 100%;
+    margin-left: 15px;
 }
 
 .messages .message::before {
@@ -588,6 +639,11 @@ Message Box
     word-break: break-all;
 }
 
+.message a {
+    color: #e93d40;
+    text-decoration: none;
+}
+
 .message button,
 .message .button-info {
     border-bottom-right-radius: 20px;
@@ -601,7 +657,7 @@ Message Box
     /*color: #ffffff;
     border: 2px solid #ffffff;*/
     color: #000000;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     background: transparent;
     margin: 5px 8px 0px 0px;
     cursor: pointer;
