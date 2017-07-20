@@ -662,7 +662,8 @@ Message Box
 
 .message .conversation,
 .message .item-container {
-    word-break: break-all;
+    word-break: normal;
+    word-wrap: break-word;
 }
 
 
