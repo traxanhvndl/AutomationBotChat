@@ -125,7 +125,7 @@ app.post('/admin', function(req, res) {
         res.end();
         //res.sendfile(__dirname + '/public/admin.html');
     }
-    else res.sendfile(__dirname + '/public/login_error.html');
+    else res.sendfile(__dirname + '/public/error_login.html');
 });
 
 app.get('/cloud/register', function(req, res) {
