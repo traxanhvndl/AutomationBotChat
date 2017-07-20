@@ -130,7 +130,7 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
     //console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT * FROM detail_quota WHERE id like "' + req.params.ticketID + '"', function(error, data) {
         if (typeof data[0] == "undefined") {
-            res.writeHead(400, {"Content-Type": "application/json"});
+            res.writeHead(200, {"Content-Type": "application/json"});
             res.write(JSON.stringify([{"status" : "failed", "message" : "invalid ticket ID", "id" : "invalid"}]));
             res.end();
         }
