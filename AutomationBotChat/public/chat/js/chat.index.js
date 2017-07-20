@@ -89,18 +89,21 @@ function newReceiveMessage(message, items) {
         setDate();
         updateScrollbar();
         // i++;
-    }, 10 + (Math.random() * 10) * 50);
+    }, 10 + (Math.random() * 20) * 50);
 
 }
 
 function newReceiveTip(tiptitle, items) {
     if (!tiptitle || tiptitle == 'NA') {
         return false;
-    };
-    if (!items || items == 'NA') {
+    } else if (!items || items == 'NA') {
         return false;
+    } else {
+        $('.chat-help-server').html('');
+        var helpcontent = '<div class="message message-personal"><div class="conversation tip-title">' + tiptitle + '</div><div class="item-container tip-content">' + items + '</div><div class="timestamp"></div><figure class="avatar avatar-personal"><img src="images/robot_1.png"></figure></div>';
+        $('.chat-help-server').append(helpcontent);
+        // $('div.tip-title').html(tiptitle);
+        // $('div.tip-content').html(items);
+        setDate('tip');
     }
-    $('div.tip-title').html(tiptitle);
-    $('div.tip-content').html(items);
-    setDate('tip');
-}
+};

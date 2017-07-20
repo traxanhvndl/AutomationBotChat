@@ -235,6 +235,7 @@ Chat Title
     text-transform: none;
     padding: 5px 0 0 0;
     border-bottom: solid 4px #fff;
+    min-height: 20%;
     max-height: 50%;
     overflow: auto;
 }
@@ -388,7 +389,7 @@ Messages
     /*background: linear-gradient(200deg, #257287, #161616);*/
     /*background: linear-gradient(45deg, #d09024, #257287);*/
     margin: 8px 0;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.4;
     margin-left: 40px;
     position: relative;
