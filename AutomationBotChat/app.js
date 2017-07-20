@@ -55,10 +55,18 @@ app.get('/', function(req, res) {
     console.log('User connected !')
 });
 
-app.get('/admin', function(req, res) {
+app.get('/admin/:token', function(req, res) {
     console.log('Connected !')
+    if(req.params.token == "123abc"){
+        res.sendfile(__dirname + '/public/admin.html');
+    }
+    else res.sendfile(__dirname + '/public/login.html');
+});
+
+app.get('/admin', function(req, res) {
     res.sendfile(__dirname + '/public/admin.html');
 });
+
 
 app.get('/sendmail', function(req, res) {
     var mailOptions = {
@@ -107,6 +115,18 @@ var conn = mysql.createConnection({
 //         res.end();
 //     });
 // });
+
+app.post('/admin', function(req, res) {
+    console.log('Connected !');
+    console.log("USER NAME: " + req.body.username);
+    console.log("PASSWORD: " + req.body.password);
+    if (req.body.username == "admin" && req.body.password == "123456"){
+        res.redirect("http://localhost:3000/admin/123abc");
+        res.end();
+        //res.sendfile(__dirname + '/public/admin.html');
+    }
+    else res.sendfile(__dirname + '/public/login_error.html');
+});
 
 app.get('/cloud/register', function(req, res) {
     console.log('Connected !')

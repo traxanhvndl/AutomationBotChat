@@ -117,8 +117,8 @@ const RequestPromise = require('request-promise');
                 break;
             case "confirm":
                 switch (step) {
-                    case "confirm":
-                        createNewTicket(user_data, function(ticket_id) {
+                        case "confirm":
+                            createNewTicket(user_data, function(ticket_id) {
                             console.log("Ticket ID : " + ticket_id);
                             message = "Your ticket ID is "+ ticket_id  + ". Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>"+ "HERE" + " </a> to view your ticket ";
                             previous_step = "";
@@ -138,7 +138,7 @@ const RequestPromise = require('request-promise');
                         break;
                 }
                 break;
-            case "click here to fullfill a form":
+            case "click here0 to fullfill a form":
                 buttonName = "NA";
                 message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
                 tip_title = "NA";
