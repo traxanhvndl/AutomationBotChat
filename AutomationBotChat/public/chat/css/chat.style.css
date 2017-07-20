@@ -241,7 +241,7 @@ Chat Title
 }
 
 .tip-title {
-    color: #e93d40;
+    color: #0271bc;
 }
 
 .chat-title .chat-status {
@@ -642,6 +642,10 @@ Message Box
 .message a {
     color: #e93d40;
     text-decoration: none;
+}
+
+.message span.highlight {
+    color: #0271bc;
 }
 
 .message button,

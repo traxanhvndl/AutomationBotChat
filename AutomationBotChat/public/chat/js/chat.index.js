@@ -101,8 +101,9 @@ function newReceiveMessage(message, items) {
         $('<div class="message new"><figure class="avatar"><img src="images/robot_1.png" /></figure><div class="conversation">' + message + '</div>' + item + '</div>').appendTo($('.mCSB_container')).addClass('new');
         setDate();
         updateScrollbar();
-        // i++;
+        i++;
     }, 10 + (Math.random() * 20) * 50);
+    updateScrollbar();
 
 }
 
