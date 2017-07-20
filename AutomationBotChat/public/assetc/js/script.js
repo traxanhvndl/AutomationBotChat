@@ -60,13 +60,12 @@ $(document).ready(function($) {
     socket.on('new_message', function(data) {
         console.log(data)
         var msg = data.msg;
-        var tip_title = (data.tip_title).toLowerCase().replace(/:/g, '');
-        var tip_title = new RegExp(tip_title, "g");
+        var tip_title = new RegExp(data.tip_title, "gi");
         if (data.tip_title != "NA") {
             msg = msg.replace(tip_title, '<span class="highlight">' + data.tip_title + '</span>');
         };
         newReceiveMessage(msg, data.items);
-        newReceiveTip(data.tip_title, data.tip);
+        newReceiveTip(capitalize(data.tip_title), data.tip);
     });
     // $('.form-inner .messages').click(function(ev) {
     //     $('.message-input').focus();
