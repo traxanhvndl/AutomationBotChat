@@ -53,10 +53,10 @@ module.exports = {
 
 function guestUserIntent(message,cb) {
     var key_ACTION, key_OBJECT, flag_NEGATIVE;
-    message = message.toLowerCase();
+    message = ' ' + message.toLowerCase() + ' ';
     //GET MAIN ACTION
     COMMON.forEach(function(key) {
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             key_ACTION = "CREATE";
             addKey2DB(key, "commom");
             console.log("CREATE");
@@ -65,7 +65,7 @@ function guestUserIntent(message,cb) {
     }, this);
 
     CREATE.forEach(function(key) {
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             key_ACTION = "CREATE";
             addKey2DB(key, "create");
             console.log("CREATE");
@@ -74,7 +74,7 @@ function guestUserIntent(message,cb) {
     }, this);
 
     QUERY.forEach(function(key) {
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             key_ACTION = "QUERY";
             addKey2DB(key, "query");
             console.log("QUERY");
@@ -84,7 +84,7 @@ function guestUserIntent(message,cb) {
 
     //GET MAIN OBJECT
     D_QUOTA.forEach(function(key) {
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             key_OBJECT = "QUOTA";
             addKey2DB(key, "quota");
             console.log("QUOTA");
@@ -93,7 +93,7 @@ function guestUserIntent(message,cb) {
     }, this);   
 
     NEGATIVE.forEach(function(key) {
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             flag_NEGATIVE = true;
             addKey2DB(key, "native");
             console.log("NATIVE");
@@ -102,7 +102,7 @@ function guestUserIntent(message,cb) {
     }, this);
 
     UNVALUE.forEach(function(key){
-        if (message.indexOf(key) != -1) {
+        if (message.indexOf(' ' + key + ' ') != -1) {
             addKey2DB(key, "unvalue");
             console.log("UNVALUE");
             //break;
