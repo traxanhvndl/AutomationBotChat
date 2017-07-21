@@ -128,7 +128,7 @@ var conn = mysql.createConnection({
 app.post('/tin', function(req, res) {
     console.log('GET AN ALARM !');
     console.log("DATA: ------------------");
-    console.log(stringify(req));
+    console.log(req.body.alarm_id);
 });
 
 app.post('/admin', function(req, res) {
