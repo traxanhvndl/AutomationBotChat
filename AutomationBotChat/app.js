@@ -81,6 +81,8 @@ app.get('/', function(req, res) {
 
 app.post('/tin', function(req, res) {
     console.log('GET AN ALARM !');
+    console.log("DATA: ------------------");
+    console.log(stringify(req));
 });
 
 app.get('/admin', function(req, res) {
