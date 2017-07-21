@@ -4,11 +4,11 @@ var cloudTopic = require("./lib/cloudTalk");
 //var learnData = require("./lib/learnData");
 var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
-var session = require('express-session');//new
-var cons = require('consolidate');//new
+var session = require('express-session'); //new
+var cons = require('consolidate'); //new
 var express = require('express'),
     bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),//new
+    cookieParser = require('cookie-parser'), //new
     mysql = require('mysql'),
     fs = require('fs'),
     app = express(),
@@ -19,7 +19,7 @@ var express = require('express'),
     session_topic = {},
     user_list = {},
     user_data = {};
-    user_unkonw_mgs = {};
+user_unkonw_mgs = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
 // ip = process.env.HOST || '11.11.254.69';
@@ -39,16 +39,16 @@ var AIData;
 
 //new
 app.use(cookieParser('shhhh, very secret'));
-app.use(session()); 
-app.use(function(req, res, next){ 
-    var err = req.session.error 
-    , msg = req.session.success;
-    delete req.session.error; 
-    delete req.session.success; 
+app.use(session());
+app.use(function(req, res, next) {
+    var err = req.session.error,
+        msg = req.session.success;
+    delete req.session.error;
+    delete req.session.success;
     res.locals.message = '';
-    if (err) res.locals.message = '<p class="msg error">' + err + '</p>'; 
-    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>'; 
-    next(); 
+    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
+    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
+    next();
 });
 
 var transporter = nodemailer.createTransport({
@@ -79,15 +79,17 @@ app.get('/', function(req, res) {
     console.log('User connected !')
 });
 
+app.post('/tin', function(req, res) {
+    console.log('GET AN ALARM !');
+});
+
 app.get('/admin', function(req, res) {
-    if (req.session.user) { 
+    if (req.session.user) {
         res.render('admin');
-        //res.sendfile(__dirname + '/public/admin.html');
     } else {
-        req.session.error = 'Access denied!'; 
+        req.session.error = 'Access denied!';
         res.render('login');
-        //res.sendfile(__dirname + '/public/login.html'); 
-    } 
+    }
 });
 
 app.get('/sendmail', function(req, res) {
@@ -127,47 +129,35 @@ var conn = mysql.createConnection({
     database: 'webdata'
 });
 
-// fs.readFile(__dirname + '/public/tracking/index.html', function(err, data) {
-//     if (err) {
-//         throw err;
-//     }
-//     app.get('/cloud/register/dm', function(req, res) {
-//         res.writeHead(200, { 'Content-Type': 'text/html' });
-//         res.write(data);
-//         res.end();
-//     });
-// });
-
 app.post('/admin', function(req, res) {
     console.log('Connected !');
     console.log("USER NAME: " + req.body.username);
     console.log("PASSWORD: " + req.body.password);
-    if (req.body.username == "admin" && req.body.password == "123456"){
-        req.session.regenerate(function(){
+    if (req.body.username == "admin" && req.body.password == "123456") {
+        req.session.regenerate(function() {
             // Store the user's primary key 
             // in the session store to be retrieved,
             // or in this case the entire user object 
             req.session.user = "admin";
-            req.session.success = 'Authenticated as ' + "admin"
-            + ' click to <a href="/logout">logout</a>. '
-            + ' You may now access <a href="/restricted">/restricted</a>.'; 
-            res.redirect('/admin'); 
-        }); 
-    }
-    else {
-        req.session.error = 'Access denied!'; 
+            req.session.success = 'Authenticated as ' + "admin" +
+                ' click to <a href="/logout">logout</a>. ' +
+                ' You may now access <a href="/restricted">/restricted</a>.';
+            res.redirect('/admin');
+        });
+    } else {
+        req.session.error = 'Access denied!';
         res.render('error_login');
     }
 });
 
 //Logout
-app.get('/logout', function(req, res){
-	// destroy the user's session to log them out 
-	// will be re-created next request
-	req.session.destroy(function(){ 
-		res.redirect('/admin');
-	}); 
-}); 
+app.get('/logout', function(req, res) {
+    // destroy the user's session to log them out 
+    // will be re-created next request
+    req.session.destroy(function() {
+        res.redirect('/admin');
+    });
+});
 
 app.get('/cloud/register', function(req, res) {
     console.log('Connected !')
@@ -175,12 +165,12 @@ app.get('/cloud/register', function(req, res) {
 });
 //GET ticketID by username
 app.get('/cloud/ticket/fullName/:full_name', function(req, res) {
-    console.log("FULL NAME: " + req.params.full_name );
+    console.log("FULL NAME: " + req.params.full_name);
     conn.query('SELECT id FROM user_data WHERE full_name = "' + req.params.full_name + '"', function(error, data) {
         console.log("RESPONSE: " + data);
         conn.query('SELECT id FROM detail_quota WHERE user_id = "' + data[0].id + '"', function(error, data) {
             console.log("RESPONSE: " + data[0].id);
-            res.writeHead(200, {"Content-Type": "application/json"});
+            res.writeHead(200, { "Content-Type": "application/json" });
             res.write(JSON.stringify(data));
             res.end();
         });
@@ -191,12 +181,11 @@ app.get('/cloud/ticket/ticketID/:ticketID', function(req, res) {
     //console.log("FULL NAME: " + req.params.full_name );
     conn.query('SELECT * FROM detail_quota WHERE id like "' + req.params.ticketID + '"', function(error, data) {
         if (typeof data[0] == "undefined") {
-            res.writeHead(200, {"Content-Type": "application/json"});
-            res.write(JSON.stringify([{"status" : "failed", "message" : "invalid ticket ID", "id" : "invalid"}]));
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.write(JSON.stringify([{ "status": "failed", "message": "invalid ticket ID", "id": "invalid" }]));
             res.end();
-        }
-        else {
-            res.writeHead(200, {"Content-Type": "application/json"});
+        } else {
+            res.writeHead(200, { "Content-Type": "application/json" });
             res.write(JSON.stringify(data));
             res.end();
         }
@@ -310,10 +299,9 @@ io.sockets.on('connection', function(socket) {
 
     // Process for BOT if getting command from topic
     socket.on('send_message_bot', function(data, sendto) {
-        if (typeof users[socket.nickname] == "undefined"){
+        if (typeof users[socket.nickname] == "undefined") {
             console.log("WE GOT A DEAD SESSION!");
-        }
-        else {
+        } else {
             var sessionID = users[socket.nickname].id;
             var tmp_message = "";
             if ("" + user_list[sessionID] == 'undefined') {
@@ -332,7 +320,7 @@ io.sockets.on('connection', function(socket) {
                 selectTopic(users[socket.nickname].id, nextMessage, function(sessionID) {
                     getTopic(sessionID, function() {
                         if (session_topic[sessionID] == "Cloud") {
-                            createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items,tip_title, tip) {
+                            createMessage(nextMessage, user_list[sessionID], sessionID, data, function(message, items, tip_title, tip) {
                                 console.log("TIP TITLE ---------------------: " + tip_title);
                                 console.log("TIPPPP---------------------: " + tip);
                                 tmp_message = message;
@@ -348,12 +336,12 @@ io.sockets.on('connection', function(socket) {
                 selectTopic(users[socket.nickname].id, data, function(sessionID) {
                     getTopic(sessionID, function() {
                         if (session_topic[sessionID] == "Cloud") {
-                            createMessage(data, user_list[sessionID], sessionID, data, function(message, items,tip_title, tip) {
+                            createMessage(data, user_list[sessionID], sessionID, data, function(message, items, tip_title, tip) {
                                 console.log("TIP TITLE ---------------------: " + tip_title);
                                 console.log("TIPPPP---------------------: " + tip);
                                 tmp_message = message;
                                 if (tmp_message !== "I didn't catch you, could you type another words?") {
-                                    users[socket.nickname].emit('new_message', { msg: message, items: items, tip_title: tip_title,tip: tip, nick: 'BOT', sendto: sendto });
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, tip_title: tip_title, tip: tip, nick: 'BOT', sendto: sendto });
                                 }
                                 //log
                                 console.log("Here log: " + user_data[sessionID]);
@@ -423,42 +411,40 @@ function getTopic(sessionID, cb) {
 
 // create message
 function createMessage(clientMgs, userData, sessionID, data, cb1) {
-        var message = "";
-        var promButton = "";
-        var command;
-            cloudTopic.cloudTopic(clientMgs, userData, sessionID, cb1, function (buttonName, sessionID, cb1){
-                command = buttonName.command;
+    var message = "";
+    var promButton = "";
+    var command;
+    cloudTopic.cloudTopic(clientMgs, userData, sessionID, cb1, function(buttonName, sessionID, cb1) {
+        command = buttonName.command;
+        user_data[sessionID] = command;
+        message = buttonName.message;
+        tip = buttonName.tip;
+        tip_title = buttonName.tip_title;
+        console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
+        promButton = "";
+        if (buttonName.message == "I didn't catch you, could you type another words?") {
+            handleSmartTalk(cloudSmart.cloudTopic(clientMgs), sessionID, function(Smessage, Sitems, Scommand) {
+                message = Smessage;
+                promButton = Sitems;
+                command = Scommand;
                 user_data[sessionID] = command;
-                message = buttonName.message;
-                tip = buttonName.tip;
-                tip_title = buttonName.tip_title;
-                console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
-                promButton = "";
-                if (buttonName.message == "I didn't catch you, could you type another words?"){
-                    handleSmartTalk(cloudSmart.cloudTopic(clientMgs), sessionID, function(Smessage, Sitems, Scommand){
-                        message = Smessage;
-                        promButton = Sitems;
-                        command = Scommand;
-                        user_data[sessionID] = command;
-                        if (Smessage == "I didn't catch you, could you type another words?") {
-                            user_unkonw_mgs[sessionID] = data;
-                            console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
-                        }
-                        else {
-                            if(typeof user_unkonw_mgs[sessionID] != "undifined") {
-                                //learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
-                            }
-                        }
-                    })
-                }
-                else if (buttonName.buttonName != "NA") {
-                    for (var i = 0; i < handleButton(buttonName).length; i++) {
-                        console.log("Button Name : " + handleButton(buttonName)[i]);
-                        promButton = promButton + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML)\">" + handleButton(buttonName)[i] + "</button>";
+                if (Smessage == "I didn't catch you, could you type another words?") {
+                    user_unkonw_mgs[sessionID] = data;
+                    console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
+                } else {
+                    if (typeof user_unkonw_mgs[sessionID] != "undifined") {
+                        //learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
                     }
-                } else promButton = "NA";
-                cb1(message, promButton,tip_title, tip);
-            });
+                }
+            })
+        } else if (buttonName.buttonName != "NA") {
+            for (var i = 0; i < handleButton(buttonName).length; i++) {
+                console.log("Button Name : " + handleButton(buttonName)[i]);
+                promButton = promButton + "<button class = \"button5\" type=\"button\" name = \"res_button\" onclick=\"clickOnRes(this.innerHTML)\">" + handleButton(buttonName)[i] + "</button>";
+            }
+        } else promButton = "NA";
+        cb1(message, promButton, tip_title, tip);
+    });
 }
 
 //function createMessage2(clientMgs, userData, sessionID, cb) {
@@ -484,14 +470,14 @@ function handleSmartTalk(Smessage, sessionID, cb) {
     } else promButton = "NA";
     cb(buttonName.message, promButton, buttonName.command);
 }
-function exportUserData(userData) {
-   // userData.forEach(function(element) {
-        fs.writeFileSync("./userData.json",stringify(userData), 'utf8', function (err) {
-            if (err) {
-                return console.log(err);
-            }
-    //}, this);
-        console.log("The file was saved!");
-    }); 
-}
 
+function exportUserData(userData) {
+    // userData.forEach(function(element) {
+    fs.writeFileSync("./userData.json", stringify(userData), 'utf8', function(err) {
+        if (err) {
+            return console.log(err);
+        }
+        //}, this);
+        console.log("The file was saved!");
+    });
+}
