@@ -79,12 +79,6 @@ app.get('/', function(req, res) {
     console.log('User connected !')
 });
 
-app.post('/tin', function(req, res) {
-    console.log('GET AN ALARM !');
-    console.log("DATA: ------------------");
-    console.log(stringify(req));
-});
-
 app.get('/admin', function(req, res) {
     if (req.session.user) {
         res.render('admin');
@@ -129,6 +123,12 @@ var conn = mysql.createConnection({
     user: 'root',
     password: 'root',
     database: 'webdata'
+});
+
+app.post('/tin', function(req, res) {
+    console.log('GET AN ALARM !');
+    console.log("DATA: ------------------");
+    console.log(stringify(req));
 });
 
 app.post('/admin', function(req, res) {
