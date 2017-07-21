@@ -4,8 +4,11 @@ var cloudTopic = require("./lib/cloudTalk");
 //var learnData = require("./lib/learnData");
 var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
+var session = require('express-session');//new
+var cons = require('consolidate');//new
 var express = require('express'),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),//new
     mysql = require('mysql'),
     fs = require('fs'),
     app = express(),
@@ -34,6 +37,20 @@ var appAI = apiai("e58b167254d549a6bde597727c5a334b");
 var AIMessage;
 var AIData;
 
+//new
+app.use(cookieParser('shhhh, very secret'));
+app.use(session()); 
+app.use(function(req, res, next){ 
+    var err = req.session.error 
+    , msg = req.session.success;
+    delete req.session.error; 
+    delete req.session.success; 
+    res.locals.message = '';
+    if (err) res.locals.message = '<p class="msg error">' + err + '</p>'; 
+    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>'; 
+    next(); 
+});
+
 var transporter = nodemailer.createTransport({
     host: "smtp-mail.outlook.com", // hostname
     secureConnection: false, // TLS requires secureConnection to be false
@@ -50,23 +67,28 @@ var transporter = nodemailer.createTransport({
 server.listen(port, ip, function() {
     console.log("Server is running on [" + ip + ":" + port + "]")
 });
+
+//html view
+app.engine('html', cons.swig)
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
+//html
+
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
     console.log('User connected !')
 });
 
-app.get('/admin/:token', function(req, res) {
-    console.log('Connected !')
-    if(req.params.token == "123abc"){
-        res.sendfile(__dirname + '/public/admin.html');
-    }
-    else res.sendfile(__dirname + '/public/login.html');
-});
-
 app.get('/admin', function(req, res) {
-    res.sendfile(__dirname + '/public/admin.html');
+    if (req.session.user) { 
+        res.render('admin');
+        //res.sendfile(__dirname + '/public/admin.html');
+    } else {
+        req.session.error = 'Access denied!'; 
+        res.render('login');
+        //res.sendfile(__dirname + '/public/login.html'); 
+    } 
 });
-
 
 app.get('/sendmail', function(req, res) {
     var mailOptions = {
@@ -121,12 +143,31 @@ app.post('/admin', function(req, res) {
     console.log("USER NAME: " + req.body.username);
     console.log("PASSWORD: " + req.body.password);
     if (req.body.username == "admin" && req.body.password == "123456"){
-        res.redirect("http://localhost:3000/admin/123abc");
-        res.end();
-        //res.sendfile(__dirname + '/public/admin.html');
+        req.session.regenerate(function(){
+            // Store the user's primary key 
+            // in the session store to be retrieved,
+            // or in this case the entire user object 
+            req.session.user = "admin";
+            req.session.success = 'Authenticated as ' + "admin"
+            + ' click to <a href="/logout">logout</a>. '
+            + ' You may now access <a href="/restricted">/restricted</a>.'; 
+            res.redirect('/admin'); 
+        }); 
     }
-    else res.sendfile(__dirname + '/public/error_login.html');
+    else {
+        req.session.error = 'Access denied!'; 
+        res.render('error_login');
+    }
 });
+
+//Logout
+app.get('/logout', function(req, res){
+	// destroy the user's session to log them out 
+	// will be re-created next request
+	req.session.destroy(function(){ 
+		res.redirect('/admin');
+	}); 
+}); 
 
 app.get('/cloud/register', function(req, res) {
     console.log('Connected !')
@@ -453,3 +494,4 @@ function exportUserData(userData) {
         console.log("The file was saved!");
     }); 
 }
+
