@@ -125,12 +125,6 @@ var conn = mysql.createConnection({
     database: 'webdata'
 });
 
-app.post('/tin', function(req, res) {
-    console.log('GET AN ALARM !');
-    console.log("DATA: ------------------");
-    console.log(req.body.alarm_id);
-});
-
 app.post('/admin', function(req, res) {
     console.log('Connected !');
     console.log("USER NAME: " + req.body.username);
