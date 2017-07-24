@@ -352,7 +352,7 @@ io.sockets.on('connection', function(socket) {
                 } else {
                     contactToAIAPI(data, function() {
                         if (tmp_message == "I didn't catch you, could you type another words?") {
-                            users[socket.nickname].emit('new_message', { msg: AIMessage, nick: 'BOT', sendto: sendto });
+                            users[socket.nickname].emit('new_message', { msg: AIMessage, tip_title: 'NA', tip: 'NA', nick: 'BOT', sendto: sendto });
                         }
                         //else users[socket.nickname].emit('new_message',{msg: AIMessage, nick: 'BOT', sendto: sendto});
                     });

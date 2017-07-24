@@ -127,7 +127,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
                         tip = "NA";
                         console.log("Send message: " + message);
                         console.log("MESSAGE TYPE: " + typeof message);
-                        cb({ 'buttonName': buttonName, 'message': message, 'command': command, 'tip': tip }, sessionID, cb1);
+                        cb({ 'buttonName': buttonName, 'message': message, 'command': command, 'tip': tip, 'tip_title': tip_title }, sessionID, cb1);
                     });
                     break;
                 default:
@@ -138,7 +138,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
                     break;
             }
             break;
-        case "click here0 to fullfill a form":
+        case "click here to fullfill a form":
             buttonName = "NA";
             message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
             tip_title = "NA";
