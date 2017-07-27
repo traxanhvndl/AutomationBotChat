@@ -6,7 +6,7 @@ var extractKey = require('./extracKey');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'smart_talk'
 });
 module.exports = {

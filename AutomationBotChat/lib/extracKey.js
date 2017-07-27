@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'smart_talk'
 });
 
@@ -27,7 +27,6 @@ module.exports = {
                             scope2Learn.push('ACTION');
                             mean2Learn.push(valid_action);
                             count = count + 1;
-                            //editDB(element, 'ACTION', valid_action);
                             key_action = 'TMP';
                         } else if (typeof key_action == 'undefined') {
                             console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN ACTION");
@@ -35,20 +34,15 @@ module.exports = {
                             scope2Learn.push('ACTION');
                             mean2Learn.push(valid_action);
                             count = count + 2;
-                            //editDB(element, 'ACTION', valid_action);
                         } else if (typeof key_object == 'undefined') {
                             console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN OBJECT");
                             keyword2Learn.push(element);
                             scope2Learn.push('OBJECT');
                             mean2Learn.push(valid_object);
                             count = count + 2;
-                            //editDB(element, 'OBJECT', valid_object);
                         }
                     }
                 }
-
-
-                console.log("==============COUNT==============: " + count);
                 index = index + 1;
                 if (index === messageArray.length) {
                     if (count == 1) {
