@@ -9,6 +9,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
     var command;
     var tip;
     var previous_step;
+    console.log("************************GOT STEP********************* " + step);
     switch (step.toLowerCase()) {
         case 'cloud':
             message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
