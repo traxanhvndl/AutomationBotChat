@@ -177,6 +177,7 @@ Chat
 }
 
 #chat-help {
+    overflow: hidden;
     width: 25%;
     border-left: none;
     border-bottom-left-radius: 0px;
@@ -191,6 +192,11 @@ Chat
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
     border: solid 5px #fff;
+}
+
+.chat-help-body {
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .form-content {
@@ -900,4 +906,123 @@ Bounce
     background-position: 0px 0px;
     background-repeat: repeat-x;
     animation: animatedBackground 200s linear infinite;
+}
+
+
+/************************
+ *      N O T E S       *
+ ************************/
+
+.chat-help-body ul,
+.chat-help-body li {
+    list-style: none;
+}
+
+.chat-help-body ul {
+    overflow: hidden;
+    padding: 15px;
+}
+
+.chat-help-body ul li {
+    margin: 15px;
+    float: left;
+    position: relative;
+}
+
+.chat-help-body ul li div {
+    text-decoration: none;
+    color: #000;
+    background: #ffc;
+    display: block;
+    height: 80px;
+    width: 110px;
+    padding: 10px;
+    -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
+    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+    -moz-transition: -moz-transform .15s linear;
+    -o-transition: -o-transform .15s linear;
+    -webkit-transition: -webkit-transform .15s linear;
+    border-style: solid;
+}
+
+.chat-help-body ul li div img {
+    padding: 1px 3px;
+    margin: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.chat-help-body ul li span {
+    font-family: 'Chewy', arial, sans-serif;
+    background: rgba(0, 0, 0, 0);
+    /* transparent background */
+    resize: none;
+    padding: 3px;
+    border-style: none;
+}
+
+.chat-help-body .note-title {
+    font-size: 140%;
+    font-weight: bold;
+    height: auto;
+    width: 70%;
+}
+
+.chat-help-body .note-content {
+    font-size: 120%;
+    height: auto;
+    width: 95%;
+}
+
+.chat-help-body ul li:nth-child(even) div {
+    -o-transform: rotate(4deg);
+    -webkit-transform: rotate(4deg);
+    -moz-transform: rotate(4deg);
+    position: relative;
+    top: 5px;
+}
+
+.chat-help-body ul li:nth-child(3n) div {
+    -o-transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    position: relative;
+    top: -5px;
+}
+
+.chat-help-body ul li:nth-child(5n) div {
+    -o-transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    position: relative;
+    top: -10px;
+}
+
+.chat-help-body ul li div:hover,
+.chat-help-body ul li div:focus {
+    -moz-box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
+    -webkit-box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
+    box-shadow: 10px 10px 7px rgba(0, 0, 0, .7);
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    -o-transform: scale(1.25);
+    position: relative;
+    z-index: 5;
+}
+
+
+/* define 3 different colours for the notes */
+
+.chat-help-body ul li div.colour1 {
+    background: #ffc;
+}
+
+.chat-help-body ul li div.colour2 {
+    background: #cfc;
+}
+
+.chat-help-body ul li div.colour3 {
+    background: #ccf;
 }

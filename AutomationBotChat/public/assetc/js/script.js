@@ -61,7 +61,7 @@ $(document).ready(function($) {
         console.log(data)
         var msg = data.msg;
         var tip_title = new RegExp(data.tip_title, "gi");
-        if (data.tip_title != "NA") {
+        if (data.title && data.tip_title != "NA") {
             msg = msg.replace(tip_title, '<span class="highlight">' + data.tip_title + '</span>');
         };
         newReceiveMessage(msg, data.items);
