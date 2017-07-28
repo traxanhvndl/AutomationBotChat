@@ -333,6 +333,9 @@ io.sockets.on('connection', function(socket) {
                                 console.log("Here log: " + user_data[sessionID]);
                             })
                         }
+                        if (session_topic[sessionID] == "ChatAdmin") {
+                            console.log("MESSAGE FOR ADMIN: " + data);
+                        }
                     })
                 });
             } else {
