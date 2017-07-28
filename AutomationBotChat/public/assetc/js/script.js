@@ -1,6 +1,7 @@
 var $ = jQuery.noConflict();
 // Progress Bar
 var socket = io.connect();
+var support = ['chatadmin'];
 $(document).ready(function($) {
     "use strict";
     var username;
@@ -58,7 +59,7 @@ $(document).ready(function($) {
     });
 
     socket.on('new_message', function(data) {
-        console.log(data)
+        // console.log(data)
         var msg = data.msg;
         var tip_title = new RegExp(data.tip_title, "gi");
         if (data.title && data.tip_title != "NA") {
@@ -98,7 +99,7 @@ $(document).ready(function($) {
             display_name = nickname;
         };
         socket.emit('new_user', nickname, function(data) {
-            if (data) {
+            if (data && nickname != "admin") {
                 $('#nick_wrap').hide();
                 $('.chat-user h1').text(display_name);
                 $('.chat-user h1').attr({
@@ -152,5 +153,9 @@ function clearChat() {
     $('#mCSB_1_container').children().remove();
     var topic = $('#username-content').attr('topic');
     // console.log('clear_' + topic);
-    socket.emit('send_message_bot', 'clear_' + topic, $('#username-content').attr('username'));
+    if ($.inArray(topic, support) > 0) {
+        socket.emit('send_message_bot', topic, $('#username-content').attr('username'), 'admin');
+    } else {
+        socket.emit('send_message_bot', 'clear_' + topic, $('#username-content').attr('username'));
+    };
 }
