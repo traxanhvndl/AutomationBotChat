@@ -125,6 +125,7 @@ $(document).ready(function($) {
 
 function postopic(topic) {
     // console.log('send bot msg: ' + topic + ':' + $('#username-content').attr('username'));
+    // console.log(topic)
     socket.emit('send_message_bot', topic, $('#username-content').attr('username'));
 };
 
