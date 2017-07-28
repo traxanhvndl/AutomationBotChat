@@ -405,6 +405,7 @@ function contactToAIAPI(messageAI, cb) {
 function selectTopic(sessionID, message, cb) {
     if (message == "Automation") session_topic[sessionID] = "Automation";
     if (message == "Cloud") session_topic[sessionID] = "Cloud";
+    if (message == "ChatAdmin") session_topic[sessionID] = "ChatAdmin";
     cb(sessionID);
 }
 
