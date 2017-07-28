@@ -52,14 +52,18 @@ function convertTime(time) {
     return time;
 }
 
-function insertMessage(msg) {
-    if (!msg) {
+function insertMessage(msg, topic) {
+    if (msg != '') {
         msg = $('.message-input').val();
         if ($.trim(msg) == '') {
             return false;
         };
     };
-    socket.emit('send_message_bot', msg, "BOT");
+    var sendto = "BOT";
+    if (topic == 'chatadmin') {
+        sendto = 'admin';
+    };
+    socket.emit('send_message_bot', msg, sendto);
     $('<div class="message message-personal"><div class="conversation">' + msg + '</div><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     $('.message-input').val(null);
@@ -67,7 +71,8 @@ function insertMessage(msg) {
 }
 
 $('.message-submit').click(function() {
-    insertMessage();
+    var topic = $('#username-content').attr('topic');
+    insertMessage('', topic);
 });
 
 $(window).on('keydown', function(e) {
