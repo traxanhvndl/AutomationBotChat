@@ -306,7 +306,7 @@ io.sockets.on('connection', function(socket) {
             }
             cloudSmart.cloudTopic(data, function(SmartMgs) {
                 if (SmartMgs.toLowerCase() == 'user need to chat admin') {
-                    selectTopic
+                    selectTopic(users[socket.nickname].id, "ChatAdmin", function(sessionID) {});
                 }
             })
             console.log("OBJECT: " + user_list[sessionID]);
