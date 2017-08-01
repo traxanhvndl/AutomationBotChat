@@ -91,6 +91,10 @@ var neonChat = neonChat || {
                     $('#clear').hide();
                 }
             })
+            $(window).load(function(params) {
+                $('#set_nick').submit();
+            });
+
             $('#set_nick').submit(function() {
                 var display_name = $('#nick_name').val();
                 var nickname = display_name.replace(/ /g, '_');

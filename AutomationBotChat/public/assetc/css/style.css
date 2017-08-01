@@ -231,9 +231,9 @@ fieldset[disabled] .btn-contact.active {
     /*opacity: 0.8;*/
     box-shadow: 2px 2px 2px #000;
     color: #fff;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
     border-bottom-left-radius: 20px;
