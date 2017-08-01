@@ -183,6 +183,12 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             tip_title = "NA";
             tip = "NA";
             break;
+        case "user need to chat admin":
+            message = "Yes, I'm forwarding this session to admin, please wait a moment";
+            buttonName = "NA";
+            tip_title = "Session chat to admin";
+            tip = "The current session has been forward to admin!";
+            break;
         case "clear_cloud":
             message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
             buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
