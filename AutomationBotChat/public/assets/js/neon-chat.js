@@ -146,6 +146,18 @@ var neonChat = neonChat || {
                 neonChat.renderMessages(id);
             });
 
+            socket.on('new_message_admin', function(data) {
+                console.log("new_message_admin");
+                // console.log(data);
+                var id = "chat-user-" + data.sendto;
+                var $user_link = $('#' + id);
+                neonChat.updateScrollbars();
+                // neonChat.updateConversationOffset($user_link);
+                console.log(id, data.msg, data.sendto, data.time, 'even', 'unread');
+                neonChat.pushMessage(id, data.msg, data.sendto, data.time, 'even', 'unread');
+                neonChat.renderMessages(id);
+            });
+
 
             // Texarea
             $textarea.keydown(function(e) {

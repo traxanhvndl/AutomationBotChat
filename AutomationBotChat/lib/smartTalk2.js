@@ -22,11 +22,11 @@ module.exports = {
                     if (typeof data[0] != "undefined") {
                         mean = data[0].mean;
                         console.log("KEY WORD: --- " + element + " --- MEAN: --- " + mean);
-                        if (mean == 'create' || mean == 'query') {
+                        if (mean == 'create' || mean == 'query' || mean == 'chat') {
                             key_action = mean;
                             validate_key = true;
                         }
-                        if (mean == 'ticket' || mean == 'quota') {
+                        if (mean == 'ticket' || mean == 'quota' || mean == 'admin') {
                             key_object = mean;
                             validate_key = true;
                         }

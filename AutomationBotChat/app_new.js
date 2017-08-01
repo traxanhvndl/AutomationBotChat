@@ -273,9 +273,7 @@ io.sockets.on('connection', function(socket) {
             data(true);
             socket.nickname = name;
             users[socket.nickname] = socket;
-            console.log('Add UserName : ' + name);
             updateNickNames();
-            //exportUserData(users);
         }
 
     });
@@ -291,17 +289,12 @@ io.sockets.on('connection', function(socket) {
         if (users[data.sendto]) {
             var currentdate = new Date();
             var time = currentdate.getHours() + ":" + currentdate.getMinutes();
-            io.sockets.emit('new_message', { msg: data.msg, sendto: data.sendto, sendfrom: data.nick, time: time }, room = users[data.sendto].id);
-            // users[data.sendto].emit('new_message', { msg: data.msg, sendto: data.sendto, sendfrom: data.nick, time: time });
+            users[data.nick].emit('new_message', { msg: data.msg, nick: 'BOT', sendto: data.sendto });
         };
     });
 
     // Process for BOT if getting command from topic
     socket.on('send_message_bot', function(data, sendto) {
-        // smartTalk2.guessUserIntent(data, function(action, object, validate_key) {
-        //     var data_tmp = data;
-        //     if (typeof action != 'undefined' && typeof object != 'undefined') learnUnvalueData.learnUnvalueData(data_tmp);
-        // });
         if (typeof users[socket.nickname] == "undefined") {
             console.log("WE GOT A DEAD SESSION!");
         } else {
@@ -311,6 +304,11 @@ io.sockets.on('connection', function(socket) {
                 var tmp = {};
                 user_list[sessionID] = tmp;
             }
+            cloudSmart.cloudTopic(data, function(SmartMgs) {
+                if (SmartMgs.toLowerCase() == 'user need to chat admin') {
+                    selectTopic
+                }
+            })
             console.log("OBJECT: " + user_list[sessionID]);
             console.log("USER_DATA : " + user_data[sessionID]);
             if (typeof user_data[sessionID] !== 'undefined' && user_data[sessionID] !== null) {
@@ -333,9 +331,6 @@ io.sockets.on('connection', function(socket) {
                                 console.log("Here log: " + user_data[sessionID]);
                             })
                         }
-                        if (session_topic[sessionID] == "ChatAdmin") {
-                            console.log("MESSAGE FOR ADMIN: " + data);
-                        }
                     })
                 });
             } else {
@@ -353,6 +348,11 @@ io.sockets.on('connection', function(socket) {
                                 //log
                                 console.log("Here log: " + user_data[sessionID]);
                             })
+                        }
+                        if (session_topic[sessionID] == "ChatAdmin") {
+                            var currentdate = new Date();
+                            var time = currentdate.getHours() + ":" + currentdate.getMinutes();
+                            io.sockets.emit('new_message_admin', { msg: data, sendto: socket.nickname, sendfrom: 'BOT', time: time });
                         }
                     })
                 });
@@ -451,20 +451,6 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                     cb1(message, promButton, tip_title, tip);
                 })
             });
-            // handleSmartTalk(cloudSmart.cloudTopic(clientMgs), sessionID, function(Smessage, Sitems, Scommand) {
-            //     message = Smessage;
-            //     promButton = Sitems;
-            //     command = Scommand;
-            //     user_data[sessionID] = command;
-            //     if (Smessage == "I didn't catch you, could you type another words?") {
-            //         user_unkonw_mgs[sessionID] = data;
-            //         console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
-            //     } else {
-            //         if (typeof user_unkonw_mgs[sessionID] != "undifined") {
-            //             learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
-            //         }
-            //     }
-            // })
         } else if (buttonName.buttonName != "NA") {
             for (var i = 0; i < handleButton(buttonName).length; i++) {
                 console.log("Button Name : " + handleButton(buttonName)[i]);
@@ -496,15 +482,4 @@ function handleSmartTalk(Smessage, sessionID, cb) {
         }
     } else promButton = "NA";
     cb(buttonName.message, promButton, buttonName.command);
-}
-
-function exportUserData(userData) {
-    // userData.forEach(function(element) {
-    fs.writeFileSync("./userData.json", stringify(userData), 'utf8', function(err) {
-        if (err) {
-            return console.log(err);
-        }
-        //}, this);
-        console.log("The file was saved!");
-    });
 }

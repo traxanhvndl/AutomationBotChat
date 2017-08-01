@@ -53,16 +53,17 @@ function convertTime(time) {
 }
 
 function insertMessage(msg, topic) {
-    if (msg != '') {
+    if (!msg || msg == '') {
         msg = $('.message-input').val();
         if ($.trim(msg) == '') {
             return false;
         };
     };
     var sendto = "BOT";
-    if (topic == 'chatadmin') {
+    if (topic == 'ChatAdmin') {
         sendto = 'admin';
-    };
+        //socket.emit('send_message', { msg: msg.replace(/<.*?>/g, ''), nick: 'admin', sendto: 'user' });
+    } //else 
     socket.emit('send_message_bot', msg, sendto);
     $('<div class="message message-personal"><div class="conversation">' + msg + '</div><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
@@ -72,12 +73,14 @@ function insertMessage(msg, topic) {
 
 $('.message-submit').click(function() {
     var topic = $('#username-content').attr('topic');
+    // console.log('inp :' + topic)
     insertMessage('', topic);
 });
 
 $(window).on('keydown', function(e) {
     if (e.which == 13) {
-        insertMessage();
+        $('.message-submit').click();
+        // insertMessage();
         return false;
     }
 })
