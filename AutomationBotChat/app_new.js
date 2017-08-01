@@ -23,6 +23,7 @@ var express = require('express'),
     user_list = {},
     user_data = {};
 user_unkonw_mgs = {};
+user_unknow_count = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
 // ip = process.env.HOST || '11.11.254.69';
@@ -304,6 +305,9 @@ io.sockets.on('connection', function(socket) {
                 var tmp = {};
                 user_list[sessionID] = tmp;
             }
+            if (typeof user_unknow_count[sessionID] == 'undefined') {
+                user_unknow_count[sessionID] = 0;
+            }
             cloudSmart.cloudTopic(data, function(SmartMgs) {
                 if (SmartMgs.toLowerCase() == 'user need to chat admin') {
                     selectTopic(users[socket.nickname].id, "ChatAdmin", function(sessionID) {});
@@ -442,9 +446,18 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                     user_data[sessionID] = command;
                     if (Smessage == "I didn't catch you, could you type another words?") {
                         user_unkonw_mgs[sessionID] = data;
+                        user_unknow_count[sessionID] = user_unknow_count[sessionID] + 1;
+                        console.log("UNKNOWN MESSAGE COUNT: _____________" + user_unknow_count[sessionID]);
+                        if (user_unknow_count[sessionID] > 2) {
+                            selectTopic(sessionID, "ChatAdmin", function(sessionID) {
+                                message = "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you";
+                                //users[socket.nickname].emit('new_message', { msg: "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help your", tip_title: 'NA', tip: 'NA', nick: 'BOT', sendto: sendto });
+                            });
+                        }
                         console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
                     } else {
                         if (typeof user_unkonw_mgs[sessionID] != "undefined") {
+                            user_unknow_count = 0;
                             learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
                         }
                     }
