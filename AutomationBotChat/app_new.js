@@ -25,6 +25,7 @@ var express = require('express'),
     user_data = {};
 user_unkonw_mgs = {};
 user_unknow_count = {};
+userClientName = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
 // ip = process.env.HOST || '11.11.254.69';
@@ -41,6 +42,7 @@ var apiai = require('apiai');
 var appAI = apiai("e58b167254d549a6bde597727c5a334b");
 var AIMessage;
 var AIData;
+var tmp_socket;
 
 //new
 app.use(cookieParser('shhhh, very secret'));
@@ -268,6 +270,7 @@ app.post('/cloud/BOTregister', function(req, res) {
 });
 
 io.sockets.on('connection', function(socket) {
+    tmp_socket = io.sockets;
     socket.on('new_user', function(name, data) {
         if (name in users) {
             data(false);
@@ -275,6 +278,7 @@ io.sockets.on('connection', function(socket) {
             data(true);
             socket.nickname = name;
             users[socket.nickname] = socket;
+            userClientName[socket.id] = socket.nickname;
             updateNickNames();
         }
 
@@ -312,7 +316,10 @@ io.sockets.on('connection', function(socket) {
             }
             cloudSmart.cloudTopic(data, function(SmartMgs) {
                 if (SmartMgs.toLowerCase() == 'user need to chat admin') {
+                    var currentdate = new Date();
+                    var time = currentdate.getHours() + ":" + currentdate.getMinutes();
                     selectTopic(users[socket.nickname].id, "ChatAdmin", function(sessionID) {});
+                    io.sockets.emit('new_message_admin', { msg: socket.nickname + " need to chat with admin ", sendto: socket.nickname, sendfrom: 'BOT', time: time });
                 }
             })
             console.log("OBJECT: " + user_list[sessionID]);
@@ -444,6 +451,8 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
     var message = "";
     var promButton = "";
     var command;
+    var currentdate = new Date();
+    var time = currentdate.getHours() + ":" + currentdate.getMinutes();
     cloudTopic.cloudTopic(clientMgs, userData, sessionID, cb1, function(buttonName, sessionID, cb1) {
         command = buttonName.command;
         user_data[sessionID] = command;
@@ -468,6 +477,7 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         if (user_unknow_count[sessionID] > 2) {
                             selectTopic(sessionID, "ChatAdmin", function(sessionID) {
                                 message = "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you";
+                                tmp_socket.emit('new_message_admin', { msg: "User needs to chat with admin: " + data, sendto: userClientName[sessionID], sendfrom: 'BOT', time: time });
                             });
                         }
                         console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
