@@ -373,6 +373,18 @@ io.sockets.on('connection', function(socket) {
                                 console.log("AUTOMATION___________" + SmartMgs);
                                 if (data == "Automation") SmartMgs = "Automation";
                                 if (SmartMgs.indexOf("undefined") != -1) {
+                                    if (typeof user_unknow_count[sessionID] == 'undefined') {
+                                        user_unknow_count[sessionID] = 0;
+                                    } else {
+                                        user_unknow_count[sessionID] = user_unknow_count[sessionID] + 1;
+                                        if (user_unknow_count[sessionID] > 2) {
+                                            selectTopic(sessionID, "ChatAdmin", function(sessionID) {
+                                                tmp_message = "NA";
+                                                users[socket.nickname].emit('new_message', { msg: "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you", items: "NA", tip_title: "NA", tip: "NA", nick: 'BOT', sendto: sendto });
+                                                io.sockets.emit('new_message_admin', { msg: socket.nickname + " need to chat with admin ", sendto: socket.nickname, sendfrom: 'BOT', time: time });
+                                            });
+                                        }
+                                    }
                                     user_unkonw_mgs[sessionID] = data;
                                 } else if (typeof user_unkonw_mgs[sessionID] != 'undefined' && SmartMgs != 'Automation') {
                                     learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
