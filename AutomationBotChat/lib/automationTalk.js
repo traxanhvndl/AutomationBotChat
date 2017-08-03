@@ -18,13 +18,13 @@ function automationTopic(step, sessionID, cb) {
             tip = "NA";
             break;
         case 'user need to install fw':
-            message = "To install the Automation framework, please click <a href='http://localhost/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a> to get the document for installation";
+            message = "To install the Automation framework, please click <a href='http://11.11.254.69/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a> to get the document for installation";
             buttonName = "NA";
             tip_title = "NA";
             tip = "NA";
             break;
         case 'user need to create fw':
-            message = "To install the Automation framework, please click <a href='http://localhost/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a> to get the document for installation";
+            message = "To install the Automation framework, please click <a href='http://11.11.254.69/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a> to get the document for installation";
             buttonName = "NA";
             tip_title = "NA";
             tip = "NA";
@@ -36,7 +36,7 @@ function automationTopic(step, sessionID, cb) {
             tip = "NA";
             break;
         case 'user need to negative install fw':
-            message = "Please make sure you followed the steps in <a href='http://localhost/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a>, if the failure still exists, please contact to admin ";
+            message = "Please make sure you followed the steps in <a href='http://11.11.254.69/autoDoc/Install_Java_Automation_Framework.pptx'>HERE</a>, if the failure still exists, please contact to admin ";
             buttonName = "NA";
             tip_title = "NA";
             tip = "NA";
