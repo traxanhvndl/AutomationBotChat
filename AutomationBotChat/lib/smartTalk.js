@@ -25,8 +25,8 @@ module.exports = {
         var key_ACTION = "";
         var key_OBJECT = "";
         var flag_NEGATIVE = false;
-        smartTalk2.guessUserIntent(message, function(key_action, key_object) {
-                resMessage = "USER NEED TO " + key_action + " " + key_object;
+        smartTalk2.guessUserIntent(message, function(key_action, key_object, validate_key, key_negative) {
+                resMessage = "USER NEED TO " + key_negative + key_action + " " + key_object;
                 if (typeof key_action != 'undefined' && typeof key_object != 'undefined') learnUnvalueData.learnUnvalueData(message);
                 cb(resMessage);
             })

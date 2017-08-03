@@ -9,7 +9,7 @@ var conn = mysql.createConnection({
 
 module.exports = {
     learnUnvalueData: function(message) {
-        var messageArray = message.toLowerCase().split(" ");
+        var messageArray = message.toLowerCase().replace("'", "_").toLowerCase().split(" ");
         messageArray.forEach(function(element) {
             conn.query("SELECT mean FROM key_word WHERE key_word like '" + element + "'", function(error, data) {
                 if (error) {

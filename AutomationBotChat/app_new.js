@@ -1,5 +1,6 @@
 var config = require('./config')();
 var cloudTopic = require("./lib/cloudTalk");
+var autoTopic = require("./lib/automationTalk");
 var cloudSmart = require("./lib/smartTalk");
 var learnData = require("./lib/learnData");
 var learnUnvalueData = require("./lib/learnUnvalueData");
@@ -296,6 +297,7 @@ io.sockets.on('connection', function(socket) {
 
     // Process for BOT if getting command from topic
     socket.on('send_message_bot', function(data, sendto) {
+        //data = data.toLowerCase().replace("'", "_");
         if (typeof users[socket.nickname] == "undefined") {
             console.log("WE GOT A DEAD SESSION!");
         } else {
@@ -357,6 +359,21 @@ io.sockets.on('connection', function(socket) {
                             var currentdate = new Date();
                             var time = currentdate.getHours() + ":" + currentdate.getMinutes();
                             io.sockets.emit('new_message_admin', { msg: data, sendto: socket.nickname, sendfrom: 'BOT', time: time });
+                        }
+                        //CODE FOR AUTOMATION TOPIC
+                        if (session_topic[sessionID] == "Automation") {
+                            cloudSmart.cloudTopic(data, function(SmartMgs) {
+                                console.log("AUTOMATION___________" + SmartMgs);
+                                if (data == "Automation") SmartMgs = "Automation";
+                                if (SmartMgs.indexOf("undefined") != -1) {
+                                    user_unkonw_mgs[sessionID] = data;
+                                } else if (typeof user_unkonw_mgs[sessionID] != 'undefined' && SmartMgs != 'Automation') {
+                                    learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
+                                }
+                                autoTopic.automationTopic(SmartMgs, sessionID, function(items, message, tip_title, tip) {
+                                    users[socket.nickname].emit('new_message', { msg: message, items: items, tip_title: tip_title, tip: tip, nick: 'BOT', sendto: sendto });
+                                })
+                            })
                         }
                     })
                 });
@@ -451,7 +468,6 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                         if (user_unknow_count[sessionID] > 2) {
                             selectTopic(sessionID, "ChatAdmin", function(sessionID) {
                                 message = "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you";
-                                //users[socket.nickname].emit('new_message', { msg: "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help your", tip_title: 'NA', tip: 'NA', nick: 'BOT', sendto: sendto });
                             });
                         }
                         console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);

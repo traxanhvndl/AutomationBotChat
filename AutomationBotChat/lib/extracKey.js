@@ -9,7 +9,7 @@ var conn = mysql.createConnection({
 
 module.exports = {
     extractKey: function(message, key_action, key_object, valid_action, valid_object) {
-        var messageArray = message.toLowerCase().split(" ");
+        var messageArray = message.toLowerCase().replace("'", "_").toLowerCase().split(" ");
         var keyword2Learn = [];
         var scope2Learn = [];
         var mean2Learn = [];
