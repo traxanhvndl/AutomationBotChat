@@ -57,15 +57,6 @@ function automationTopic(step, sessionID, cb) {
     handleButton(buttonName, function(button) {
         cb(button, message, tip_title, tip);
     });
-    // console.log("MESSAGE TYPE: " + typeof message);
-    // console.log("Message to return: " + message);
-    // while (typeof message !== "undefined") {
-    //     if (typeof cb !== "undefined") {
-    //         cb({ 'buttonName': buttonName, 'message': message, 'command': command, 'tip_title': tip_title, 'tip': tip }, sessionID, cb1);
-    //     }
-    //     return { 'buttonName': buttonName, 'message': message, 'command': command, 'tip_title': tip_title, 'tip': tip };
-    //     break;
-    // }
 };
 //};
 exports.automationTopic = automationTopic;
