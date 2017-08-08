@@ -11,11 +11,11 @@ var conn = mysql.createConnection({
 });
 module.exports = {
     learnFromUser: function(unknowMgs, message) {
-        // conn.query("UPDATE unknow_msg SET valid_mgs = '" + message + "' where message like '" + unknowMgs + "'", function(error, data) {
-        //     if (error) {
-        //         console.log("ERROR DB: " + error);
-        //     }
-        // });
+        conn.query("UPDATE unknow_msg SET valid_mgs = '" + message + "' where message like '" + unknowMgs + "'", function(error, data) {
+            if (error) {
+                console.log("ERROR DB: " + error);
+            }
+        });
         var valid_action, valid_object;
         smartTalk2.guessUserIntent(message, function(action, object) {
             valid_action = action;

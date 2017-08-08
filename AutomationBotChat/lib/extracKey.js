@@ -1,5 +1,6 @@
 //MY SQL
 var mysql = require('mysql');
+var patternNumber = /[1-9]/g;
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -16,50 +17,51 @@ module.exports = {
         var count = 0;
         var index = 0;
         messageArray.forEach(function(element) {
-            conn.query("SELECT mean FROM key_word WHERE key_word like '" + element + "'", function(error, data) {
-                if (error) {
-                    console.log("ERROR DB: " + error);
-                } else {
-                    if (typeof data[0] == "undefined") {
-                        if (typeof key_action == 'undefined' && typeof key_object == 'undefined') {
-                            console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN ACTION");
-                            keyword2Learn.push(element);
-                            scope2Learn.push('ACTION');
-                            mean2Learn.push(valid_action);
-                            count = count + 1;
-                            key_action = 'TMP';
-                        } else if (typeof key_action == 'undefined') {
-                            console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN ACTION");
-                            keyword2Learn.push(element);
-                            scope2Learn.push('ACTION');
-                            mean2Learn.push(valid_action);
-                            count = count + 2;
-                        } else if (typeof key_object == 'undefined') {
-                            console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN OBJECT");
-                            keyword2Learn.push(element);
-                            scope2Learn.push('OBJECT');
-                            mean2Learn.push(valid_object);
-                            count = count + 2;
+            if (typeof element.match(patternNumber) == null) {
+                conn.query("SELECT mean FROM key_word WHERE key_word like '" + element + "'", function(error, data) {
+                    if (error) {
+                        console.log("ERROR DB: " + error);
+                    } else {
+                        if (typeof data[0] == "undefined") {
+                            if (typeof key_action == 'undefined' && typeof key_object == 'undefined') {
+                                console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN ACTION");
+                                keyword2Learn.push(element);
+                                scope2Learn.push('ACTION');
+                                mean2Learn.push(valid_action);
+                                count = count + 1;
+                                key_action = 'TMP';
+                            } else if (typeof key_action == 'undefined') {
+                                console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN ACTION");
+                                keyword2Learn.push(element);
+                                scope2Learn.push('ACTION');
+                                mean2Learn.push(valid_action);
+                                count = count + 2;
+                            } else if (typeof key_object == 'undefined') {
+                                console.log("WE GOT A NEW KEY: ---- " + element + " LOOK LIKE IT IS AN OBJECT");
+                                keyword2Learn.push(element);
+                                scope2Learn.push('OBJECT');
+                                mean2Learn.push(valid_object);
+                                count = count + 2;
+                            }
                         }
                     }
-                }
-                index = index + 1;
-                if (index === messageArray.length) {
-                    if (count == 1) {
-                        console.log("ADD 1 TO DB");
-                        editDB(keyword2Learn[0], 'OBJECT', valid_object);
-                    } else if (count > 3) {
-                        console.log("MANY KEYWORDS - NOTHING TO LEARN");
-                    } else if (count == 2 || count == 3) {
-                        console.log("ADD 2 TO DB");
-                        for (var i = 0; i < keyword2Learn.length; i++) {
-                            editDB(keyword2Learn[i], scope2Learn[i], mean2Learn[i]);
+                    index = index + 1;
+                    if (index === messageArray.length) {
+                        if (count == 1) {
+                            console.log("ADD 1 TO DB");
+                            editDB(keyword2Learn[0], 'OBJECT', valid_object);
+                        } else if (count > 3) {
+                            console.log("MANY KEYWORDS - NOTHING TO LEARN");
+                        } else if (count == 2 || count == 3) {
+                            console.log("ADD 2 TO DB");
+                            for (var i = 0; i < keyword2Learn.length; i++) {
+                                editDB(keyword2Learn[i], scope2Learn[i], mean2Learn[i]);
+                            }
                         }
                     }
-                }
+                });
+            }
 
-
-            });
 
         }, this);
     }

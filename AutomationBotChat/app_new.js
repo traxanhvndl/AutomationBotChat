@@ -98,7 +98,7 @@ app.get('/admin', function(req, res) {
 app.get('/sendmail', function(req, res) {
     var mailOptions = {
         from: '"TA-TaaS Team" <taas.dc2a.tma@outlook.com>',
-        to: 'dnnvu@tma.com.vn',
+        to: 'dmhuy@tma.com.vn',
         subject: req.query.subject,
         text: req.query.text,
         html: "<style>th{text-align: left;}</style><table border=0><tr><th>User Name : </th><td>" + req.query.name + "</td></tr><tr><th>Email : </th><td>" + req.query.from + "</td></tr><tr><th>Content : </th><td>" + req.query.text + "</td></tr></table>"
@@ -474,33 +474,42 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
         console.log("BUTTON TO SEND TO CLIENT: " + buttonName.buttonName);
         promButton = "";
         if (buttonName.message == "I didn't catch you, could you type another words?") {
-            cloudSmart.cloudTopic(clientMgs, function(tmp_msg) {
+            cloudSmart.cloudTopic(clientMgs, function(tmp_msg, extraData_flag, extraData) {
                 console.log("********************************** " + tmp_msg);
-                handleSmartTalk(tmp_msg, sessionID, function(Smessage, Sitems, Scommand) {
-                    console.log("*********SMESSAGE***********" + Smessage);
-                    message = Smessage;
-                    promButton = Sitems;
-                    command = Scommand;
-                    user_data[sessionID] = command;
-                    if (Smessage == "I didn't catch you, could you type another words?") {
-                        user_unkonw_mgs[sessionID] = data;
-                        user_unknow_count[sessionID] = user_unknow_count[sessionID] + 1;
-                        console.log("UNKNOWN MESSAGE COUNT: _____________" + user_unknow_count[sessionID]);
-                        if (user_unknow_count[sessionID] > 2) {
-                            selectTopic(sessionID, "ChatAdmin", function(sessionID) {
-                                message = "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you";
-                                tmp_socket.emit('new_message_admin', { msg: "User needs to chat with admin: " + data, sendto: userClientName[sessionID], sendfrom: 'BOT', time: time });
-                            });
-                        }
-                        console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
-                    } else {
-                        if (typeof user_unkonw_mgs[sessionID] != "undefined") {
-                            user_unknow_count = 0;
-                            learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
-                        }
-                    }
+                if (extraData_flag) {
+                    console.log("JUMP TO HERE --- " + tmp_msg);
+                    console.log("GOT EXTRA DATA RAM --------- " + extraData.ram);
+                    console.log("GOT EXTRA DATA HDD --------- " + extraData.hdd);
+                    console.log("GOT EXTRA DATA CPU --------- " + extraData.cpu);
+                    message = "Do you need a new quota with the following information? <br> <b>RAM: </b> " + extraData.ram + "<br> <b>HDD: </b> " + extraData.hdd + "<br> <b>CPUs: </b> " + extraData.cpu;
                     cb1(message, promButton, tip_title, tip);
-                })
+                } else {
+                    handleSmartTalk(tmp_msg, sessionID, function(Smessage, Sitems, Scommand) {
+                        console.log("*********SMESSAGE***********" + Smessage);
+                        message = Smessage;
+                        promButton = Sitems;
+                        command = Scommand;
+                        user_data[sessionID] = command;
+                        if (Smessage == "I didn't catch you, could you type another words?") {
+                            user_unkonw_mgs[sessionID] = data;
+                            user_unknow_count[sessionID] = user_unknow_count[sessionID] + 1;
+                            console.log("UNKNOWN MESSAGE COUNT: _____________" + user_unknow_count[sessionID]);
+                            if (user_unknow_count[sessionID] > 2) {
+                                selectTopic(sessionID, "ChatAdmin", function(sessionID) {
+                                    message = "I'm sorry. I'm having trouble understanding you, so I'll forward this session to real supporters, they will help you";
+                                    tmp_socket.emit('new_message_admin', { msg: "User needs to chat with admin: " + data, sendto: userClientName[sessionID], sendfrom: 'BOT', time: time });
+                                });
+                            }
+                            console.log("UNKNOW MESSAGE: " + user_unkonw_mgs[sessionID]);
+                        } else {
+                            if (typeof user_unkonw_mgs[sessionID] != "undefined") {
+                                user_unknow_count = 0;
+                                learnData.learnFromUser(user_unkonw_mgs[sessionID], data);
+                            }
+                        }
+                        cb1(message, promButton, tip_title, tip);
+                    })
+                }
             });
         } else if (buttonName.buttonName != "NA") {
             for (var i = 0; i < handleButton(buttonName).length; i++) {

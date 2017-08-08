@@ -25,10 +25,15 @@ module.exports = {
         var key_ACTION = "";
         var key_OBJECT = "";
         var flag_NEGATIVE = false;
-        smartTalk2.guessUserIntent(message, function(key_action, key_object, validate_key, key_negative) {
+        smartTalk2.guessUserIntent(message, function(key_action, key_object, validate_key, key_negative, extraData_flag, extraData) {
+                // if (extraData_flag) {
+                //     console.log("GOT EXTRA DATA RAM --------- " + extraData.ram);
+                //     console.log("GOT EXTRA DATA HDD --------- " + extraData.hdd);
+                //     console.log("GOT EXTRA DATA CPU --------- " + extraData.cpu);
+                // }
                 resMessage = "USER NEED TO " + key_negative + key_action + " " + key_object;
                 if (typeof key_action != 'undefined' && typeof key_object != 'undefined') learnUnvalueData.learnUnvalueData(message);
-                cb(resMessage);
+                cb(resMessage, extraData_flag, extraData);
             })
             //console.log("JUMP INTO SMART TALK");
 
