@@ -117,6 +117,29 @@ app.get('/sendmail', function(req, res) {
     });
 });
 
+app.get('/sendmailtin/:project', function(req, res) {
+    console.log("Project : " + req.params.project);
+    var mailOptions = {
+        from: '"TA-TaaS Team" <taas.dc2a.tma@outlook.com>',
+        to: 'bktin@tma.com.vn',
+        subject: req.query.subject,
+        text: req.query.text,
+        html: "<style>th{text-align: left;}</style><table border=0><tr><th>User Name : </th><td>" + req.query.name + "</td></tr><tr><th>Project : </th><td>" + req.params.project + "</td></tr><tr><th>Email : </th><td>" + req.query.from + "</td></tr><tr><th>Content : </th><td>" + req.query.text + "</td></tr></table>"
+    }
+    transporter.sendMail(mailOptions, function(error, response) {
+        if (error) {
+            console.log(error);
+            res.end("error");
+        } else {
+            console.log(response)
+            console.log("Message sent: " + response.response);
+            var status = 200;
+            res.send('sent');
+            res.end();
+        }
+    });
+});
+
 app.post('/botChatMessage', function(req, res) {
 
 })
@@ -479,8 +502,11 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                 if (extraData_flag) {
                     console.log("JUMP TO HERE --- " + tmp_msg);
                     console.log("GOT EXTRA DATA RAM --------- " + extraData.ram);
+                    userData['ram'] = extraData.ram;
                     console.log("GOT EXTRA DATA HDD --------- " + extraData.hdd);
+                    userData['hdd'] = extraData.hdd;
                     console.log("GOT EXTRA DATA CPU --------- " + extraData.cpu);
+                    userData['cpu'] = extraData.cpu;
                     message = "Do you need a new quota with the following information? <br> <b>RAM: </b> " + extraData.ram + "<br> <b>HDD: </b> " + extraData.hdd + "<br> <b>CPUs: </b> " + extraData.cpu;
                     cb1(message, promButton, tip_title, tip);
                 } else {
