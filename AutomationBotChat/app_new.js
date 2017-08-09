@@ -6,6 +6,8 @@ var learnData = require("./lib/learnData");
 var learnUnvalueData = require("./lib/learnUnvalueData");
 var extractKey = require("./lib/extracKey");
 var smartTalk2 = require("./lib/smartTalk2");
+var handleExtraData_cloud = require("./lib/handleExtracData_Cloud");
+var undefined_data;
 //var cloudSmart = require("./lib/cloudTalkSmart");
 var ipaddr = require("ip");
 var session = require('express-session'); //new
@@ -26,6 +28,7 @@ var express = require('express'),
 user_unkonw_mgs = {};
 user_unknow_count = {};
 userClientName = {};
+userExpectData = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
 // ip = process.env.HOST || '11.11.254.69';
@@ -373,6 +376,11 @@ io.sockets.on('connection', function(socket) {
                 selectTopic(users[socket.nickname].id, data, function(sessionID) {
                     getTopic(sessionID, function() {
                         if (session_topic[sessionID] == "Cloud") {
+                            if (userExpectData[sessionID] && data.toLowerCase().indexOf('ram') == -1 && data.toLowerCase().indexOf('hdd') == -1 && data.toLowerCase().indexOf('cpu') == -1) {
+                                console.log("BOT IS WAITING FOR : " + userExpectData[sessionID]);
+                                data = userExpectData[sessionID] + " " + data;
+                                userExpectData[sessionID] = undefined;
+                            }
                             createMessage(data, user_list[sessionID], sessionID, data, function(message, items, tip_title, tip) {
                                 console.log("TIP TITLE ---------------------: " + tip_title);
                                 console.log("TIPPPP---------------------: " + tip);
@@ -501,14 +509,16 @@ function createMessage(clientMgs, userData, sessionID, data, cb1) {
                 console.log("********************************** " + tmp_msg);
                 if (extraData_flag) {
                     console.log("JUMP TO HERE --- " + tmp_msg);
-                    console.log("GOT EXTRA DATA RAM --------- " + extraData.ram);
-                    userData['ram'] = extraData.ram;
-                    console.log("GOT EXTRA DATA HDD --------- " + extraData.hdd);
-                    userData['hdd'] = extraData.hdd;
-                    console.log("GOT EXTRA DATA CPU --------- " + extraData.cpu);
-                    userData['cpu'] = extraData.cpu;
-                    message = "Do you need a new quota with the following information? <br> <b>RAM: </b> " + extraData.ram + "<br> <b>HDD: </b> " + extraData.hdd + "<br> <b>CPUs: </b> " + extraData.cpu;
-                    cb1(message, promButton, tip_title, tip);
+                    handleExtraData_cloud.handleExtracData_Cloud(extraData, userData, function(userData_tmp, message, expectedData) {
+                            userData = userData_tmp;
+                            if (expectedData != " ") {
+                                userExpectData[sessionID] = expectedData;
+                                cb1(message, promButton, tip_title, tip);
+                            } else {
+                                createMessage("OK_life time", userData, sessionID, "OK_life time", cb1);
+                            }
+                        })
+                        //cb1(message, promButton, tip_title, tip);
                 } else {
                     handleSmartTalk(tmp_msg, sessionID, function(Smessage, Sitems, Scommand) {
                         console.log("*********SMESSAGE***********" + Smessage);

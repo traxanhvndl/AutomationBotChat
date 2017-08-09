@@ -1,53 +1,40 @@
-//MY SQL
-var mysql = require('mysql');
-var patternNumber = /[1-9]/g;
-var conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'smart_talk'
-});
+function processDataCloud(extraData, userData, cb) {
+    var ram = extraData.ram;
+    var hdd = extraData.hdd;
+    var cpu = extraData.cpu;
+    var message = "Your request missing infomation, please provide";
+    var expectedData = " ";
 
-module.exports = {
-    learnUnvalueData: function(message) {
-        var messageArray = message.toLowerCase().replace("'", "_").toLowerCase().split(" ");
-        messageArray.forEach(function(element) {
-            if (typeof element.match(patternNumber) == null) {
-                conn.query("SELECT mean FROM key_word WHERE key_word like '" + element + "'", function(error, data) {
-                    if (error) {
-                        console.log("ERROR DB: " + error);
-                    } else {
-                        if (typeof data[0] == "undefined") {
-                            conn.query("INSERT INTO tmp_unvalue (id, key_word, mean, count, is_del) VALUES (NULL, '" + element + "', '" + 'unvalue' + "','0', '0')", function(error, results) {
-                                if (error) {
-                                    console.log("LOCAL - KEY: " + element);
-                                    conn.query("Select * from tmp_unvalue where key_word like '" + element + "'", function(error, results) {
-                                        console.log("SMART TALK DATA: " + results);
-                                        var count = parseInt(results[0].count) + 1;
-                                        conn.query("UPDATE tmp_unvalue SET count = '" + count + "' where key_word like '" + results[0].key_word + "'", function(error) {
-                                            if (!error) {
-                                                conn.query("Select * from tmp_unvalue where key_word like '" + element + "'", function(error, data) {
-                                                    if (!error) {
-                                                        var count_unvalue = parseInt(data[0].count);
-                                                        if (count_unvalue >= 2 && data[0].is_del == '0') {
-                                                            conn.query("INSERT into key_word (id, key_word, mean, count) value (NULL, '" + element + "','" + data[0].mean + "','1')", function(error) {
-                                                                if (!error) {
-                                                                    conn.query("UPDATE tmp_unvalue SET is_del = '1' where key_word like '" + element + "'");
-                                                                    console.log("PROMOTE " + element + " TO KEY WORD AS " + data[0].mean);
-                                                                }
-                                                            })
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        });
-                                    })
-                                }
-                            })
-                        }
-                    }
-                });
-            }
-        }, this);
-    }
+    //init data
+
+    userData['project name'] = 'Bot test';
+    userData['full name'] = 'Bot name';
+    userData['badge ID'] = '1307112';
+    userData['phone number'] = '01225176167';
+    userData['email address'] = 'bot@tma.com.vn';
+    userData["manager's email address"] = 'BotPM@tma.com.vn';
+    userData['instance'] = '1';
+    userData['OK_life time'] = '30';
+
+    if (typeof ram != 'undefined' && ram != 'num') userData['RAM'] = ram;
+    if (typeof hdd != 'undefined' && hdd != 'num') userData['HDD'] = hdd;
+    if (typeof cpu != 'undefined' && cpu != 'num') userData['CPU'] = cpu;
+    if (typeof userData['RAM'] == 'undefined') {
+        message = message + ' RAM';
+        expectedData = expectedData + ' RAM'
+    };
+    if (typeof userData['HDD'] == 'undefined') {
+        message = message + ' HDD';
+        expectedData = expectedData + ' HDD'
+    };
+    if (typeof userData['CPU'] == 'undefined') {
+        message = message + ' CPU';
+        expectedData = expectedData + ' CPU'
+    };
+
+    cb(userData, message, expectedData);
+
 }
+
+
+exports.handleExtracData_Cloud = processDataCloud;
