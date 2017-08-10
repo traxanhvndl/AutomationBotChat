@@ -722,9 +722,15 @@ Message Box
     transition: background .2s ease;
 }
 
-.message-box .message-submit:hover {
+.message-box .message-submit button {
+    border: none;
+    background-color: transparent;
+}
+
+.message-box .message-submit button:hover,
+.message-box .message-submit button:focus {
     /*background: #1D7745;*/
-    color: #1D7745;
+    color: #dd3941;
 }
 
 .message .conversation,
