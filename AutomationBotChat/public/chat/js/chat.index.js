@@ -99,7 +99,6 @@ function updateCountry() {
     select_dialect.style.visibility = list[1].length == 1 ? 'hidden' : 'visible';
 }
 
-var create_email = false;
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
@@ -115,17 +114,17 @@ if (!('webkitSpeechRecognition' in window)) {
     recognition.onstart = function() {
         recognizing = true;
         showInfo('info_speak_now');
-        start_img.src = 'images/mic-animate.gif';
+        start_img.className = 'fa fa-pause';
     };
 
     recognition.onerror = function(event) {
         if (event.error == 'no-speech') {
-            start_img.src = 'images/mic.gif';
+            start_img.className = 'fa fa-microphone';
             showInfo('info_no_speech');
             ignore_onend = true;
         }
         if (event.error == 'audio-capture') {
-            start_img.src = 'images/mic.gif';
+            start_img.className = 'fa fa-microphone';
             showInfo('info_no_microphone');
             ignore_onend = true;
         }
@@ -144,7 +143,7 @@ if (!('webkitSpeechRecognition' in window)) {
         if (ignore_onend) {
             return;
         }
-        start_img.src = 'images/mic.gif';
+        start_img.className = 'fa fa-microphone';
         if (!final_transcript) {
             showInfo('info_start');
             return;
@@ -153,7 +152,7 @@ if (!('webkitSpeechRecognition' in window)) {
         if (window.getSelection) {
             window.getSelection().removeAllRanges();
             var range = document.createRange();
-            range.selectNode(document.getElementById('final_span'));
+            range.selectNode(document.getElementById('myresult'));
             window.getSelection().addRange(range);
         }
         if (create_email) {
@@ -172,13 +171,21 @@ if (!('webkitSpeechRecognition' in window)) {
             }
         }
         final_transcript = capitalize(final_transcript);
-        final_span.innerHTML = linebreak(final_transcript);
+        // final_span.innerHTML = linebreak(final_transcript);
+        final_span.value = linebreak(final_transcript);
         interim_span.innerHTML = linebreak(interim_transcript);
         if (final_transcript || interim_transcript) {
             showButtons('inline-block');
         }
     };
 }
+
+final_span.addEventListener('keyup', function(event) {
+    var KeyID = event.keyCode;
+    if (KeyID == 8 || KeyID == 46) {
+        final_transcript = final_span.value;
+    }
+});
 
 function upgrade() {
     start_button.style.visibility = 'hidden';
@@ -198,29 +205,6 @@ function capitalize(s) {
     return s.replace(first_char, function(m) { return m.toUpperCase(); });
 }
 
-function copyButton() {
-    if (recognizing) {
-        recognizing = false;
-        recognition.stop();
-    }
-    copy_button.style.display = 'none';
-    copy_info.style.display = 'inline-block';
-    showInfo('');
-}
-
-function emailButton() {
-    if (recognizing) {
-        create_email = true;
-        recognizing = false;
-        recognition.stop();
-    } else {
-        createEmail();
-    }
-    email_button.style.display = 'none';
-    email_info.style.display = 'inline-block';
-    showInfo('');
-}
-
 function startButton(event) {
     if (recognizing) {
         recognition.stop();
@@ -233,7 +217,7 @@ function startButton(event) {
     // final_span.innerHTML = '';
     interim_span.innerHTML = '';
     myresult.innerHTML = '';
-    start_img.class = 'fa fa-microphone-slash';
+    start_img.className = 'fa fa-microphone-slash';
     showInfo('info_allow');
     showButtons('none');
     start_timestamp = event.timeStamp;
@@ -242,8 +226,8 @@ function startButton(event) {
 function showInfo(s) {
     if (s) {
         for (var child = info.firstChild; child; child = child.nextSibling) {
-            if (child.style) {
-                child.style.display = child.id == s ? 'inline' : 'none';
+            if (child.style && child != speak_language) {
+                child.style.display = child.id == s ? 'inline-block' : 'none';
             }
         }
         info.style.visibility = 'visible';
@@ -259,10 +243,6 @@ function showButtons(style) {
         return;
     }
     current_style = style;
-    // copy_button.style.display = style;
-    // email_button.style.display = style;
-    // copy_info.style.display = 'none';
-    // email_info.style.display = 'none';
 }
 /** end voice */
 
@@ -329,10 +309,12 @@ function insertMessage(msg, topic) {
     $('<div class="message message-personal"><div class="conversation">' + msg + '</div><figure class="avatar avatar-personal" style="float: right;"><img src="images/robot_2.png"></figure></div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     $('.message-input').val(null);
+    $('.message-input').html(null);
+    final_transcript = '';
     updateScrollbar();
 }
 
-$('.message-submit').click(function() {
+$('.message-send').click(function() {
     var topic = $('#username-content').attr('topic');
     // console.log('inp :' + topic)
     insertMessage('', topic);
@@ -340,7 +322,7 @@ $('.message-submit').click(function() {
 
 $(window).on('keydown', function(e) {
     if (e.which == 13) {
-        $('.message-submit').click();
+        $('.message-send').click();
         // insertMessage();
         return false;
     }

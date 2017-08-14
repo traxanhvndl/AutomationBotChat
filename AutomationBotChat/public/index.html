@@ -197,16 +197,15 @@
                     <div class="message-box">
                         <textarea id="final_span" type="text" class="message-input" placeholder="Type message..."></textarea>
                         <span class="message-submit">
-                            <button class="message-send" id="start_button" onclick="startButton(event)">
+                            <button class="message-voice" id="start_button" onclick="startButton(event)">
                             <i id="start_img" class="fa fa-microphone" src="images/mic.gif" alt="Start"></i>
                             </button>
-                            <button type="submit" class="message-voice"><i class="fa fa-send"></i></button>
+                            <button type="button" class="message-send"><i class="fa fa-send"></i></button>
                         </span>
 
                         <div id="results">
                             <!--<span id="final_span" class="final"></span>-->
-                            <span id="interim_span" class="interim"></span>
-                            <p>
+                            <!--<span id="interim_span" class="interim"></span>-->
                         </div>
                     </div>
 
@@ -225,24 +224,27 @@
 
                     </div>
                     <div class="chat-help-body">
+                        <div id="speak_language">
+                            Please select your language:
+                            <select id="select_language" onchange="updateCountry()"></select> &nbsp;&nbsp;
+                            <select id="select_dialect"></select>
+                        </div>
                         <div id="info" class="item-container tip-content">
-                            <div id="div_language">
-                                <select id="select_language" onchange="updateCountry()"></select> &nbsp;&nbsp;
-                                <select id="select_dialect"></select>
+                            <div id="info_start">Click on the microphone icon and begin speaking.</div>
+                            <div id="info_speak_now">Please speak:
+                                <div id="interim_span" class="interim"></div>
                             </div>
-                            <p id="info_start">Click on the microphone icon and begin speaking.</p>
-                            <p id="info_speak_now">Speak now.</p>
-                            <p id="info_no_speech">No speech was detected. You may need to adjust your
+                            <div id="info_no_speech">No speech was detected. You may need to adjust your
                                 <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-      microphone settings</a>.</p>
-                            <p id="info_no_microphone" style="display:none">
+      microphone settings</a>.</div>
+                            <div id="info_no_microphone" style="display:none">
                                 No microphone was found. Ensure that a microphone is installed and that
                                 <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
-    microphone settings</a> are configured correctly.</p>
-                            <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
-                            <p id="info_denied">Permission to use microphone was denied.</p>
-                            <p id="info_blocked">Permission to use microphone is blocked. To change, go to chrome://settings/contentExceptions#media-stream</p>
-                            <p id="info_upgrade">Web Speech API is not supported by this browser. Upgrade to <a href="//www.google.com/chrome">Chrome</a> version 25 or later.</p>
+    microphone settings</a> are configured correctly.</div>
+                            <div id="info_allow">Click the "Allow" button above to enable your microphone.</div>
+                            <div id="info_denied">Permission to use microphone was denied.</div>
+                            <div id="info_blocked">Permission to use microphone is blocked. To change, go to chrome://settings/contentExceptions#media-stream</div>
+                            <div id="info_upgrade">Web Speech API is not supported by this browser. Upgrade to <a href="//www.google.com/chrome">Chrome</a> version 25 or later.</div>
                         </div>
                     </div>
                 </div>
