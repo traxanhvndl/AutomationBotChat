@@ -14,8 +14,8 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
         case 'cloud':
             message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
             buttonName = "Request a new Quota andButton Query project quota andButton View my ticket";
-            tip_title = "NA";
-            tip = "NA";
+            tip_title = "Standard quota";
+            tip = "Please tell me the detail of the virtual machine that you want. you can prefer the standard virtual machine as below: <br> RAM: 512Mb <br> HDD: 20Gb <br> CPUs: 1";
             break;
         case 'cancel':
             message = "Ok! Do you have any query?";
@@ -121,7 +121,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
                 case "confirm":
                     createNewTicket(user_data, function(ticket_id) {
                         console.log("Ticket ID : " + ticket_id);
-                        message = "Your ticket ID is " + ticket_id + ". Please click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>" + "HERE" + " </a> to view your ticket ";
+                        message = "Your ticket ID is " + ticket_id + ". Please wait for approval, we will contact to you shortly, click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>" + "HERE" + " </a> to view your ticket ";
                         previous_step = "";
                         buttonName = "NA";
                         tip_title = "NA";
@@ -177,9 +177,21 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             }
             break;
             //PART FOR SMART TALK:
+        case "user need to know quota":
+            message = "Quota is a limited amount of resources that is provided for you to create virtual machines on TMA private cloud. In order to create a new virtual machine, you should provide the detail about RAM, CPUs and HDD for it.";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you";
+            tip_title = "NA";
+            tip = "NA";
+            break;
         case "user need to create quota":
-            message = "In order to create a new VM, please select one of the following options: ";
-            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you";
+            message = "In order to create a new VM, you should request a quota for it, please select one of two options:";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you";
+            tip_title = "NA";
+            tip = "NA";
+            break;
+        case "user need to negative know quota":
+            message = "Quota is a limited amount of resources that is provided for you to create virtual machines on TMA private cloud. In order to create a new virtual machine, you should provide the detail about RAM, CPUs and HDD for it.";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you";
             tip_title = "NA";
             tip = "NA";
             break;
