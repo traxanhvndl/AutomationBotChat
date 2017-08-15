@@ -197,6 +197,7 @@ Chat
 .chat-help-body {
     overflow-x: hidden;
     overflow-y: auto;
+    height: 65%;
 }
 
 .form-content {
@@ -241,8 +242,9 @@ Chat Title
     text-transform: none;
     padding: 5px 0 0 0;
     border-bottom: solid 4px #fff;
-    min-height: 20%;
-    max-height: 50%;
+    /*min-height: 20%;*/
+    /*max-height: 50%;*/
+    height: 35%;
     overflow: auto;
 }
 
@@ -358,6 +360,28 @@ Chat Title
     background: rgba(255, 255, 255, 1);
     color: #1c9f5c;
     cursor: pointer;
+}
+
+.tip-content div,
+#speak_language {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    margin: 10px 10px 0 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    min-width: 95%;
+}
+
+#speak_language select {
+    max-width: 45%;
+    padding: 3px;
+    margin: 5px 0px 0px 2px;
+}
+
+#interim_span {
+    color: #0271bc;
+    min-height: 35px;
+    border: dashed 1px #000;
 }
 
 
