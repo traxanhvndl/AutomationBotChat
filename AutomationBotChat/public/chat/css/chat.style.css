@@ -364,6 +364,7 @@ Chat Title
 
 .tip-content div,
 #speak_language {
+    /*color: #e23e45;*/
     background: rgba(255, 255, 255, 0.8);
     padding: 5px 10px;
     margin: 10px 10px 0 10px;
