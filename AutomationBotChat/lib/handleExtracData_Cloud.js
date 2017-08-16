@@ -7,14 +7,14 @@ function processDataCloud(extraData, userData, cb) {
 
     //init data
 
-    userData['project name'] = 'Bot test';
-    userData['full name'] = 'Bot name';
-    userData['badge ID'] = '1307112';
-    userData['phone number'] = '01225176167';
-    userData['email address'] = 'bot@tma.com.vn';
-    userData["manager's email address"] = 'BotPM@tma.com.vn';
-    userData['instance'] = '1';
-    userData['OK_life time'] = '30';
+    if (typeof userData['project name'] == 'undefined') userData['project name'] = 'Bot test';
+    if (typeof userData['full name'] == 'undefined') userData['full name'] = 'Bot name';
+    if (typeof userData['badge ID'] == 'undefined') userData['badge ID'] = '1307112';
+    if (typeof userData['phone number'] == 'undefined') userData['phone number'] = '01225176167';
+    if (typeof userData['email address'] == 'undefined') userData['email address'] = 'bot@tma.com.vn';
+    if (typeof userData["manager's email address"] == 'undefined') userData["manager's email address"] = 'BotPM@tma.com.vn';
+    if (typeof userData['instance'] == 'undefined') userData['instance'] = '1';
+    if (typeof userData['OK_life time'] == 'undefined') userData['OK_life time'] = '30';
 
     if (typeof ram != 'undefined' && ram != 'num') userData['RAM'] = ram;
     if (typeof hdd != 'undefined' && hdd != 'num') userData['HDD'] = hdd;

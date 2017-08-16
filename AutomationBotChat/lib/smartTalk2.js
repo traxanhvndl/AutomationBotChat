@@ -9,6 +9,7 @@ module.exports = {
         guessUserIntent: function(message, cb) {
             var key_action;
             var key_object;
+            var key_complement = "";
             var mean;
             var key_negative = "";
             var extraData_flag = false;
@@ -29,12 +30,15 @@ module.exports = {
                             if (typeof data[0] != "undefined") {
                                 mean = data[0].mean;
                                 console.log("KEY WORD: --- " + element + " --- MEAN: --- " + mean);
-                                if (mean == 'create' || mean == 'query' || mean == 'chat' || mean == 'install' || mean == 'know') {
+                                if (mean == 'create' || mean == 'query' || mean == 'chat' || mean == 'install' || mean == 'know' || mean == 'need') {
                                     key_action = mean;
                                     validate_key = true;
                                 }
                                 if (mean == 'ram' || mean == 'hdd' || mean == 'cpu') {
                                     extraData_flag = true;
+                                }
+                                if (mean == 'default') {
+                                    key_complement = " " + mean;
                                 }
                                 if (mean == 'ticket' || mean == 'quota' || mean == 'admin' || mean == 'fw') {
                                     key_object = mean;
@@ -43,7 +47,7 @@ module.exports = {
                                 if (mean == 'negative') {
                                     key_negative = mean + " ";
                                 }
-                                if (mean == 'unvalue' || mean == 'commom') validate_key = true;
+                                if (mean == 'unvalue') validate_key = true;
                             } else console.log("DON'T HAVE KEY --- " + element);
                         }
                         i = i + 1;
@@ -69,12 +73,12 @@ module.exports = {
                                                 extraData[tmp_array[0]] = tmp_array[1];
                                                 extraData[tmp_array[2]] = tmp_array[3];
                                                 extraData[tmp_array[4]] = tmp_array[5];
-                                                cb(key_action, key_object, validate_key, key_negative, extraData_flag, extraData);
+                                                cb(key_action, key_object, validate_key, key_negative, extraData_flag, extraData, key_complement);
                                             }
                                         }, this);
                                     }
                                 })
-                            } else cb(key_action, key_object, validate_key, key_negative, extraData_flag, extraData);
+                            } else cb(key_action, key_object, validate_key, key_negative, extraData_flag, extraData, key_complement);
                         }
                     });
                 }, this);
