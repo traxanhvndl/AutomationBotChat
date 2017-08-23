@@ -17,7 +17,8 @@ module.exports = {
         var count = 0;
         var index = 0;
         messageArray.forEach(function(element) {
-            if (typeof element.match(patternNumber) == null) {
+            console.log("HERERERREREEEEEE");
+            if (typeof element.match(patternNumber) != null) {
                 conn.query("SELECT mean FROM key_word WHERE key_word like '" + element + "'", function(error, data) {
                     if (error) {
                         console.log("ERROR DB: " + error);
