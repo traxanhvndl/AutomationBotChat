@@ -240,6 +240,12 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             tip_title = "NA";
             tip = "NA";
             break;
+        case "user need to negative know undefined":
+            message = "Could you please tell me exactly what you are need to know";
+            buttonName = "Create a default quota";
+            tip_title = "NA";
+            tip = "NA";
+            break;
         default:
             message = "I didn't catch you, could you type another words?";
             buttonName = "NA";
