@@ -9,7 +9,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
     var command;
     var tip;
     var previous_step;
-    console.log("************************GOT STEP********************* " + step);
+    console.log("************************GOT STEP********************* " + step + "********************");
     switch (step.toLowerCase()) {
         case 'cloud':
             message = "Hi! Nice to work with you on Cloud area.  Please select from the following options what you would like to be discussed: ";
@@ -185,19 +185,19 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             break;
         case "user need to create quota":
             message = "In order to create a new VM, you should request a quota for it, please select one of two options:";
-            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you andButton Request a default Quota";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you andButton Request a default Quota";
             tip_title = "NA";
             tip = "NA";
             break;
         case "user need to need quota":
             message = "In order to create a new VM, you should request a quota for it, please select one of two options:";
-            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you andButton Request a default Quota";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you andButton Request a default Quota";
             tip_title = "NA";
             tip = "NA";
             break;
         case "user need to negative know quota":
             message = "Quota is a limited amount of resources that is provided for you to create virtual machines on TMA private cloud. In order to create a new virtual machine, you should provide the detail about RAM, CPUs and HDD for it.";
-            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a quota for you andButton Request a default Quota";
+            buttonName = "Click here to fullfill a form andButton Chat with me, I'll create a ticket for you andButton Request a default Quota";
             tip_title = "NA";
             tip = "NA";
             break;
