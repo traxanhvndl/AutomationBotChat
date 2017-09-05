@@ -182,7 +182,13 @@ fieldset[disabled] .btn-contact.active {
 }
 
 .logo span {
-    color: #999;
+    color: #fff;
+    font-style: italic;
+}
+
+.modal-backdrop.in {
+    filter: alpha(opacity=20);
+    opacity: .2;
 }
 
 
