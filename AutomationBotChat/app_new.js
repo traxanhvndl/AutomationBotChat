@@ -31,7 +31,7 @@ userClientName = {};
 userExpectData = {};
 // port = process.env.PORT || 5000,
 // ip = process.env.HOST || '192.168.35.44';
-// ip = process.env.HOST || '11.11.254.69';
+// ip = process.env.HOST || 'localhost';
 
 var port = process.env.PORT || 3000;
 var ip = process.env.HOST || '0.0.0.0' || ipaddr.address();
@@ -197,7 +197,7 @@ app.get('/cloud/ticket/fullName/:full_name', function(req, res) {
     console.log("FULL NAME: " + req.params.full_name);
     conn.query('SELECT id FROM user_data WHERE full_name = "' + req.params.full_name + '"', function(error, data) {
         console.log("RESPONSE: " + data);
-        conn.query('SELECT id FROM detail_quota WHERE user_id = "' + data[0].id + '"', function(error, data) {
+        conn.query('SELECT id FROM detail_quota WHERE user_id = "' + data[0].id + '" ORDER BY id DESC', function(error, data) {
             console.log("RESPONSE: " + data[0].id);
             res.writeHead(200, { "Content-Type": "application/json" });
             res.write(JSON.stringify(data));
@@ -242,13 +242,13 @@ app.post('/cloud/register', function(req, res) {
                     conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note, date ) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "', '" + date + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
-                        conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
+                        conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "' ORDER BY id DESC", function(error, data) {
                             console.log(data);
                             console.log("                ");
                         });
-                        conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
+                        conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "' ORDER BY id DESC", function(error, data) {
                             //res.writeHead(200);
-                            res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
+                            res.redirect('http://' + ip + '/tracking/ticket.php?id=' + data[0].id);
                             res.end();
                         });
                     });
@@ -279,13 +279,13 @@ app.post('/cloud/BOTregister', function(req, res) {
                     conn.query("INSERT INTO detail_quota (id, project_id, life_time, instance, cpu, hdd, ram, user_id, status_id, note, date ) VALUES (NULL, '" + data[0].project_id + "', '" + quota[0] + "', '" + quota[1] + "', '" + quota[2] + "', '" + quota[4] + "', '" + quota[3] + "', '" + data[0].id + "', '1', '" + req.body.note + "','" + date + "')", function(error, data) {
                         console.log(data);
                         console.log("                ");
-                        conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
+                        conn.query("SELECT * FROM detail_quota WHERE user_id = '" + tmp2 + "' ORDER BY id DESC", function(error, data) {
                             console.log(data);
                             console.log("                ");
                         });
-                        conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "'", function(error, data) {
+                        conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "' ORDER BY id DESC", function(error, data) {
                             res.writeHead(200);
-                            //res.redirect('http://11.11.254.69/tracking/ticket.php?id=' + data[0].id);
+                            //res.redirect('http://localhost/tracking/ticket.php?id=' + data[0].id);
                             res.end();
                         });
                     });

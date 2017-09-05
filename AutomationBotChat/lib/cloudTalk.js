@@ -24,7 +24,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             tip = "NA";
             break;
         case 'request a new quota':
-            message = "There are two ways to request a new quota: <br> <a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to fullfill a form </a>";
+            message = "There are two ways to request a new quota: <br> <a href=\'http://localhost:3000/cloud/register' target='_blank'> Click here to fullfill a form </a>";
             buttonName = "Chat with me, I'll create a ticket for you";
             tip_title = "NA";
             tip = "NA";
@@ -121,7 +121,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
                 case "confirm":
                     createNewTicket(user_data, function(ticket_id) {
                         console.log("Ticket ID : " + ticket_id);
-                        message = "Your ticket ID is " + ticket_id + ". Please wait for approval, we will contact to you shortly, click on <a href='http://11.11.254.69/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>" + "HERE" + " </a> to view your ticket ";
+                        message = "Your ticket ID is " + ticket_id + ". Please wait for approval, we will contact to you shortly, click on <a href='http://localhost/tracking/ticket.php?id=" + ticket_id + "' target='_blank'>" + "HERE" + " </a> to view your ticket ";
                         previous_step = "";
                         buttonName = "NA";
                         tip_title = "NA";
@@ -141,7 +141,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             break;
         case "click here to fullfill a form":
             buttonName = "NA";
-            message = "<a href=\'http://11.11.254.69:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
+            message = "<a href=\'http://localhost:3000/cloud/register' target='_blank'> Click here to create a new request quota </a>";
             tip_title = "NA";
             tip = "NA";
             break;
@@ -165,7 +165,7 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
                         tip_title = "NA";
                         tip = "NA";
                     } else {
-                        message = "Please click <a href='http://11.11.254.69/tracking/ticket.php?id=" + Imessage + "' target='_blank'>" + "HERE" + " </a> to view your ticket detail ";
+                        message = "Please click <a href='http://localhost/tracking/ticket.php?id=" + Imessage + "' target='_blank'>" + "HERE" + " </a> to view your ticket detail ";
                     }
                     cb({ 'buttonName': buttonName, 'message': message, 'command': command, 'tip_title': tip_title, 'tip': tip }, sessionID, cb1);
                 })
@@ -270,7 +270,7 @@ function createNewTicket(user_data, cb) {
     var ticket_id = "";
     console.log("project : " + user_data['project name']);
     var createTicketArgs = {
-        uri: 'http://' + "11.11.254.69" + ':3000/cloud/BOTregister',
+        uri: 'http://' + "localhost" + ':3000/cloud/BOTregister',
         method: 'POST',
         qs: {
             key: "ABC"
@@ -304,7 +304,7 @@ function createNewTicket(user_data, cb) {
             return false;
         }
         var getTicketArgs = {
-            uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticket/fullName/' + user_data['full name'],
+            uri: 'http://' + "localhost" + ':3000/cloud/ticket/fullName/' + user_data['full name'],
             method: 'GET',
             qs: {},
             headers: {
@@ -332,7 +332,7 @@ var queryTicketByUsername = function(user_data, cb) {
     console.log("project : " + user_data['full name']);
     var ticket_id = "";
     var getTicketArgs = {
-        uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticketId/' + user_data['full name'],
+        uri: 'http://' + "localhost" + ':3000/cloud/ticketId/' + user_data['full name'],
         method: 'GET',
         qs: {},
         headers: {
@@ -357,7 +357,7 @@ function validateTicket(ticketID, cb) {
     var message = "";
     console.log("QUERY TICKET ID : " + ticketID);
     var getTicketArgs = {
-        uri: 'http://' + "11.11.254.69" + ':3000/cloud/ticket/ticketID/' + ticketID,
+        uri: 'http://' + "localhost" + ':3000/cloud/ticket/ticketID/' + ticketID,
         method: 'GET',
         qs: {},
         headers: {
