@@ -70,8 +70,8 @@
                          message: 'The username should be more than 6 and less than 30 characters long'
                      },
                      regexp: {
-                         regexp: /^[a-zA-Z0-9_\.]+$/,
-                         message: 'The username can only consist of alphabetical, number, dot and underscore'
+                         regexp: /^[a-zA-Z0-9_\. ]+$/,
+                         message: 'The username can only consist of alphabetical, number, dot and underscore 123456789'
                      }
                  }
              },

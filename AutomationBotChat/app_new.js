@@ -248,7 +248,7 @@ app.post('/cloud/register', function(req, res) {
                         });
                         conn.query("SELECT id FROM detail_quota WHERE user_id = '" + tmp2 + "' ORDER BY id DESC", function(error, data) {
                             //res.writeHead(200);
-                            res.redirect('http://' + ip + '/tracking/ticket.php?id=' + data[0].id);
+                            res.redirect('http://' + localhost + '/tracking/ticket.php?id=' + data[0].id);
                             res.end();
                         });
                     });
