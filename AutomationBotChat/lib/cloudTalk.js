@@ -246,6 +246,18 @@ function cloudTopic(step, user_data, sessionID, cb1, cb) {
             tip_title = "NA";
             tip = "NA";
             break;
+        case "user need to negative create quota":
+            message = "I'm sorry about that, would you like to chat with admin I think they can help your case or try to create a new quota.";
+            buttonName = "Create a new quota";
+            tip_title = "NA";
+            tip = "NA";
+            break;
+        case "user need to undefined quota default":
+            message = "I'm not sure what you want, please more details";
+            buttonName = "Create a default quota andButton what is the default quota";
+            tip_title = "NA";
+            tip = "NA";
+            break;
         default:
             message = "I didn't catch you, could you type another words?";
             buttonName = "NA";
